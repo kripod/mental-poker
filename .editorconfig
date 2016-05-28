@@ -1,0 +1,12 @@
+# Top-most EditorConfig file
+root = true
+
+# Defaults
+[*]
+charset = utf-8
+insert_final_newline = true
+
+# Set the default indentation for file types
+[*.{js,json,yml}]
+indent_style = space
+indent_size = 2

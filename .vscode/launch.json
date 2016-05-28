@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch example",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "program": "${workspaceRoot}/example/index.js",
+      "runtimeArgs": [
+        "${workspaceRoot}/node_modules/babel-cli/bin/babel-node"
+      ],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  ]
+}
