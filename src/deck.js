@@ -22,25 +22,21 @@ export default class Deck {
    * @returns {Deck}
    */
   encryptAll(secret) {
-    if (Array.isArray(secret)) {
-      return new Deck(this.points.map((point, i) => point.mul(secret[i])));
-    }
-
-    return new Deck(this.points.map((point) => point.mul(secret)));
+    return new Deck(
+      this.points.map(
+        Array.isArray(secret) ?
+          (point, i) => point.mul(secret[i]) :
+          (point) => point.mul(secret)
+      )
+    );
   }
 
   /**
    * Decrypts all of the deck's points using the given secret(s).
-   * @param {BN|BN[]} secret Secret(s) to be used for decryption.
+   * @param {BN|BN[]} secret Secret to be used for decryption.
    * @returns {Deck}
    */
   decryptAll(secret) {
-    if (Array.isArray(secret)) {
-      return new Deck(this.points.map(
-        (point, i) => point.mul(secret[i].invm(Config.EC.n))
-      ));
-    }
-
     const bi = secret.invm(Config.EC.n);
     return new Deck(this.points.map((point) => point.mul(bi)));
   }

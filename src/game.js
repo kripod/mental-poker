@@ -1,9 +1,13 @@
+import Player from './player';
+
 export default class Game {
+  players;
+
   deckOriginal;
   deckEncrypted;
 
-  constructor(deckOriginal) {
-    this.deckOriginal = deckOriginal;
+  constructor(players = [new Player()]) {
+    this.players = players;
   }
 
   drawCard(index, secrets) {

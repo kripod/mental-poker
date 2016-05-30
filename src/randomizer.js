@@ -17,10 +17,10 @@ export default class Randomizer {
   engine;
 
   /**
-   * Returns a random ECIES public-private key pair.
+   * Returns a random public-private key pair.
    * @returns {KeyPair}
    */
-  static getEciesKeyPair() {
+  static getKeyPair() {
     const privateKey = crypto.randomBytes(32);
     const publicKey = eccrypto.getPublic(privateKey);
 

@@ -4,21 +4,33 @@ import * as Config from './config';
 import Randomizer from './randomizer';
 
 export default class Player {
-  keyPair = Randomizer.getEciesKeyPair();
+  keyPair;
+  randomizer;
+  points;
+  secrets;
 
-  randomizer = new Randomizer(
-    random.engines.mt19937().seedWithArray(
-      new Uint32Array(this.keyPair.privateKey.buffer)
-    )
-  );
+  constructor(keyPair = Randomizer.getKeyPair(), points = null) {
+    this.keyPair = keyPair;
 
-  points = Array.from({ length: Config.CARDS_IN_DECK }).map(() =>
-    Config.EC.g.mul(
-      this.randomizer.getBigInt(new BN(0), Config.EC.n)
-    )
-  );
+    // Determine whether the player is self
+    if (keyPair.privateKey) {
+      this.randomizer = new Randomizer(
+        random.engines.mt19937().seedWithArray(
+          new Uint32Array(keyPair.privateKey.buffer)
+        )
+      );
 
-  secrets = Array.from({ length: Config.CARDS_IN_DECK + 1 }).map(() =>
-    this.randomizer.getBigInt(new BN(0), Config.EC.n)
-  );
+      this.points = Array.from({ length: Config.CARDS_IN_DECK }).map(() =>
+        Config.EC.g.mul(
+          this.randomizer.getBigInt(new BN(0), Config.EC.n)
+        )
+      );
+
+      this.secrets = Array.from({ length: Config.CARDS_IN_DECK + 1 }).map(() =>
+        this.randomizer.getBigInt(new BN(0), Config.EC.n)
+      );
+    } else {
+      this.points = points;
+    }
+  }
 }

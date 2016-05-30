@@ -10,6 +10,7 @@ export default async function () {
   const PLAYER_COUNT = 4;
 
   const players = Array.from({ length: PLAYER_COUNT }).map(() => new Player());
+  const game = new Game(players);
 
   // 3.1.1 - Points generation
   let deckPoints = [];
@@ -29,7 +30,7 @@ export default async function () {
   );
 
   let deck = new Deck(deckPoints);
-  const game = new Game(deck);
+  game.deckOriginal = deck;
   console.log(deck.points);
   console.log('3.1.1 done');
 

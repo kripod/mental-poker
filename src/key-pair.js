@@ -1,3 +1,5 @@
+import * as Config from './config';
+
 /**
  * Represents an ECIES public-private key pair.
  */
@@ -17,7 +19,12 @@ export default class KeyPair {
   privateKey;
 
   constructor(publicKey, privateKey) {
-    this.publicKey = publicKey;
-    this.privateKey = privateKey;
+    this.publicKey = typeof publicKey === 'string' ?
+      Buffer.from(publicKey, Config.BUFFER_DIGEST_ENCODING) :
+      publicKey;
+
+    this.privateKey = typeof privateKey === 'string' ?
+      Buffer.from(privateKey, Config.BUFFER_DIGEST_ENCODING) :
+      privateKey;
   }
 }
