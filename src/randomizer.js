@@ -1,4 +1,4 @@
-import BN from 'bn.js';
+import BigInt from 'bn.js';
 import crypto from 'crypto';
 import eccrypto from 'eccrypto';
 import random from 'random-js';
@@ -33,9 +33,9 @@ export default class Randomizer {
 
   /**
    * Returns a random BigInt in the given range.
-   * @param {BN} min Minimum value (included).
-   * @param {BN} max Maximum value (excluded).
-   * @returns {BN}
+   * @param {BigInt} min Minimum value (included).
+   * @param {BigInt} max Maximum value (excluded).
+   * @returns {BigInt}
    */
   getBigInt(min, max) {
     const range = max.sub(min);
@@ -47,7 +47,7 @@ export default class Randomizer {
       const hex = random.hex()(this.engine, halfBytesNeeded);
 
       // Offset the result by the minimum value
-      bi = new BN(hex, 16).add(min);
+      bi = new BigInt(hex, 16).add(min);
     } while (bi.gte(max));
 
     // Return the result which satisfies the given range

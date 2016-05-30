@@ -18,7 +18,7 @@ export default class Deck {
 
   /**
    * Encrypts all of the deck's points with the given secret(s).
-   * @param {BN|BN[]} secret Secret(s) to encrypt with.
+   * @param {BigInt|BigInt[]} secret Secret(s) to encrypt with.
    * @returns {Deck}
    */
   encryptAll(secret) {
@@ -33,7 +33,7 @@ export default class Deck {
 
   /**
    * Decrypts all of the deck's points using the given secret(s).
-   * @param {BN|BN[]} secret Secret to be used for decryption.
+   * @param {BigInt|BigInt[]} secret Secret to be used for decryption.
    * @returns {Deck}
    */
   decryptAll(secret) {
@@ -44,7 +44,7 @@ export default class Deck {
   /**
    * Decrypts a single point by using multiple secrets.
    * @param {number} index Index of the card to be decrypted.
-   * @param {BN[]} secrets Secrets to be used for decryption.
+   * @param {BigInt[]} secrets Secrets to be used for decryption.
    * @returns {elliptic.curve.base.BasePoint}
    */
   decryptSingle(index, secrets) {
