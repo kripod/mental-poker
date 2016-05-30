@@ -1,4 +1,4 @@
-import { BigInteger as BigInt } from 'jsbn';
+import BN from 'bn.js';
 import random from 'random-js';
 import * as Config from './config';
 import Randomizer from './randomizer';
@@ -13,12 +13,12 @@ export default class Player {
   );
 
   points = Array.from({ length: Config.CARDS_IN_DECK }).map(() =>
-    Config.EC.G.multiply(
-      this.randomizer.getBigInt(BigInt.ZERO, Config.EC.n)
+    Config.EC.g.mul(
+      this.randomizer.getBigInt(new BN(0), Config.EC.n)
     )
   );
 
   secrets = Array.from({ length: Config.CARDS_IN_DECK + 1 }).map(() =>
-    this.randomizer.getBigInt(BigInt.ZERO, Config.EC.n)
+    this.randomizer.getBigInt(new BN(0), Config.EC.n)
   );
 }

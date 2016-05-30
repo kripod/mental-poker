@@ -25,12 +25,12 @@ export default async function () {
     }
   } while (
     // Avoid duplicate deck points
-    (new Set(deckPoints.map((p) => p.toString()))).size !== deckPoints.length
+    (new Set(deckPoints)).size !== deckPoints.length // TODO: Fix
   );
 
   let deck = new Deck(deckPoints);
   const game = new Game(deck);
-  console.log(deck.points.map((p) => p.toString()));
+  console.log(deck.points);
   console.log('3.1.1 done');
 
   // 3.1.2 - Cascaded shuffling
@@ -58,7 +58,7 @@ export default async function () {
     secrets.push(player.secrets[index]);
   }
 
-  console.log(deck.decryptSingle(index, secrets).toString());
+  console.log(deck.decryptSingle(index, secrets));
   console.log(game.drawCard(index, secrets));
   console.log('3.2 done');
 }

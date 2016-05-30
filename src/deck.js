@@ -1,4 +1,3 @@
-import { BigInteger as BigInt } from 'jsbn';
 import * as Config from './config';
 
 export default class Deck {
@@ -19,44 +18,44 @@ export default class Deck {
 
   /**
    * Encrypts all of the deck's points with the given secret(s).
-   * @param {BigInt|BigInt[]} secret Secret(s) to encrypt with.
+   * @param {BN|BN[]} secret Secret(s) to encrypt with.
    * @returns {Deck}
    */
   encryptAll(secret) {
     if (Array.isArray(secret)) {
-      return new Deck(this.points.map((point, i) => point.multiply(secret[i])));
+      return new Deck(this.points.map((point, i) => point.mul(secret[i])));
     }
 
-    return new Deck(this.points.map((point) => point.multiply(secret)));
+    return new Deck(this.points.map((point) => point.mul(secret)));
   }
 
   /**
    * Decrypts all of the deck's points using the given secret(s).
-   * @param {BigInt|BigInt[]} secret Secret(s) to be used for decryption.
+   * @param {BN|BN[]} secret Secret(s) to be used for decryption.
    * @returns {Deck}
    */
   decryptAll(secret) {
     if (Array.isArray(secret)) {
       return new Deck(this.points.map(
-        (point, i) => point.multiply(secret[i].modInverse(Config.EC.n))
+        (point, i) => point.mul(secret[i].invm(Config.EC.n))
       ));
     }
 
-    const bi = secret.modInverse(Config.EC.n);
-    return new Deck(this.points.map((point) => point.multiply(bi)));
+    const bi = secret.invm(Config.EC.n);
+    return new Deck(this.points.map((point) => point.mul(bi)));
   }
 
   /**
    * Decrypts a single point by using multiple secrets.
    * @param {number} index Index of the card to be decrypted.
-   * @param {BigInt[]} secrets Secrets to be used for decryption.
-   * @returns {ecurve.Point}
+   * @param {BN[]} secrets Secrets to be used for decryption.
+   * @returns {elliptic.curve.base.BasePoint}
    */
   decryptSingle(index, secrets) {
     let point = this.points[index];
 
     for (const secret of secrets) {
-      point = point.multiply(secret.modInverse(Config.EC.n));
+      point = point.mul(secret.invm(Config.EC.n));
     }
 
     return point;

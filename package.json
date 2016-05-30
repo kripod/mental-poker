@@ -28,10 +28,10 @@
   "dependencies": {
     "babel-runtime": "^6.9.0",
     "bluebird": "^3.4.0",
+    "bn.js": "^4.11.3",
     "eccrypto": "^1.0.3",
-    "ecurve": "^1.0.2",
+    "elliptic": "^6.2.7",
     "es6-error": "^3.0.0",
-    "jsbn": "^0.1.0",
     "random-js": "^1.0.8"
   },
   "devDependencies": {

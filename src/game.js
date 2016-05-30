@@ -7,8 +7,15 @@ export default class Game {
   }
 
   drawCard(index, secrets) {
-    return this.deckOriginal.points.map((point) => point.toString()).indexOf(
-      this.deckEncrypted.decryptSingle(index, secrets).toString()
-    );
+    const p1 = this.deckEncrypted.decryptSingle(index, secrets);
+
+    for (let i = this.deckOriginal.points.length - 1; i >= 0; --i) {
+      const p2 = this.deckOriginal.points[i];
+      if (p2.eq(p1)) {
+        return i;
+      }
+    }
+
+    return -1;
   }
 }
