@@ -33,4 +33,19 @@ export default class Player {
       this.points = points;
     }
   }
+
+  shuffleDeck(deck) {
+    // Improve the accessibility of secrets later by using the last one now
+    const lastSecret = this.secrets[this.secrets.length - 1];
+
+    // Shuffle the deck and then encrypt it to avoid data leaks
+    return deck.shuffle(this.randomizer).encryptAll(lastSecret);
+  }
+
+  encryptDeck(deck) {
+    const lastSecret = this.secrets[this.secrets.length - 1];
+
+    // Remove the shuffle encryption and then encrypt each card one by one
+    return deck.decryptAll(lastSecret).encryptAll(this.secrets);
+  }
 }

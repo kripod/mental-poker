@@ -17,17 +17,14 @@ export default async function () {
   // 3.1.2 - Cascaded shuffling
   let deck = game.deckOriginal;
   for (const player of players) {
-    // Improve the accessibility of secrets later by using the last one now
-    const lastSecret = player.secrets[player.secrets.length - 1];
-    deck = deck.shuffle(player.randomizer).encryptAll(lastSecret);
+    deck = player.shuffleDeck(deck);
   }
 
   console.log('3.1.2 done');
 
   // 3.1.3 - Locking
   for (const player of players) {
-    const lastSecret = player.secrets[player.secrets.length - 1];
-    deck = deck.decryptAll(lastSecret).encryptAll(player.secrets);
+    deck = player.encryptDeck(deck);
   }
 
   game.deckEncrypted = deck;
