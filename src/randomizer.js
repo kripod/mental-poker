@@ -65,7 +65,7 @@ export default class Randomizer {
    * @returns {BigInt}
    */
   getBigInt(min, max) {
-    const range = max.sub(min);
+    const range = max.redSub(min);
     const completeIntsNeeded = Math.floor(range.bitLength() / 32);
     const result = [];
 
@@ -92,7 +92,10 @@ export default class Randomizer {
     );
 
     // Return the result which satisfies the given range
-    return new BigInt(result).iadd(min);
+    return new BigInt(result)
+      .toRed(Config.BI_RED_CTX)
+      .redIAdd(min)
+      .fromRed();
   }
 
   /**
