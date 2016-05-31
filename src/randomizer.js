@@ -73,7 +73,10 @@ export default class Randomizer {
     for (let i = completeIntsNeeded; i > 0; --i) {
       result.push(
         ...Utils.intToByteArray(
-          this.getInt(0, Config.UINT32_MAX_VALUE)
+          this.getInt(
+            0,
+            Config.UINT32_MAX_VALUE
+          )
         )
       );
     }
@@ -89,7 +92,7 @@ export default class Randomizer {
     );
 
     // Return the result which satisfies the given range
-    return new BigInt(result);
+    return new BigInt(result).iadd(min);
   }
 
   /**

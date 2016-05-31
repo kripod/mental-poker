@@ -22,12 +22,12 @@ export default class Player {
 
       this.points = Array.from({ length: Config.CARDS_IN_DECK }).map(() =>
         Config.EC.g.mul(
-          this.randomizer.getBigInt(new BigInt(0), Config.EC.n)
+          this.randomizer.getBigInt(new BigInt(1), Config.EC.n)
         )
       );
 
       this.secrets = Array.from({ length: Config.CARDS_IN_DECK + 1 }).map(() =>
-        this.randomizer.getBigInt(new BigInt(0), Config.EC.n)
+        this.randomizer.getBigInt(new BigInt(1), Config.EC.n)
       );
     } else {
       this.points = points;
