@@ -1,8 +1,9 @@
 import BigInt from 'bn.js';
 import crypto from 'crypto';
 import eccrypto from 'eccrypto';
-import random from 'random-js';
+import * as Config from './config';
 import KeyPair from './key-pair';
+import * as Utils from './utils';
 
 /**
  * A randomization engine which can be made deterministic by using a
@@ -32,6 +33,32 @@ export default class Randomizer {
   }
 
   /**
+   * Returns a random 32-bit integer (signed or unsigned) in the given range.
+   * @param {number} min Minimum value (included).
+   * @param {number} max Maximum value (excluded).
+   * @returns {number}
+   */
+  getInt(min, max) {
+    const range = max - min;
+
+    // Get the lowest integer which is not part of the equal distribution range
+    const firstTooHighValue =
+      Config.UINT32_RANGE - Config.UINT32_RANGE % range;
+
+    let result;
+    do {
+      // Generate a random 32-bit unsigned integer
+      result = this.engine.int32() - Config.INT32_MIN_VALUE;
+    } while (
+      // Ensure equal distribution
+      result >= firstTooHighValue
+    );
+
+    // Place the result in the range and offset it by the minimum value
+    return result % range + min;
+  }
+
+  /**
    * Returns a random BigInt in the given range.
    * @param {BigInt} min Minimum value (included).
    * @param {BigInt} max Maximum value (excluded).
@@ -39,19 +66,30 @@ export default class Randomizer {
    */
   getBigInt(min, max) {
     const range = max.sub(min);
-    const halfBytesNeeded = Math.ceil(range.bitLength() / 4);
+    const completeIntsNeeded = Math.floor(range.bitLength() / 32);
+    const result = [];
 
-    let bi;
-    do {
-      // Generate a random hex value with the length of the range
-      const hex = random.hex()(this.engine, halfBytesNeeded);
+    // Generate the first components of the result
+    for (let i = completeIntsNeeded; i > 0; --i) {
+      result.push(
+        ...Utils.intToByteArray(
+          this.getInt(0, Config.UINT32_MAX_VALUE)
+        )
+      );
+    }
 
-      // Offset the result by the minimum value
-      bi = new BigInt(hex, 16).add(min);
-    } while (bi.gte(max));
+    // Generate the last component of the result
+    result.push(
+      ...Utils.intToByteArray(
+        this.getInt(
+          0,
+          range.mod(new BigInt(Config.UINT32_MAX_VALUE)).toNumber()
+        )
+      )
+    );
 
     // Return the result which satisfies the given range
-    return bi;
+    return new BigInt(result);
   }
 
   /**
@@ -65,7 +103,7 @@ export default class Randomizer {
     // Perform Durstenfeld shuffle
     for (let i = array.length - 1; i > 0; --i) {
       // Generate a random integer in [0, i] deterministically
-      const j = random.integer(0, i)(this.engine);
+      const j = this.getInt(0, i);
 
       // Swap result[i] and result[j]
       [result[i], result[j]] = [result[j], result[i]];

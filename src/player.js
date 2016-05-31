@@ -1,5 +1,5 @@
 import BigInt from 'bn.js';
-import random from 'random-js';
+import seedrandom from 'seedrandom';
 import * as Config from './config';
 import Randomizer from './randomizer';
 
@@ -15,8 +15,8 @@ export default class Player {
     // Determine whether the player is self
     if (keyPair.privateKey) {
       this.randomizer = new Randomizer(
-        random.engines.mt19937().seedWithArray(
-          new Uint32Array(keyPair.privateKey.buffer)
+        seedrandom.xor4096(
+          keyPair.privateKey.toString(Config.BUFFER_DIGEST_ENCODING)
         )
       );
 
