@@ -33,7 +33,7 @@ export default class Deck {
 
   /**
    * Decrypts all of the deck's points using the given secret(s).
-   * @param {BigInt|BigInt[]} secret Secret to be used for decryption.
+   * @param {BigInt} secret Secret to be used for decryption.
    * @returns {Deck}
    */
   decryptAll(secret) {
