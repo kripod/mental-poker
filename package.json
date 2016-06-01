@@ -18,7 +18,7 @@
     "lib": "./lib"
   },
   "scripts": {
-    "start": "babel-node ./example",
+    "start": "node ./example",
     "build": "cross-env NODE_ENV=production babel ./src -d ./lib -s",
     "watch": "npm run build -- -w",
     "prepublish": "npm run build",

@@ -1,4 +1,3 @@
-import BigInt from 'bn.js';
 import seedrandom from 'seedrandom';
 import * as Config from './config';
 import Randomizer from './randomizer';
