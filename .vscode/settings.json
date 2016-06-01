@@ -1,18 +1,14 @@
 {
-  // Use ESLint instead of the integrated JS validator of Visual Studio Code
   "eslint.enable": true,
   "javascript.validate.enable": false,
-
-  // Configure glob patterns for excluding files and folders in searches
   "search.exclude": {
     "**/coverage": true,
     "**/docs": true,
     "**/lib": true,
     "**/node_modules": true
   },
-
-  // Define special file associations for syntax highlighting
   "files.associations": {
-    ".babelrc": "json"
+    ".babelrc": "json",
+    ".editorconfig": "ini"
   }
 }
