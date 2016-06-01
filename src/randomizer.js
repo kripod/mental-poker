@@ -43,7 +43,7 @@ export default class Randomizer {
 
     // Get the lowest integer which is not part of the equal distribution range
     const firstTooHighValue =
-      Config.UINT32_RANGE - Config.UINT32_RANGE % range;
+      Config.INT32_RANGE - Config.INT32_RANGE % range;
 
     let result;
     do {

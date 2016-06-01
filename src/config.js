@@ -12,6 +12,6 @@ export const CARDS_IN_DECK = 52;
 export const CARDS_IN_HAND = 2;
 export const CARDS_ON_TABLE_IN_ROUNDS = [0, 3, 4, 5];
 
-export const INT32_MIN_VALUE = -2147483648;
-export const UINT32_MAX_VALUE = 4294967295;
-export const UINT32_RANGE = UINT32_MAX_VALUE + 1;
+export const INT32_MIN_VALUE = -(2 ** 31);
+export const INT32_RANGE = 2 ** 32;
+export const UINT32_MAX_VALUE = INT32_RANGE - 1;

@@ -49,11 +49,14 @@
     "eslint-plugin-import": "^1.8.0",
     "nyc": "^6.4.4"
   },
+  "ava": {
+    "require": "babel-core/register"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kripod/mental-poker.git"
+    "url": "https://github.com/mental-poker/mental-poker.js.git"
   },
   "bugs": {
-    "url": "https://github.com/kripod/mental-poker/issues"
+    "url": "https://github.com/mental-poker/mental-poker.js/issues"
   }
 }
