@@ -19,13 +19,14 @@ export default class Player {
         )
       );
 
-      this.points = Array.from({ length: Config.CARDS_IN_DECK }).map(() =>
+      this.points = Array.from(new Array(Config.CARDS_IN_DECK), () =>
         Config.EC.g.mul(
           this.randomizer.getBigInt(Config.BI_RED_ONE, Config.BI_RED_EC_N)
+            .fromRed()
         )
       );
 
-      this.secrets = Array.from({ length: Config.CARDS_IN_DECK + 1 }).map(() =>
+      this.secrets = Array.from(new Array(Config.CARDS_IN_DECK + 1), () =>
         this.randomizer.getBigInt(Config.BI_RED_ONE, Config.BI_RED_EC_N)
       );
     } else {
@@ -38,13 +39,13 @@ export default class Player {
     const lastSecret = this.secrets[this.secrets.length - 1];
 
     // Shuffle the deck and then encrypt it to avoid data leaks
-    return deck.shuffle(this.randomizer).encryptAll(lastSecret);
+    return deck.shuffle(this.randomizer).encrypt(lastSecret);
   }
 
-  encryptDeck(deck) {
+  lockDeck(deck) {
     const lastSecret = this.secrets[this.secrets.length - 1];
 
-    // Remove the shuffle encryption and then encrypt each card one by one
-    return deck.decryptAll(lastSecret).encryptAll(this.secrets);
+    // Remove the shuffle encryption and then lock each card one by one
+    return deck.decrypt(lastSecret).lock(this.secrets);
   }
 }

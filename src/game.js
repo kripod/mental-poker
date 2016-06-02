@@ -34,11 +34,11 @@ export default class Game {
 
   drawCard(index, secrets) {
     if (this.ownedCardIndexes.indexOf(index) < 0) {
-      const p = this.deckEncrypted.decryptSingle(index, secrets);
+      const pointUnlocked = this.deckEncrypted.unlockSingle(index, secrets);
       const deckPoints = this.deckOriginal.points;
 
       for (let i = deckPoints.length - 1; i >= 0; --i) {
-        if (deckPoints[i].eq(p)) {
+        if (deckPoints[i].eq(pointUnlocked)) {
           this.ownedCardIndexes.push(i);
           return i;
         }

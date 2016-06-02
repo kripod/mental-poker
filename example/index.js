@@ -4,7 +4,7 @@ const PLAYER_COUNT = 4;
 
 console.time('Total');
 console.time('3.1.1');
-const players = Array.from({ length: PLAYER_COUNT }).map(() => new Player());
+const players = Array.from(new Array(PLAYER_COUNT), () => new Player());
 const game = new Game(players);
 
 console.timeEnd('3.1.1');
@@ -21,7 +21,7 @@ console.timeEnd('3.1.2');
 // 3.1.3 - Locking
 console.time('3.1.3');
 for (const player of players) {
-  deck = player.encryptDeck(deck);
+  deck = player.lockDeck(deck);
 }
 
 game.deckEncrypted = deck;
@@ -36,7 +36,7 @@ for (const player of players) {
 }
 
 // console.log(game.deckOriginal.points);
-// console.log(deck.decryptSingle(index, secrets));
-// console.log(game.drawCard(index, secrets));
+// console.log(deck.unlockSingle(index, secrets));
+console.log(`Card ID: ${game.drawCard(index, secrets)}`);
 console.timeEnd('3.2');
 console.timeEnd('Total');

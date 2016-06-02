@@ -94,8 +94,7 @@ export default class Randomizer {
     // Return the result which satisfies the given range
     return new BigInt(result)
       .toRed(Config.BI_RED_CTX)
-      .redIAdd(min)
-      .fromRed();
+      .redIAdd(min);
   }
 
   /**

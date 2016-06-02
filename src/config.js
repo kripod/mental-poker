@@ -1,9 +1,10 @@
+import BigInt from 'bn.js';
 import { ec as EllipticCurve } from 'elliptic';
 
 export const EC = new EllipticCurve('secp256k1');
 
-export const BI_RED_CTX = EC.curve.red;
-export const BI_RED_ONE = EC.curve.one;
+export const BI_RED_CTX = BigInt.red(EC.n);
+export const BI_RED_ONE = new BigInt(1).toRed(BI_RED_CTX);
 export const BI_RED_EC_N = EC.n.toRed(BI_RED_CTX);
 
 export const BUFFER_DIGEST_ENCODING = 'base64';
