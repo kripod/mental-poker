@@ -22,9 +22,9 @@
     "build": "cross-env NODE_ENV=production babel ./src -d ./lib -s",
     "watch": "npm run build -- -w",
     "prepublish": "npm run build",
-    "test": "nyc ava && eslint ./src",
+    "test": "nyc ava --require babel-core/register && eslint ./src",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov",
-    "doc": "documentation build ./src/index.js -o ./docs -f html"
+    "doc": "documentation build ./src/index.js -o ./docs -f html -g"
   },
   "dependencies": {
     "babel-runtime": "^6.9.0",
@@ -48,9 +48,6 @@
     "eslint-config-airbnb-base": "^3.0.1",
     "eslint-plugin-import": "^1.8.0",
     "nyc": "^6.4.4"
-  },
-  "ava": {
-    "require": "babel-core/register"
   },
   "repository": {
     "type": "git",

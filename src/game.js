@@ -39,7 +39,7 @@ export default class Game {
 
       for (let i = deckPoints.length - 1; i >= 0; --i) {
         if (deckPoints[i].eq(pointUnlocked)) {
-          this.ownedCardIndexes.push(i);
+          this.ownedCardIndexes.push(index);
           return i;
         }
       }

@@ -1,6 +1,6 @@
 import test from 'ava';
 import * as Config from './../src/config';
-import { Player } from './../src';
+import { KeyPair, Player } from './../src';
 
 test('constructor without params', (t) => {
   const player = new Player();
@@ -12,4 +12,11 @@ test('constructor without params', (t) => {
     t.true(secret.gten(1));
     t.true(secret.lt(Config.EC.n));
   }
+});
+
+test('constructor with params', (t) => {
+  const points = [];
+  const player = new Player(new KeyPair(), points);
+
+  t.is(player.points, points);
 });
