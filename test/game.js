@@ -21,7 +21,7 @@ test.serial('locking', (t) => {
     deck = player.lockDeck(deck);
   }
 
-  game.deckEncrypted = deck;
+  game.deckLocked = deck;
   t.pass();
 });
 

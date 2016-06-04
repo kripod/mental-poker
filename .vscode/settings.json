@@ -2,7 +2,8 @@
   "eslint.enable": true,
   "javascript.validate.enable": false,
   "search.exclude": {
-    "**/coverage": true,
+    "**/*.lcov": true,
+    "**/.nyc_output": true,
     "**/docs": true,
     "**/lib": true,
     "**/node_modules": true

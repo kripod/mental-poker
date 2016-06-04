@@ -1,8 +1,7 @@
 import BigInt from 'bn.js';
 import crypto from 'crypto';
-import eccrypto from 'eccrypto';
 import * as Config from './config';
-import KeyPair from './key-pair';
+import Seed from './seed';
 import * as Utils from './utils';
 
 /**
@@ -18,14 +17,11 @@ export default class Randomizer {
   engine;
 
   /**
-   * Returns a random public-private key pair.
-   * @returns {KeyPair}
+   * Returns a random seed.
+   * @returns {Seed}
    */
-  static getKeyPair() {
-    const privateKey = crypto.randomBytes(32);
-    const publicKey = eccrypto.getPublic(privateKey);
-
-    return new KeyPair(publicKey, privateKey);
+  static getSeed() {
+    return Seed.fromBuffer(crypto.randomBytes(32));
   }
 
   constructor(engine) {

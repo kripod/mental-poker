@@ -24,7 +24,7 @@ for (const player of players) {
   deck = player.lockDeck(deck);
 }
 
-game.deckEncrypted = deck;
+game.deckLocked = deck;
 console.timeEnd('3.1.3');
 
 // 3.2 - Drawing

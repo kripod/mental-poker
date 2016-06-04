@@ -3,20 +3,21 @@ import * as Config from './config';
 import Randomizer from './randomizer';
 
 export default class Player {
-  keyPair;
+  seed;
   randomizer;
   points;
   secrets;
 
-  constructor(keyPair = Randomizer.getKeyPair(), points = null) {
-    this.keyPair = keyPair;
+  constructor({ seed = null, points = null } = {}) {
+    if (points) {
+      // The player's seed is unknown
+      this.points = points;
+    } else {
+      // The player is self
+      this.seed = seed || Randomizer.getSeed();
 
-    // Determine whether the player is self
-    if (keyPair.privateKey) {
       this.randomizer = new Randomizer(
-        seedrandom.xor4096(
-          keyPair.privateKey.toString(Config.BUFFER_DIGEST_ENCODING)
-        )
+        seedrandom.xor4096(this.seed.value)
       );
 
       this.points = Array.from(new Array(Config.CARDS_IN_DECK), () =>
@@ -29,8 +30,6 @@ export default class Player {
       this.secrets = Array.from(new Array(Config.CARDS_IN_DECK + 1), () =>
         this.randomizer.getBigInt(Config.BI_RED_ONE, Config.BI_RED_EC_N)
       );
-    } else {
-      this.points = points;
     }
   }
 

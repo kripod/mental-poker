@@ -4,10 +4,10 @@ export default class Game {
   players;
 
   deckOriginal;
-  deckEncrypted;
+  deckLocked;
   ownedCardIndexes;
 
-  constructor(players, deckEncrypted, ownedCardIndexes = []) {
+  constructor(players, deckLocked, ownedCardIndexes = []) {
     this.players = players;
 
     // 3.1.1 - Points generation
@@ -28,13 +28,13 @@ export default class Game {
     );
 
     this.deckOriginal = new Deck(deckPoints);
-    this.deckEncrypted = deckEncrypted;
+    this.deckLocked = deckLocked;
     this.ownedCardIndexes = ownedCardIndexes;
   }
 
   drawCard(index, secrets) {
     if (this.ownedCardIndexes.indexOf(index) < 0) {
-      const pointUnlocked = this.deckEncrypted.unlockSingle(index, secrets);
+      const pointUnlocked = this.deckLocked.unlockSingle(index, secrets);
       const deckPoints = this.deckOriginal.points;
 
       for (let i = deckPoints.length - 1; i >= 0; --i) {
