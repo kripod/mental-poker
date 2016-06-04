@@ -7,6 +7,8 @@ export default class Game {
   deckLocked;
   ownedCardIndexes;
 
+  cardsOnTable = [];
+
   constructor(players, deckLocked, ownedCardIndexes = []) {
     this.players = players;
 

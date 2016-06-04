@@ -8,7 +8,9 @@ export default class Player {
   points;
   secrets;
 
-  constructor({ seed = null, points = null } = {}) {
+  cardsInHand = [];
+
+  constructor({ seed, points } = {}) {
     if (points) {
       // The player's seed is unknown
       this.points = points;
@@ -46,5 +48,9 @@ export default class Player {
 
     // Remove the shuffle encryption and then lock each card one by one
     return deck.decrypt(lastSecret).lock(this.secrets);
+  }
+
+  getRandomCardIndex() {
+    // TODO
   }
 }
