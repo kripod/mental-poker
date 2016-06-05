@@ -8,34 +8,37 @@ export default class Player {
   points;
   secrets;
 
-  cardsInHand = [];
+  cardsInHand;
 
-  constructor({ seed, randomizer, points, secrets } = {}) {
+  constructor({ seed, randomizer, points, secrets, cardsInHand = [] } = {}) {
     if (points) {
-      // The player's properties shouldn't be auto-generated
+      // None of the properties shall be auto-generated
       this.seed = seed;
       this.randomizer = randomizer;
       this.points = points;
       this.secrets = secrets;
     } else {
-      // The player's properties should be auto-generated
+      // Missing properties should be auto-generated
       this.seed = seed || Randomizer.getSeed();
 
-      this.randomizer = new Randomizer(
-        seedrandom.xor4096(this.seed.value)
-      );
+      this.randomizer = randomizer ||
+        new Randomizer(seedrandom.xor4096(this.seed.value));
 
-      this.points = Array.from(new Array(Config.CARDS_IN_DECK), () =>
-        Config.EC.g.mul(
+      this.points = points ||
+        Array.from(new Array(Config.CARDS_IN_DECK), () =>
+          Config.EC.g.mul(
+            this.randomizer.getBigInt(Config.BI_RED_ONE, Config.BI_RED_EC_N)
+              .fromRed()
+          )
+        );
+
+      this.secrets = secrets ||
+        Array.from(new Array(Config.CARDS_IN_DECK + 1), () =>
           this.randomizer.getBigInt(Config.BI_RED_ONE, Config.BI_RED_EC_N)
-            .fromRed()
-        )
-      );
-
-      this.secrets = Array.from(new Array(Config.CARDS_IN_DECK + 1), () =>
-        this.randomizer.getBigInt(Config.BI_RED_ONE, Config.BI_RED_EC_N)
-      );
+        );
     }
+
+    this.cardsInHand = cardsInHand;
   }
 
   shuffleDeck(deck) {

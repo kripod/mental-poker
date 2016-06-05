@@ -49,7 +49,7 @@ multiplication.
 let deck = encryptedDeckOfAnOpponent || game.deckOriginal;
 
 // Shuffle the deck by self and then pass it to the next opponent
-deck = players[0].shuffleDeck(deck);
+deck = game.shuffleDeck(deck);
 ```
 
 ### Locking the deck
@@ -63,7 +63,7 @@ multiplication.
 let deck = encryptedDeckOfAnOpponent;
 
 // Decrypt, lock and then pass the deck to the next opponent
-deck = players[0].lockDeck(deck);
+deck = game.lockDeck(deck);
 
 // After the deck has been locked by everyone, assign it to the game
 game.deckLocked = lockedDeckOfAnOpponent || deck;
