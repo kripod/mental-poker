@@ -1,3 +1,4 @@
+import * as Config from './config';
 import Deck from './deck';
 
 export default class Game {
@@ -9,7 +10,15 @@ export default class Game {
 
   cardsOnTable = [];
 
+  get unownedCardIndexes() {
+    return Array.from(new Array(Config.CARDS_IN_DECK), (v, i) => i)
+      .filter((v) => this.ownedCardIndexes.indexOf(v) < 0);
+  }
+
   constructor(players, deckLocked, ownedCardIndexes = []) {
+    for (const player of players) {
+      player.game = this;
+    }
     this.players = players;
 
     // 3.1.1 - Points generation
@@ -26,7 +35,9 @@ export default class Game {
       }
     } while (
       // Avoid duplicate deck points
-      (new Set(deckPoints)).size !== deckPoints.length // TODO: Fix
+      (new Set(
+        deckPoints.map((point) => point.x.toString(16))
+      )).size !== deckPoints.length
     );
 
     this.deckOriginal = new Deck(deckPoints);

@@ -3,6 +3,7 @@ import * as Config from './config';
 import Randomizer from './randomizer';
 
 export default class Player {
+  game;
   seed;
   randomizer;
   points;
@@ -51,6 +52,11 @@ export default class Player {
   }
 
   getRandomCardIndex() {
-    // TODO
+    const unownedCardIndexes = this.game.unownedCardIndexes;
+
+    // Return the index of an unowned card
+    return unownedCardIndexes[
+      this.randomizer.getInt(0, unownedCardIndexes.length)
+    ];
   }
 }

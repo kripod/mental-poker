@@ -1,5 +1,5 @@
 import Benchmark from 'benchmark';
-import { Config, Game, Player } from './../lib';
+import { Game, Player } from './../lib';
 
 /* eslint-disable no-console */
 
@@ -8,10 +8,6 @@ const PLAYER_COUNT = 4;
 let players;
 let game;
 let deck;
-
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
 
 const suite = new Benchmark.Suite();
 
@@ -41,7 +37,7 @@ suite.add('locking the deck', () => {
 });
 
 suite.add('drawing a card', () => {
-  const cardIndex = getRandomInt(0, Config.CARDS_IN_DECK);
+  const cardIndex = players[0].getRandomCardIndex();
 
   // Get the secret of every player which corresponds to the given card index
   const secrets = players.map((player) => player.secrets[cardIndex]);
