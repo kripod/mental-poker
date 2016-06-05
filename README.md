@@ -95,3 +95,8 @@ players[0].cardsInHand.push(cardId);
 // Or open it on the table
 game.cardsOnTable.push(cardId);
 ```
+
+## Performance
+
+Execute `npm start` to run a benchmark which measures the performance of each
+step mentioned above.

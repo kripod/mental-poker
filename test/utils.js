@@ -1,5 +1,5 @@
 import test from 'ava';
-import * as Utils from './../src/utils';
+import { Utils } from './../src';
 
 test('intToByteArray', (t) => {
   t.deepEqual(Utils.intToByteArray(0x00000000), [0x00, 0x00, 0x00, 0x00]);

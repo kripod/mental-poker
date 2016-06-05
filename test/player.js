@@ -1,6 +1,5 @@
 import test from 'ava';
-import * as Config from './../src/config';
-import { Player } from './../src';
+import { Config, Player } from './../src';
 
 test('constructor without params', (t) => {
   const player = new Player();

@@ -1,6 +1,5 @@
 import test from 'ava';
-import * as Config from './../src/config';
-import { Game, Player } from './../src';
+import { Config, Game, Player } from './../src';
 
 const PLAYER_COUNT = 4;
 
