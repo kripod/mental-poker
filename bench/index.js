@@ -1,6 +1,8 @@
 import Benchmark from 'benchmark';
 import { Config, Game, Player } from './../lib';
 
+/* eslint-disable no-console */
+
 const PLAYER_COUNT = 4;
 
 let players;
@@ -15,7 +17,7 @@ const suite = new Benchmark.Suite();
 
 // Output results to the console
 suite.on('cycle', (event) => {
-  console.log(event.target.toString()); // eslint-disable-line no-console
+  console.log(event.target.toString());
 });
 
 suite.add('points generation', () => {
@@ -30,7 +32,7 @@ suite.add('cascaded shuffling', () => {
   }
 });
 
-suite.add('locking', () => {
+suite.add('locking the deck', () => {
   for (const player of players) {
     deck = player.lockDeck(deck);
   }
@@ -38,7 +40,7 @@ suite.add('locking', () => {
   game.deckLocked = deck;
 });
 
-suite.add('drawing/opening', () => {
+suite.add('drawing a card', () => {
   const cardIndex = getRandomInt(0, Config.CARDS_IN_DECK);
 
   // Get the secret of every player which corresponds to the given card index
@@ -49,4 +51,5 @@ suite.add('drawing/opening', () => {
   game.drawCard(cardIndex, secrets);
 });
 
+console.log(`Started a benchmark simulating a game of ${PLAYER_COUNT} players`);
 suite.run();
