@@ -28,7 +28,7 @@ test.serial('drawing/opening', (t) => {
   // Draw every card
   const cardIds = new Array(Config.CARDS_IN_DECK);
   for (let i = Config.CARDS_IN_DECK - 1; i >= 0; --i) {
-    const cardIndex = players[0].getRandomCardIndex();
+    const cardIndex = game.getRandomCardIndex();
 
     // Get the secret of every player which corresponds to the given card index
     const secrets = players.map((player) => player.secrets[cardIndex]);

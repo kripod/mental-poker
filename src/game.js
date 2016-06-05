@@ -1,7 +1,8 @@
 import * as Config from './config';
 import Deck from './deck';
+import Player from './player';
 
-export default class Game {
+export default class Game extends Player {
   players;
 
   deckOriginal;
@@ -16,6 +17,8 @@ export default class Game {
   }
 
   constructor(players, deckLocked, ownedCardIndexes = []) {
+    super(players[0]);
+
     for (const player of players) {
       player.game = this;
     }

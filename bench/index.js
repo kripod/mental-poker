@@ -37,7 +37,7 @@ suite.add('locking the deck', () => {
 });
 
 suite.add('drawing a card', () => {
-  const cardIndex = players[0].getRandomCardIndex();
+  const cardIndex = game.getRandomCardIndex();
 
   // Get the secret of every player which corresponds to the given card index
   const secrets = players.map((player) => player.secrets[cardIndex]);

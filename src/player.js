@@ -3,7 +3,6 @@ import * as Config from './config';
 import Randomizer from './randomizer';
 
 export default class Player {
-  game;
   seed;
   randomizer;
   points;
@@ -11,12 +10,15 @@ export default class Player {
 
   cardsInHand = [];
 
-  constructor({ seed, points } = {}) {
+  constructor({ seed, randomizer, points, secrets } = {}) {
     if (points) {
-      // The player's seed is unknown
+      // The player's properties shouldn't be auto-generated
+      this.seed = seed;
+      this.randomizer = randomizer;
       this.points = points;
+      this.secrets = secrets;
     } else {
-      // The player is self
+      // The player's properties should be auto-generated
       this.seed = seed || Randomizer.getSeed();
 
       this.randomizer = new Randomizer(
@@ -51,8 +53,8 @@ export default class Player {
     return deck.decrypt(lastSecret).lock(this.secrets);
   }
 
-  getRandomCardIndex() {
-    const unownedCardIndexes = this.game.unownedCardIndexes;
+  getRandomCardIndex(game = this) {
+    const unownedCardIndexes = game.unownedCardIndexes;
 
     // Return the index of an unowned card
     return unownedCardIndexes[
