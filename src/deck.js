@@ -1,3 +1,5 @@
+import * as Utils from './utils';
+
 export default class Deck {
   points;
 
@@ -26,12 +28,11 @@ export default class Deck {
   }
 
   /**
-   * Shuffles all of the deck's points with the given randomization engine.
-   * @param {Randomizer} randomizer Randomization engine to shuffle with.
+   * Shuffles all of the deck's points.
    * @returns {Deck}
    */
-  shuffle(randomizer) {
-    return new Deck(randomizer.shuffleArray(this.points));
+  shuffle() {
+    return new Deck(Utils.shuffleArray(this.points));
   }
 
   /**

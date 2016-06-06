@@ -24,12 +24,12 @@ with each other in order to finish setting up a new game.
 ```js
 import { Player } from 'mental-poker-js';
 
-// Seed and points of a new player get generated automatically
+// Points and secrets of a new player get generated automatically
 const players = [new Player()];
 
 // Broadcast `player.points` and receive the points of other players
 for (const points of pointsOfOpponents) {
-  // Seed of the opponents shall not be known until the end of the game
+  // Secrets of the opponents shall not be known until the end of the game
   players.push(new Player({ points }));
 }
 

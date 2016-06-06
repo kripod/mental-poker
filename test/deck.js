@@ -5,7 +5,7 @@ const player = new Player();
 const deckOriginal = new Deck(player.points);
 
 test('shuffle', (t) => {
-  const deckShuffled = deckOriginal.shuffle(player.randomizer);
+  const deckShuffled = deckOriginal.shuffle();
 
   // Check immutability
   t.not(deckShuffled, deckOriginal);
