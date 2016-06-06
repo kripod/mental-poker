@@ -58,7 +58,7 @@ export function getRandomBigInt(min, max) {
   );
 
   // Place the result in the initial range and offset it by the minimum value
-  return result.toRed(Config.EC.curve.red).mod(range).redIAdd(min);
+  return result.mod(range).toRed(Config.EC.curve.red).redIAdd(min);
 }
 
 /**
