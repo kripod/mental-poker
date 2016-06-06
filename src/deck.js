@@ -1,3 +1,4 @@
+import * as Config from './config';
 import * as Utils from './utils';
 
 export default class Deck {
@@ -23,7 +24,7 @@ export default class Deck {
    * @returns {Deck}
    */
   decrypt(secret) {
-    const bi = secret.redInvm().fromRed();
+    const bi = secret.invm(Config.EC.n);
     return new Deck(this.points.map((point) => point.mul(bi)));
   }
 
@@ -56,7 +57,7 @@ export default class Deck {
     let point = this.points[index];
 
     for (const secret of secrets) {
-      point = point.mul(secret.redInvm().fromRed());
+      point = point.mul(secret.invm(Config.EC.n));
     }
 
     return point;

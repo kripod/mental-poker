@@ -17,14 +17,14 @@ export default class Player {
       this.points = points ||
         Array.from(new Array(Config.CARDS_IN_DECK), () =>
           Config.EC.g.mul(
-            Utils.getRandomBigInt(Config.BI_RED_ONE, Config.BI_RED_EC_N)
+            Utils.getRandomBigInt(Config.EC.curve.one, Config.BI_RED_EC_N)
               .fromRed()
           )
         );
 
       this.secrets = secrets ||
         Array.from(new Array(Config.CARDS_IN_DECK + 1), () =>
-          Utils.getRandomBigInt(Config.BI_RED_ONE, Config.BI_RED_EC_N)
+          Utils.getRandomBigInt(Config.EC.curve.one, Config.BI_RED_EC_N)
         );
     }
 

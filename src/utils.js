@@ -51,14 +51,14 @@ export function getRandomBigInt(min, max) {
   let result;
   do {
     // Generate a random number with the given byte length
-    result = new BigInt(crypto.randomBytes(byteLength).toString('hex'), 16);
+    result = new BigInt(crypto.randomBytes(byteLength));
   } while (
     // Ensure equal distribution
     result.gte(firstTooHighValue)
   );
 
   // Place the result in the initial range and offset it by the minimum value
-  return result.toRed(Config.BI_RED_CTX).mod(range).redIAdd(min);
+  return result.toRed(Config.EC.curve.red).mod(range).redIAdd(min);
 }
 
 /**
