@@ -29,8 +29,7 @@
   "dependencies": {
     "babel-runtime": "^6.9.0",
     "bn.js": "^4.11.3",
-    "elliptic": "^6.2.7",
-    "es6-error": "^3.0.0"
+    "elliptic": "^6.2.7"
   },
   "devDependencies": {
     "ava": "^0.15.1",
