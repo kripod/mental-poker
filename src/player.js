@@ -1,4 +1,3 @@
-import * as Config from './config';
 import * as Utils from './utils';
 
 export default class Player {
@@ -14,18 +13,8 @@ export default class Player {
       this.secrets = secrets;
     } else {
       // Missing properties should be auto-generated
-      this.points = points ||
-        Array.from(new Array(Config.CARDS_IN_DECK), () =>
-          Config.EC.g.mul(
-            Utils.getRandomBigInt(Config.EC.curve.one, Config.BI_RED_EC_N)
-              .fromRed()
-          )
-        );
-
-      this.secrets = secrets ||
-        Array.from(new Array(Config.CARDS_IN_DECK + 1), () =>
-          Utils.getRandomBigInt(Config.EC.curve.one, Config.BI_RED_EC_N)
-        );
+      this.points = Utils.getRandomPoints();
+      this.secrets = Utils.getRandomSecrets();
     }
 
     this.cardsInHand = cardsInHand;

@@ -61,6 +61,18 @@ export function getRandomBigInt(min, max) {
   return result.mod(range).toRed(Config.EC.curve.red).redIAdd(min);
 }
 
+export function getRandomSecrets(amount = Config.CARDS_IN_DECK + 1) {
+  return Array.from(new Array(amount), () =>
+    getRandomBigInt(Config.EC.curve.one, Config.BI_RED_EC_N)
+  );
+}
+
+export function getRandomPoints(amount = Config.CARDS_IN_DECK) {
+  return getRandomSecrets(amount).map((secret) =>
+    Config.EC.g.mul(secret.fromRed())
+  );
+}
+
 /**
  * Shuffles the elements of an array.
  * @param {Object[]} array Array to be shuffled.
