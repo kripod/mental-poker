@@ -1,7 +1,10 @@
-import { ec as EllipticCurve } from 'elliptic';
+const { ec: EllipticCurve } = require('elliptic');
 
-export const EC = new EllipticCurve('secp256k1');
+const EC = new EllipticCurve('secp256k1');
+const BI_RED_EC_N = EC.n.toRed(EC.curve.red);
 
-export const BI_RED_EC_N = EC.n.toRed(EC.curve.red);
-
-export const CARDS_IN_DECK = 52;
+module.exports = {
+  EC,
+  BI_RED_EC_N,
+  CARDS_IN_DECK: 52,
+};

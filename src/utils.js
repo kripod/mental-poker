@@ -1,6 +1,6 @@
-import BigInt from 'bn.js';
-import crypto from 'crypto';
-import * as Config from './config';
+const BigInt = require('bn.js');
+const crypto = require('crypto');
+const Config = require('./config');
 
 /**
  * Returns a random 32-bit integer (signed or unsigned) in the given range.
@@ -8,7 +8,7 @@ import * as Config from './config';
  * @param {number} max Maximum value (excluded).
  * @returns {number}
  */
-export function getRandomInt(min, max) {
+function getRandomInt(min, max) {
   const range = max - min;
   const bitLength = 32 - Math.clz32(range);
 
@@ -38,7 +38,7 @@ export function getRandomInt(min, max) {
  * @param {BigInt} max Maximum value (excluded).
  * @returns {BigInt}
  */
-export function getRandomBigInt(min, max) {
+function getRandomBigInt(min, max) {
   const range = max.redSub(min);
 
   // Avoid number re-generation by adding an extra byte
@@ -61,13 +61,13 @@ export function getRandomBigInt(min, max) {
   return result.mod(range).toRed(Config.EC.curve.red).redIAdd(min);
 }
 
-export function getRandomSecrets(amount = Config.CARDS_IN_DECK + 1) {
+function getRandomSecrets(amount = Config.CARDS_IN_DECK + 1) {
   return Array.from(new Array(amount), () =>
     getRandomBigInt(Config.EC.curve.one, Config.BI_RED_EC_N)
   );
 }
 
-export function getRandomPoints(amount = Config.CARDS_IN_DECK) {
+function getRandomPoints(amount = Config.CARDS_IN_DECK) {
   return getRandomSecrets(amount).map((secret) =>
     Config.EC.g.mul(secret.fromRed())
   );
@@ -78,7 +78,7 @@ export function getRandomPoints(amount = Config.CARDS_IN_DECK) {
  * @param {Object[]} array Array to be shuffled.
  * @returns {Object[]}
  */
-export function shuffleArray(array) {
+function shuffleArray(array) {
   const result = [...array];
 
   // Perform Durstenfeld shuffle
@@ -92,3 +92,11 @@ export function shuffleArray(array) {
 
   return result;
 }
+
+module.exports = {
+  getRandomInt,
+  getRandomBigInt,
+  getRandomSecrets,
+  getRandomPoints,
+  shuffleArray,
+};

@@ -1,10 +1,10 @@
-import * as Config from './config';
-import Deck from './deck';
-import Game from './game';
-import Player from './player';
-import * as Utils from './utils';
+const Config = require('./config');
+const Deck = require('./deck');
+const Game = require('./game');
+const Player = require('./player');
+const Utils = require('./utils');
 
-export {
+module.exports = {
   Config,
   Deck,
   Game,

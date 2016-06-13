@@ -9,7 +9,7 @@
     "mental",
     "poker"
   ],
-  "main": "./lib/index.js",
+  "main": "./index.js",
   "files": [
     "lib",
     "src"

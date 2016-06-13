@@ -1,20 +1,15 @@
-import * as Utils from './utils';
+const Utils = require('./utils');
 
-export default class Player {
-  points;
-  secrets;
-
-  cardsInHand;
-
+class Player {
   constructor({ points, secrets, cardsInHand = [] } = {}) {
-    if (points) {
+    if (points && !secrets) {
       // None of the properties shall be auto-generated
       this.points = points;
-      this.secrets = secrets;
+      this.secrets = [];
     } else {
       // Missing properties should be auto-generated
-      this.points = Utils.getRandomPoints();
-      this.secrets = Utils.getRandomSecrets();
+      this.points = points || Utils.getRandomPoints();
+      this.secrets = secrets || Utils.getRandomSecrets();
     }
 
     this.cardsInHand = cardsInHand;
@@ -44,3 +39,5 @@ export default class Player {
     ];
   }
 }
+
+module.exports = Player;

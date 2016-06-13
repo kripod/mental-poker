@@ -1,9 +1,7 @@
-import * as Config from './config';
-import * as Utils from './utils';
+const Config = require('./config');
+const Utils = require('./utils');
 
-export default class Deck {
-  points;
-
+class Deck {
   constructor(points) {
     this.points = points;
   }
@@ -63,3 +61,5 @@ export default class Deck {
     return point;
   }
 }
+
+module.exports = Deck;

@@ -1,16 +1,8 @@
-import * as Config from './config';
-import Deck from './deck';
-import Player from './player';
+const Config = require('./config');
+const Deck = require('./deck');
+const Player = require('./player');
 
-export default class Game extends Player {
-  players;
-
-  deckOriginal;
-  deckLocked;
-  ownedCardIndexes;
-
-  cardsOnTable = [];
-
+class Game extends Player {
   get unownedCardIndexes() {
     return Array.from(new Array(Config.CARDS_IN_DECK), (v, i) => i)
       .filter((v) => this.ownedCardIndexes.indexOf(v) < 0);
@@ -18,11 +10,6 @@ export default class Game extends Player {
 
   constructor(players, deckLocked, ownedCardIndexes = []) {
     super(players[0]);
-
-    for (const player of players) {
-      player.game = this;
-    }
-    this.players = players;
 
     // 3.1.1 - Points generation
     let deckPoints = [];
@@ -43,9 +30,13 @@ export default class Game extends Player {
       )).size !== deckPoints.length
     );
 
+    this.players = players;
+
     this.deckOriginal = new Deck(deckPoints);
     this.deckLocked = deckLocked;
     this.ownedCardIndexes = ownedCardIndexes;
+
+    this.cardsOnTable = [];
   }
 
   drawCard(index, secrets) {
@@ -64,3 +55,5 @@ export default class Game extends Player {
     return -1;
   }
 }
+
+module.exports = Game;
