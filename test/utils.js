@@ -21,29 +21,29 @@ test('getRandomInt', (t) => {
 
 test('getRandomBigInt', (t) => {
   t.true(
-    Utils.getRandomBigInt(Config.EC.curve.zero, Config.EC.curve.one).isZero()
+    Utils.getRandomBigInt(Config.ec.curve.zero, Config.ec.curve.one).isZero()
   );
   t.true(
-    Utils.getRandomBigInt(Config.EC.curve.one, Config.EC.curve.two).eqn(1)
+    Utils.getRandomBigInt(Config.ec.curve.one, Config.ec.curve.two).eqn(1)
   );
 
   let result;
   for (let i = 100; i > 0; --i) {
     result = Utils.getRandomBigInt(
-      Config.EC.curve.zero,
-      Config.EC.curve.two
+      Config.ec.curve.zero,
+      Config.ec.curve.two
     );
     t.true(result.gten(0) && result.ltn(2));
 
     result = Utils.getRandomBigInt(
-      (new BigInt(10)).toRed(Config.EC.curve.red),
-      (new BigInt(12)).toRed(Config.EC.curve.red)
+      (new BigInt(10)).toRed(Config.ec.curve.red),
+      (new BigInt(12)).toRed(Config.ec.curve.red)
     );
     t.true(result.gten(10) && result.ltn(12));
 
     result = Utils.getRandomBigInt(
-      (new BigInt(250)).toRed(Config.EC.curve.red),
-      (new BigInt(260)).toRed(Config.EC.curve.red)
+      (new BigInt(250)).toRed(Config.ec.curve.red),
+      (new BigInt(260)).toRed(Config.ec.curve.red)
     );
     t.true(result.gten(250) && result.ltn(260));
   }

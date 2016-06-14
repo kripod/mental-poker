@@ -1,10 +1,20 @@
 const { ec: EllipticCurve } = require('elliptic');
 
-const EC = new EllipticCurve('secp256k1');
-const BI_RED_EC_N = EC.n.toRed(EC.curve.red);
+class Config {
+  static get ecAlgorithm() {
+    return this.cachedEcAlgorithm;
+  }
 
-module.exports = {
-  EC,
-  BI_RED_EC_N,
-  CARDS_IN_DECK: 52,
-};
+  static set ecAlgorithm(value) {
+    this.cachedEcAlgorithm = value;
+
+    this.ec = new EllipticCurve(value);
+    this.ecRedN = this.ec.n.toRed(this.ec.curve.red);
+  }
+}
+
+Config.ecAlgorithm = 'secp256k1';
+Config.hashAlgorithm = 'sha256';
+Config.cardsInDeck = 52;
+
+module.exports = Config;

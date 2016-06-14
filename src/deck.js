@@ -22,7 +22,7 @@ class Deck {
    * @returns {Deck}
    */
   decrypt(secret) {
-    const bi = secret.invm(Config.EC.n);
+    const bi = secret.invm(Config.ec.n);
     return new Deck(this.points.map((point) => point.mul(bi)));
   }
 
@@ -55,7 +55,7 @@ class Deck {
     let point = this.points[index];
 
     for (const secret of secrets) {
-      point = point.mul(secret.invm(Config.EC.n));
+      point = point.mul(secret.invm(Config.ec.n));
     }
 
     return point;

@@ -58,18 +58,18 @@ function getRandomBigInt(min, max) {
   );
 
   // Place the result in the initial range and offset it by the minimum value
-  return result.mod(range).toRed(Config.EC.curve.red).redIAdd(min);
+  return result.mod(range).toRed(Config.ec.curve.red).redIAdd(min);
 }
 
-function getRandomSecrets(amount = Config.CARDS_IN_DECK + 1) {
+function getRandomSecrets(amount = Config.cardsInDeck + 1) {
   return Array.from(new Array(amount), () =>
-    getRandomBigInt(Config.EC.curve.one, Config.BI_RED_EC_N)
+    getRandomBigInt(Config.ec.curve.one, Config.ecRedN)
   );
 }
 
-function getRandomPoints(amount = Config.CARDS_IN_DECK) {
+function getRandomPoints(amount = Config.cardsInDeck) {
   return getRandomSecrets(amount).map((secret) =>
-    Config.EC.g.mul(secret.fromRed())
+    Config.ec.g.mul(secret.fromRed())
   );
 }
 

@@ -26,8 +26,8 @@ test.serial('locking', (t) => {
 
 test.serial('drawing/opening', (t) => {
   // Draw every card
-  const cardIds = new Array(Config.CARDS_IN_DECK);
-  for (let i = Config.CARDS_IN_DECK - 1; i >= 0; --i) {
+  const cardIds = new Array(Config.cardsInDeck);
+  for (let i = Config.cardsInDeck - 1; i >= 0; --i) {
     const cardIndex = game.getRandomCardIndex();
 
     // Get the secret of every player which corresponds to the given card index
@@ -41,6 +41,6 @@ test.serial('drawing/opening', (t) => {
   // Check whether every card has been drawn exactly once
   t.deepEqual(
     cardIds.sort((a, b) => a - b),
-    Array.from(new Array(Config.CARDS_IN_DECK), (v, i) => i)
+    Array.from(new Array(Config.cardsInDeck), (v, i) => i)
   );
 });

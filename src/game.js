@@ -4,7 +4,7 @@ const Player = require('./player');
 
 class Game extends Player {
   get unownedCardIndexes() {
-    return Array.from(new Array(Config.CARDS_IN_DECK), (v, i) => i)
+    return Array.from(new Array(Config.cardsInDeck), (v, i) => i)
       .filter((v) => this.ownedCardIndexes.indexOf(v) < 0);
   }
 
