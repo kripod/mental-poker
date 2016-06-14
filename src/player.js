@@ -1,6 +1,20 @@
+const crypto = require('crypto');
+const Config = require('./config');
 const Utils = require('./utils');
 
 class Player {
+  get secretHashes() {
+    if (!this.cachedSecretHashes) {
+      this.cachedSecretHashes = this.secrets.map((secret) =>
+        crypto.createHash(Config.hashAlgorithm)
+          .update(secret.toString(16))
+          .digest('hex')
+      );
+    }
+
+    return this.cachedSecretHashes;
+  }
+
   constructor({ points, secrets, cardsInHand = [] } = {}) {
     if (points && !secrets) {
       // None of the properties shall be auto-generated

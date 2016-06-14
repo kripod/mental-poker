@@ -7,6 +7,8 @@ test('constructor without params', (t) => {
   t.is(player.points.length, Config.cardsInDeck);
 
   t.is(player.secrets.length, Config.cardsInDeck + 1);
+  t.is(player.secretHashes.length, player.secrets.length);
+
   for (const secret of player.secrets) {
     t.true(secret.gten(1));
     t.true(secret.lt(Config.ec.n));
