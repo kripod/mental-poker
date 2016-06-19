@@ -1,15 +1,9 @@
-const crypto = require('crypto');
-const Config = require('./config');
 const Utils = require('./utils');
 
 class Player {
   get secretHashes() {
     if (!this.cachedSecretHashes) {
-      this.cachedSecretHashes = this.secrets.map((secret) =>
-        crypto.createHash(Config.hashAlgorithm)
-          .update(secret.toString(16))
-          .digest('hex')
-      );
+      this.cachedSecretHashes = Utils.getSecretHashes(this.secrets);
     }
 
     return this.cachedSecretHashes;

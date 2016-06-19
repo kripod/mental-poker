@@ -73,6 +73,14 @@ function getRandomPoints(amount = Config.cardsInDeck) {
   );
 }
 
+function getSecretHashes(secrets) {
+  return secrets.map((secret) =>
+    crypto.createHash(Config.hashAlgorithm)
+      .update(secret.toString(16))
+      .digest('hex')
+  );
+}
+
 /**
  * Shuffles the elements of an array.
  * @param {Object[]} array Array to be shuffled.
@@ -98,5 +106,6 @@ module.exports = {
   getRandomBigInt,
   getRandomSecrets,
   getRandomPoints,
+  getSecretHashes,
   shuffleArray,
 };
