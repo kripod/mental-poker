@@ -9,21 +9,25 @@ class Player {
     return this.cachedSecretHashes;
   }
 
-  constructor({ points, secrets, cardsInHand = [] } = {}) {
-    if (points && !secrets) {
+  constructor({ points, secrets } = {}) {
+    if (points || secrets) {
       // None of the properties shall be auto-generated
-      this.points = points;
-      this.secrets = [];
+      this.points = points || [];
+      this.secrets = secrets || [];
     } else {
-      // Missing properties should be auto-generated
-      this.points = points || Utils.getRandomPoints();
-      this.secrets = secrets || Utils.getRandomSecrets();
+      // Properties should be auto-generated
+      this.points = Utils.getRandomPoints();
+      this.secrets = Utils.getRandomSecrets();
     }
 
-    this.cardsInHand = cardsInHand;
+    this.cardsInHand = [];
   }
 
-  shuffleDeck(deck) {
+  shuffleDeck(
+    deck = this.deckSequence ?
+      this.deckSequence[this.deckSequence.length - 1] :
+      null
+  ) {
     // Improve the accessibility of secrets later by using the last one now
     const lastSecret = this.secrets[this.secrets.length - 1];
 
@@ -31,20 +35,15 @@ class Player {
     return deck.shuffle().encrypt(lastSecret);
   }
 
-  lockDeck(deck) {
+  lockDeck(
+    deck = this.deckSequence ?
+      this.deckSequence[this.deckSequence.length - 1] :
+      null
+  ) {
     const lastSecret = this.secrets[this.secrets.length - 1];
 
     // Remove the shuffle encryption and then lock each card one by one
     return deck.decrypt(lastSecret).lock(this.secrets);
-  }
-
-  getRandomCardIndex(game = this) {
-    const unownedCardIndexes = game.unownedCardIndexes;
-
-    // Return the index of an unowned card
-    return unownedCardIndexes[
-      Utils.getRandomInt(0, unownedCardIndexes.length)
-    ];
   }
 }
 

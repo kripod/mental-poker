@@ -81,7 +81,7 @@ card.
 
 ```js
 // Select a random unowned index of the deck
-const cardIndex = game.getRandomCardIndex();
+const cardIndex = game.getRandomUnownedCardIndex();
 
 // Obtain the secret of each opponent at the given card index
 const secrets = []; // players[0 .. players.length - 1].secrets[cardIndex]
