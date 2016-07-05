@@ -76,7 +76,7 @@ function getRandomPoints(amount = Config.cardsInDeck) {
 function getSecretHashes(secrets, algorithm = Config.hashAlgorithm) {
   return secrets.map((secret) =>
     crypto.createHash(algorithm)
-      .update(secret.toString(16))
+      .update(secret.toString(16, 2))
       .digest('hex')
   );
 }
