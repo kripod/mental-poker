@@ -49,45 +49,6 @@ class Player {
   getSecretHashes(algorithm = Config.hashAlgorithm) {
     return Utils.getSecretHashes(this.secrets, algorithm);
   }
-
-  /**
-   * Shuffles a deck using the secrets of the player.
-   * @param {Deck} [deck] Deck to be shuffled. If omitted, then tries using the
-   * last deck in the current game's deck sequence.
-   * @returns {?Deck} Null if an invalid parameter was specified.
-   */
-  shuffleDeck(
-    deck = this.deckSequence ?
-      this.deckSequence[this.deckSequence.length - 1] :
-      null
-  ) {
-    if (!deck) return null;
-
-    // Improve the accessibility of secrets later by using the last one now
-    const lastSecret = this.secrets[this.secrets.length - 1];
-
-    // Shuffle the deck and then encrypt it to avoid data leaks
-    return deck.shuffle().encrypt(lastSecret);
-  }
-
-  /**
-   * Locks a deck using the secrets of the player.
-   * @param {Deck} [deck] Deck to be locked. If omitted, then tries using the
-   * last deck in the current game's deck sequence.
-   * @returns {?Deck} Null if an invalid parameter was specified.
-   */
-  lockDeck(
-    deck = this.deckSequence ?
-      this.deckSequence[this.deckSequence.length - 1] :
-      null
-  ) {
-    if (!deck) return null;
-
-    const lastSecret = this.secrets[this.secrets.length - 1];
-
-    // Remove the shuffle encryption and then lock each card one by one
-    return deck.decrypt(lastSecret).lock(this.secrets);
-  }
 }
 
 module.exports = Player;
