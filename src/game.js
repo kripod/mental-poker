@@ -1,7 +1,6 @@
 const Config = require('./config');
 const Deck = require('./deck');
 const GameState = require('./enums/game-state');
-const Player = require('./player');
 const Utils = require('./utils');
 
 /**
@@ -39,9 +38,9 @@ class Game {
    */
 
   /**
-   * Keeps an ordered list of owned card indexes.
+   * Keeps an ordered list of unpickable (owned or opened) card indexes.
    * @type {number[]}
-   * @member ownedCardIndexes
+   * @member unpickableCardIndexes
    * @memberof Game
    */
 
@@ -66,7 +65,7 @@ class Game {
         // The player whose secrets are known should be self
         if (player.secrets[0]) {
           this.playerSelf = player;
-          return;
+          break;
         }
       }
     }
@@ -75,7 +74,7 @@ class Game {
     this.actingPlayerIndex = 0;
 
     this.deckSequence = [];
-    this.ownedCardIndexes = [];
+    this.unpickableCardIndexes = [];
     this.cardsOnTable = [];
   }
 
@@ -83,21 +82,21 @@ class Game {
    * Returns all card indexes which are not yet owned or opened by anyone.
    * @returns {number[]}
    */
-  getUnownedCardIndexes() {
+  getPickableCardIndexes() {
     return Array.from(new Array(Config.cardsInDeck), (v, i) => i)
-      .filter((v) => this.ownedCardIndexes.indexOf(v) < 0);
+      .filter((v) => this.unpickableCardIndexes.indexOf(v) < 0);
   }
 
   /**
-   * Returns a random unowned card index.
+   * Returns a random pickable card index.
    * @returns {number}
    */
-  getRandomUnownedCardIndex() {
-    const unownedCardIndexes = this.getUnownedCardIndexes();
+  getRandomPickableCardIndex() {
+    const pickableCardIndexes = this.getPickableCardIndexes();
 
-    // Return the index of an unowned card
-    return unownedCardIndexes[
-      Utils.getRandomInt(0, unownedCardIndexes.length)
+    // Return the index of a pickable card
+    return pickableCardIndexes[
+      Utils.getRandomInt(0, pickableCardIndexes.length)
     ];
   }
 
@@ -139,16 +138,19 @@ class Game {
    * be added to the game's deck sequence on success.
    * @param {Deck} [deck] Deck to be shuffled. If omitted, then uses the last
    * deck in the game's deck sequence.
+   * @param {Player} [player] Player object to shuffle the deck with. Defaults
+   * to the player object of self.
    * @returns {?Deck} Null if an invalid parameter was specified.
    */
   shuffleDeck(
     isAddableToSequence = true,
     deck = this.deckSequence[this.deckSequence.length - 1],
+    player = this.playerSelf
   ) {
     if (!deck) return null;
 
     // Improve the accessibility of secrets later by using the last one now
-    const lastSecret = this.secrets[this.secrets.length - 1];
+    const lastSecret = player.secrets[player.secrets.length - 1];
 
     // Shuffle the deck and then encrypt it to avoid data leaks
     const nextDeck = deck.shuffle().encrypt(lastSecret);
@@ -165,18 +167,21 @@ class Game {
    * be added to the game's deck sequence on success.
    * @param {Deck} [deck] Deck to be locked. If omitted, then uses the last deck
    * in the game's deck sequence.
+   * @param {Player} [player] Player object to lock the deck with. Defaults to
+   * the player object of self.
    * @returns {?Deck} Null if an invalid parameter was specified.
    */
   lockDeck(
     isAddableToSequence = true,
     deck = this.deckSequence[this.deckSequence.length - 1],
+    player = this.playerSelf
   ) {
     if (!deck) return null;
 
-    const lastSecret = this.secrets[this.secrets.length - 1];
+    const lastSecret = player.secrets[player.secrets.length - 1];
 
     // Remove the shuffle encryption and then lock each card one by one
-    const nextDeck = deck.decrypt(lastSecret).lock(this.secrets);
+    const nextDeck = deck.decrypt(lastSecret).lock(player.secrets);
     if (isAddableToSequence) {
       this.addDeckToSequence(nextDeck);
     }
@@ -208,8 +213,8 @@ class Game {
 
   /**
    * Takes turn on behalf of the currently acting player, updating
-   * `actingPlayerIndex`.
-   * @returns {number} The index of the next player in turn.
+   * `actingPlayerIndex` with the next value in its cycle.
+   * @returns {number} Index of the next player in turn.
    */
   takeTurn() {
     this.actingPlayerIndex = (this.actingPlayerIndex + 1) % this.players.length;
@@ -217,15 +222,17 @@ class Game {
   }
 
   /**
-   * Draws an unowned card at the given index, unlocking it by its corresponding
+   * Picks an unowned card at the given index, unlocking it by its corresponding
    * secrets.
-   * @param {number} index Index of the card to be drawn.
-   * @returns {number} On success, the ID of the drawn card. Otherwise (if any
+   * @param {number} index Index of the card to be picked.
+   * @param {boolean} [isMadeUnpickable=true] Determines whether the picked card
+   * should be made unpickable on success.
+   * @returns {number} On success, the ID of the picked card. Otherwise (if any
    * of the necessary secrets are unknown or the card at the given index has
    * already been drawn), -1.
    */
-  drawCard(index) {
-    if (this.ownedCardIndexes.indexOf(index) < 0) {
+  pickCard(index, isMadeUnpickable = true) {
+    if (this.unpickableCardIndexes.indexOf(index) < 0) {
       // Gather each player's secret at the given index
       const secrets = this.players.map((player) => player.secrets[index]);
 
@@ -235,13 +242,51 @@ class Game {
 
       for (let i = initialDeckPoints.length - 1; i >= 0; --i) {
         if (initialDeckPoints[i].eq(pointUnlocked)) {
-          this.ownedCardIndexes.push(index);
+          // Make the unlocked card unpickable if necessary
+          if (isMadeUnpickable) {
+            this.unpickableCardIndexes.push(index);
+          }
+
           return i;
         }
       }
     }
 
     return -1;
+  }
+
+  /**
+   * Picks an unowned card at the given index, and then draws it to the hand of
+   * self.
+   * @param {number} index Index of the card to be drawn.
+   * @returns {number} On success, the ID of the drawn card. Otherwise (if any
+   * of the necessary secrets are unknown or the card at the given index has
+   * already been drawn), -1.
+   */
+  drawCard(index) {
+    const cardId = this.pickCard(index);
+    if (cardId >= 0) {
+      this.playerSelf.cardsInDeck.push(cardId);
+    }
+
+    return cardId;
+  }
+
+  /**
+   * Picks an unowned card at the given index, and then opens it as a community
+   * card on the table.
+   * @param {number} index Index of the card to be opened.
+   * @returns {number} On success, the ID of the opened card. Otherwise (if any
+   * of the necessary secrets are unknown or the card at the given index has
+   * already been drawn), -1.
+   */
+  openCard(index) {
+    const cardId = this.pickCard(index);
+    if (cardId >= 0) {
+      this.cardsOnTable.push(cardId);
+    }
+
+    return cardId;
   }
 
   verify() {

@@ -79,13 +79,13 @@ const cardIndex = game.getRandomUnownedCardIndex();
 
 // Obtain the secret of each opponent at the given card index
 // After that, the card can be unlocked
-const cardId = game.drawCard(cardIndex);
+const cardId = game.pickCard(cardIndex);
 
-// Draw a card for self
-players[0].cardsInHand.push(cardId);
+// Draw the card for self without revealing it
+game.drawCard(cardIndex);
 
-// Or open it on the table
-game.cardsOnTable.push(cardId);
+// Or open it as a community card on the table
+game.openCard(cardIndex);
 ```
 
 ## Performance

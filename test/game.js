@@ -11,7 +11,7 @@ const game = new Game(players).generateInitialDeck(
 test.serial('cascaded shuffling', (t) => {
   for (const player of players) {
     const currentDeck = game.deckSequence[game.deckSequence.length - 1];
-    game.addDeckToSequence(player.shuffleDeck(currentDeck));
+    game.shuffleDeck(true, currentDeck, player);
   }
 
   t.pass();
@@ -20,7 +20,7 @@ test.serial('cascaded shuffling', (t) => {
 test.serial('locking', (t) => {
   for (const player of players) {
     const currentDeck = game.deckSequence[game.deckSequence.length - 1];
-    game.addDeckToSequence(player.lockDeck(currentDeck));
+    game.lockDeck(true, currentDeck, player);
   }
 
   t.pass();
@@ -30,14 +30,14 @@ test.serial('drawing/opening', (t) => {
   // Draw every card
   const cardIds = new Array(Config.cardsInDeck);
   for (let i = Config.cardsInDeck - 1; i >= 0; --i) {
-    const cardIndex = game.getRandomUnownedCardIndex();
+    const cardIndex = game.getRandomPickableCardIndex();
 
     // Get the secret of every player which corresponds to the given card index
     const secrets = players.map((player) => player.secrets[cardIndex]);
-    cardIds[i] = game.drawCard(cardIndex, secrets);
+    cardIds[i] = game.pickCard(cardIndex, secrets);
 
     // Cards shall not be allowed to be dealt more than once
-    t.is(game.drawCard(cardIndex, secrets), -1);
+    t.is(game.pickCard(cardIndex, secrets), -1);
   }
 
   // Check whether every card has been drawn exactly once
