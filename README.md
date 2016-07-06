@@ -24,12 +24,13 @@ with each other in order to finish setting up a new game.
 ```js
 import { Game, Player } from 'mental-poker-js';
 
-// Game extends the Player object, exposing Player methods and properties
 // Points and secrets of self are auto-generated
-const game = new Game({ playerCount: opponents.length + 1 });
+const players = [new Player()]; // More players should be present
+const game = new Game(players);
 
-// Broadcast `game.points` and receive the points of other players
-game.generateInitialDeck(opponents.map((opponent) => opponent.points));
+// Broadcast `game.playerSelf.points` and receive the points of other players
+// After that, the initial deck generation process should occur
+game.generateInitialDeck();
 ```
 
 ### Cascaded shuffling
@@ -46,7 +47,6 @@ if (encryptedDeckOfAnOpponent) {
 
 // Shuffle the deck by self and then pass it to the next opponent
 const deck = game.shuffleDeck();
-game.addDeckToSequence(deck);
 ```
 
 ### Locking the deck
@@ -61,7 +61,6 @@ game.addDeckToSequence(encryptedDeckOfAnOpponent);
 
 // Decrypt, lock and then pass the deck to the next opponent in turn
 const deck = game.lockDeck();
-game.addDeckToSequence(deck);
 ```
 
 ### Drawing a card
@@ -79,10 +78,8 @@ card.
 const cardIndex = game.getRandomUnownedCardIndex();
 
 // Obtain the secret of each opponent at the given card index
-const secrets = []; // players[0 .. players.length - 1].secrets[cardIndex]
-
-// Unlock the card using the secrets
-const cardId = game.drawCard(cardIndex, secrets);
+// After that, the card can be unlocked
+const cardId = game.drawCard(cardIndex);
 
 // Draw a card for self
 players[0].cardsInHand.push(cardId);

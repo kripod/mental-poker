@@ -19,7 +19,7 @@ class Game {
   /**
    * Index of the currently acting player in the turn.
    * @type {number}
-   * @member turnPlayerIndex
+   * @member actingPlayerIndex
    * @memberof Game
    */
 
@@ -57,7 +57,7 @@ class Game {
    * @param {Player} [playerSelf] The player object of self, which should also
    * be contained in `players`. Auto-detected if omitted.
    */
-  constructor(players = [new Player()], playerSelf) {
+  constructor(players, playerSelf) {
     this.players = players;
     if (playerSelf) {
       this.playerSelf = playerSelf;
@@ -72,7 +72,7 @@ class Game {
     }
 
     this.state = GameState.GENERATING_DECK_POINTS;
-    this.turnPlayerIndex = 0;
+    this.actingPlayerIndex = 0;
 
     this.deckSequence = [];
     this.ownedCardIndexes = [];
@@ -135,15 +135,15 @@ class Game {
   /**
    * Shuffles the deck using the secrets of self, and on request, adds it to the
    * deck sequence of the game.
-   * @param {Deck} [deck] Deck to be shuffled. If omitted, then uses the last
-   * deck in the game's deck sequence.
    * @param {boolean} [isAddableToSequence=true] True whether the result should
    * be added to the game's deck sequence on success.
+   * @param {Deck} [deck] Deck to be shuffled. If omitted, then uses the last
+   * deck in the game's deck sequence.
    * @returns {?Deck} Null if an invalid parameter was specified.
    */
   shuffleDeck(
-    deck = this.deckSequence[this.deckSequence.length - 1],
     isAddableToSequence = true,
+    deck = this.deckSequence[this.deckSequence.length - 1],
   ) {
     if (!deck) return null;
 
@@ -161,15 +161,15 @@ class Game {
   /**
    * Locks the deck using the secrets of self, and on request, adds it to the
    * deck sequence of the game.
-   * @param {Deck} [deck] Deck to be locked. If omitted, then uses the last deck
-   * in the game's deck sequence.
    * @param {boolean} [isAddableToSequence=true] True whether the result should
    * be added to the game's deck sequence on success.
+   * @param {Deck} [deck] Deck to be locked. If omitted, then uses the last deck
+   * in the game's deck sequence.
    * @returns {?Deck} Null if an invalid parameter was specified.
    */
   lockDeck(
-    deck = this.deckSequence[this.deckSequence.length - 1],
     isAddableToSequence = true,
+    deck = this.deckSequence[this.deckSequence.length - 1],
   ) {
     if (!deck) return null;
 
@@ -208,15 +208,12 @@ class Game {
 
   /**
    * Takes turn on behalf of the currently acting player, updating
-   * `turnPlayerIndex` if `playerCount` is a positive integer.
-   * @returns {number} On success, the index of the next player in turn.
-   * Otherwise, -1.
+   * `actingPlayerIndex`.
+   * @returns {number} The index of the next player in turn.
    */
   takeTurn() {
-    if (this.playerCount <= 0) return -1;
-
-    this.turnPlayerIndex = (this.turnPlayerIndex + 1) % this.playerCount;
-    return this.turnPlayerIndex;
+    this.actingPlayerIndex = (this.actingPlayerIndex + 1) % this.players.length;
+    return this.actingPlayerIndex;
   }
 
   /**
