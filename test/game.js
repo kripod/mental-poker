@@ -4,12 +4,14 @@ import { Config, Game, Player } from './../src';
 const PLAYER_COUNT = 4;
 
 const players = Array.from(new Array(PLAYER_COUNT), () => new Player());
-const game = new Game(players);
-let deck = game.deckOriginal;
+const game = new Game(players).generateInitialDeck(
+  players.map((player) => player.points)
+);
 
 test.serial('cascaded shuffling', (t) => {
   for (const player of players) {
-    deck = player.shuffleDeck(deck);
+    const currentDeck = game.deckSequence[game.deckSequence.length - 1];
+    game.addDeckToSequence(player.shuffleDeck(currentDeck));
   }
 
   t.pass();
@@ -17,10 +19,10 @@ test.serial('cascaded shuffling', (t) => {
 
 test.serial('locking', (t) => {
   for (const player of players) {
-    deck = player.lockDeck(deck);
+    const currentDeck = game.deckSequence[game.deckSequence.length - 1];
+    game.addDeckToSequence(player.lockDeck(currentDeck));
   }
 
-  game.deckLocked = deck;
   t.pass();
 });
 

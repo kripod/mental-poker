@@ -22,19 +22,14 @@ deck of cards, on the client side. Players must share their generated points
 with each other in order to finish setting up a new game.
 
 ```js
-import { Player } from 'mental-poker-js';
+import { Game, Player } from 'mental-poker-js';
 
-// Points and secrets of a new player get generated automatically
-const players = [new Player()];
+// Game extends the Player object, exposing Player methods and properties
+// Points and secrets of self are auto-generated
+const game = new Game({ playerCount: opponents.length + 1 });
 
-// Broadcast `player.points` and receive the points of other players
-for (const points of pointsOfOpponents) {
-  // Secrets of the opponents shall not be known until the end of the game
-  players.push(new Player({ points }));
-}
-
-// The game can be set up now
-const game = new Game(players);
+// Broadcast `game.points` and receive the points of other players
+game.generateInitialDeck(opponents.map((opponent) => opponent.points));
 ```
 
 ### Cascaded shuffling
@@ -44,12 +39,14 @@ the result in secret by encrypting it as a whole using elliptic curve point
 multiplication.
 
 ```js
-// Receive a shuffled deck from an opponent or use the game's original deck if
-// the client is the first player to start
-let deck = encryptedDeckOfAnOpponent || game.deckOriginal;
+// Receive an encrypted deck from an opponent if not acting first in the turn
+if (encryptedDeckOfAnOpponent) {
+  game.addDeckToSequence(encryptedDeckOfAnOpponent);
+}
 
 // Shuffle the deck by self and then pass it to the next opponent
-deck = game.shuffleDeck(deck);
+const deck = game.shuffleDeck();
+game.addDeckToSequence(deck);
 ```
 
 ### Locking the deck
@@ -59,14 +56,12 @@ secret by encrypting the points with different keys using elliptic curve point
 multiplication.
 
 ```js
-// Receive a shuffled deck from an opponent
-let deck = encryptedDeckOfAnOpponent;
+// Receive an encrypted deck from an opponent
+game.addDeckToSequence(encryptedDeckOfAnOpponent);
 
-// Decrypt, lock and then pass the deck to the next opponent
-deck = game.lockDeck(deck);
-
-// After the deck has been locked by everyone, assign it to the game
-game.deckLocked = lockedDeckOfAnOpponent || deck;
+// Decrypt, lock and then pass the deck to the next opponent in turn
+const deck = game.lockDeck();
+game.addDeckToSequence(deck);
 ```
 
 ### Drawing a card
