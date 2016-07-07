@@ -1,4 +1,3 @@
-const Config = require('./config');
 const Utils = require('./utils');
 
 /**
@@ -21,13 +20,21 @@ class Player {
    */
 
   /**
+   * Secret hashes of the player to compare the hashes of real, computed secrets
+   * with during verification.
+   * @type {string[]}
+   * @member secretHashes
+   * @memberof Player
+   */
+
+  /**
    * List of card IDs which are in the hand of the player.
    * @type {number[]}
    * @member cardsInHand
    * @memberof Player
    */
 
-  constructor({ points, secrets, cardsInHand = [] } = {}) {
+  constructor({ points, secrets, secretHashes = [], cardsInHand = [] } = {}) {
     if (points || secrets) {
       // None of the properties shall be auto-generated
       this.points = points || [];
@@ -38,16 +45,43 @@ class Player {
       this.secrets = Utils.getRandomSecrets();
     }
 
+    this.secretHashes = secretHashes;
     this.cardsInHand = cardsInHand;
   }
 
   /**
-   * Returns the hashes of the player's secrets.
-   * @param {string} [algorithm] Hash algorithm to be used.
+   * Returns the calculated hashes of the player's secrets.
    * @returns {string[]}
    */
-  getSecretHashes(algorithm = Config.hashAlgorithm) {
-    return Utils.getSecretHashes(this.secrets, algorithm);
+  getSecretHashes() {
+    return Utils.getSecretHashes(this.secrets);
+  }
+
+  /**
+   * Verifies the player's secrets using the given array of secret hashes.
+   * @param {string[]} [secretHashes] Secret hashes to compare the real,
+   * computed secret hashes with. Uses the value of `secretHashes` by default.
+   * @returns {boolean} True whether verification was successful.
+   */
+  verifySecretsByHashes(secretHashes = this.secretHashes) {
+    const realSecretHashes = this.getSecretHashes();
+
+    for (let i = realSecretHashes.length - 1; i >= 0; --i) {
+      if (secretHashes[i] !== realSecretHashes[i]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  toJSON() {
+    return Object.assign(
+      { secretHashes: this.getSecretHashes() },
+      this.points.length > 0 ?
+        { points: this.points } :
+        {}
+    );
   }
 }
 

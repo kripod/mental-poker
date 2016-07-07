@@ -289,6 +289,9 @@ class Game {
     return cardId;
   }
 
+  /**
+   * Verifies the entire game, looking for players who were not playing fairly.
+   */
   verify() {
     // TODO
   }
