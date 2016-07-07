@@ -7,7 +7,6 @@ const PLAYER_COUNT = 4;
 
 let players;
 let game;
-let deck;
 
 const suite = new Benchmark.Suite();
 
@@ -19,32 +18,27 @@ suite.on('cycle', (event) => {
 suite.add('points generation', () => {
   players = Array.from(new Array(PLAYER_COUNT), () => new Player());
   game = new Game(players);
-  deck = game.deckOriginal;
+  game.generateInitialDeck();
 });
 
 suite.add('cascaded shuffling', () => {
   for (const player of players) {
-    deck = player.shuffleDeck(deck);
+    game.shuffleDeck(player);
   }
 });
 
 suite.add('locking the deck', () => {
   for (const player of players) {
-    deck = player.lockDeck(deck);
+    game.lockDeck(player);
   }
-
-  game.deckLocked = deck;
 });
 
-suite.add('drawing a card', () => {
-  const cardIndex = game.getRandomUnownedCardIndex();
-
-  // Get the secret of every player which corresponds to the given card index
-  const secrets = players.map((player) => player.secrets[cardIndex]);
+suite.add('picking a card', () => {
+  const cardIndex = game.getRandomPickableCardIndex();
 
   // This should always measure the worst case scenario where no card can be
   // returned, because the deck was shuffled and locked multiple times
-  game.drawCard(cardIndex, secrets);
+  game.pickCard(cardIndex);
 });
 
 console.log(`Started a benchmark simulating a game of ${PLAYER_COUNT} players`);

@@ -134,18 +134,18 @@ class Game {
   /**
    * Shuffles the deck using the secrets of self, and on request, adds it to the
    * deck sequence of the game.
+   * @param {Player} [player] Player object to shuffle the deck with. Defaults
+   * to the player object of self.
    * @param {boolean} [isAddableToSequence=true] True whether the result should
    * be added to the game's deck sequence on success.
    * @param {Deck} [deck] Deck to be shuffled. If omitted, then uses the last
    * deck in the game's deck sequence.
-   * @param {Player} [player] Player object to shuffle the deck with. Defaults
-   * to the player object of self.
    * @returns {?Deck} Null if an invalid parameter was specified.
    */
   shuffleDeck(
+    player = this.playerSelf,
     isAddableToSequence = true,
-    deck = this.deckSequence[this.deckSequence.length - 1],
-    player = this.playerSelf
+    deck = this.deckSequence[this.deckSequence.length - 1]
   ) {
     if (!deck) return null;
 
@@ -163,18 +163,18 @@ class Game {
   /**
    * Locks the deck using the secrets of self, and on request, adds it to the
    * deck sequence of the game.
+   * @param {Player} [player] Player object to lock the deck with. Defaults to
+   * the player object of self.
    * @param {boolean} [isAddableToSequence=true] True whether the result should
    * be added to the game's deck sequence on success.
    * @param {Deck} [deck] Deck to be locked. If omitted, then uses the last deck
    * in the game's deck sequence.
-   * @param {Player} [player] Player object to lock the deck with. Defaults to
-   * the player object of self.
    * @returns {?Deck} Null if an invalid parameter was specified.
    */
   lockDeck(
+    player = this.playerSelf,
     isAddableToSequence = true,
-    deck = this.deckSequence[this.deckSequence.length - 1],
-    player = this.playerSelf
+    deck = this.deckSequence[this.deckSequence.length - 1]
   ) {
     if (!deck) return null;
 

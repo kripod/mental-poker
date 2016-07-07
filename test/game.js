@@ -10,8 +10,7 @@ const game = new Game(players).generateInitialDeck(
 
 test.serial('cascaded shuffling', (t) => {
   for (const player of players) {
-    const currentDeck = game.deckSequence[game.deckSequence.length - 1];
-    game.shuffleDeck(true, currentDeck, player);
+    game.shuffleDeck(player);
   }
 
   t.pass();
@@ -19,8 +18,7 @@ test.serial('cascaded shuffling', (t) => {
 
 test.serial('locking', (t) => {
   for (const player of players) {
-    const currentDeck = game.deckSequence[game.deckSequence.length - 1];
-    game.lockDeck(true, currentDeck, player);
+    game.lockDeck(player);
   }
 
   t.pass();

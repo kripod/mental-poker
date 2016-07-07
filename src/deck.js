@@ -49,7 +49,7 @@ class Deck {
    * Unlocks a single point by using multiple secrets.
    * @param {number} index Index of the card to be unlocked.
    * @param {BigInt[]} secrets Secrets to be used for unlocking.
-   * @returns {elliptic.curve.base.BasePoint}
+   * @returns {Point}
    */
   unlockSingle(index, secrets) {
     let point = this.points[index];
