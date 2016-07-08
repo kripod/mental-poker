@@ -1,16 +1,16 @@
 import test from 'ava';
 import { Config, Player } from './../src';
 
-test('secrets accessibility', (t) => {
-  const player = new Player();
-
-  t.is(player.secrets.length, Config.cardsInDeck + 1);
-});
-
 test('points generation', (t) => {
   const player = (new Player()).generatePoints();
 
   t.is(player.points.length, Config.cardsInDeck);
+});
+
+test('secrets accessibility', (t) => {
+  const player = new Player();
+
+  t.is(player.secrets.length, Config.cardsInDeck + 1);
 });
 
 test('secrets generation', (t) => {

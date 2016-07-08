@@ -266,7 +266,7 @@ class Game {
   drawCard(index) {
     const cardId = this.pickCard(index);
     if (cardId >= 0) {
-      this.playerSelf.cardsInDeck.push(cardId);
+      this.playerSelf.cardsInHand.push(cardId);
     }
 
     return cardId;
