@@ -1,13 +1,22 @@
 import test from 'ava';
 import { Config, Player } from './../src';
 
-test('constructor without params', (t) => {
-  const player = (new Player()).generatePoints().generateSecrets();
-
-  t.is(player.points.length, Config.cardsInDeck);
+test('secrets accessibility', (t) => {
+  const player = new Player();
 
   t.is(player.secrets.length, Config.cardsInDeck + 1);
-  t.is(player.getSecretHashes().length, player.secrets.length);
+});
+
+test('points generation', (t) => {
+  const player = (new Player()).generatePoints();
+
+  t.is(player.points.length, Config.cardsInDeck);
+});
+
+test('secrets generation', (t) => {
+  const player = (new Player()).generateSecrets();
+
+  t.is(player.secretHashes.length, Config.cardsInDeck + 1);
 
   for (const secret of player.secrets) {
     t.true(secret.gten(1));
@@ -15,9 +24,22 @@ test('constructor without params', (t) => {
   }
 });
 
-test('constructor with params', (t) => {
-  const points = [];
-  const player = new Player({ points });
+test('secrets verification', (t) => {
+  const player = (new Player()).generateSecrets();
+  t.true(player.verifySecretsByHashes());
 
-  t.is(player.points, points);
+  // Make a hash incorrect
+  player.secretHashes[0] = null;
+  t.false(player.verifySecretsByHashes());
+});
+
+test('serialization', (t) => {
+  const player = new Player();
+  t.deepEqual(Object.keys(player.toJSON()), []);
+
+  player.generatePoints();
+  t.deepEqual(Object.keys(player.toJSON()), ['points']);
+
+  player.generateSecrets();
+  t.deepEqual(Object.keys(player.toJSON()), ['points', 'secretHashes']);
 });

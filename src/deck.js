@@ -1,6 +1,9 @@
 const Config = require('./config');
 const Utils = require('./utils');
 
+/**
+ * An immutable object which represents a deck of cards.
+ */
 class Deck {
   constructor(points) {
     this.points = points;
