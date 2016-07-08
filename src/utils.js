@@ -17,7 +17,7 @@ function getRandomInt(min, max) {
   const randomRange = Math.pow(256, byteLength);
 
   // Get the lowest value which is not part of the equal distribution range
-  const firstTooHighValue = randomRange - randomRange % range;
+  const firstTooHighValue = randomRange - (randomRange % range);
 
   let result;
   do {
@@ -29,7 +29,7 @@ function getRandomInt(min, max) {
   );
 
   // Place the result in the initial range and offset it by the minimum value
-  return result % range + min;
+  return (result % range) + min;
 }
 
 /**
