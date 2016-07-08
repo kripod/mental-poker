@@ -2,7 +2,7 @@ import test from 'ava';
 import { Config, Player } from './../src';
 
 test('constructor without params', (t) => {
-  const player = new Player();
+  const player = (new Player()).generatePoints().generateSecrets();
 
   t.is(player.points.length, Config.cardsInDeck);
 

@@ -24,8 +24,12 @@ with each other in order to finish setting up a new game.
 ```js
 import { Game, Player } from 'mental-poker-js';
 
-// Points and secrets of self are auto-generated
-const players = [new Player()]; // More players should be present
+const players = [
+  (new Player()).generatePoints().generateSecrets(), // Self
+  new Player(),
+  new Player(),
+  new Player(),
+];
 const game = new Game(players);
 
 // Broadcast `game.playerSelf.points` and receive the points of other players

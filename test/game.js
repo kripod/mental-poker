@@ -3,10 +3,10 @@ import { Config, Game, Player } from './../src';
 
 const PLAYER_COUNT = 4;
 
-const players = Array.from(new Array(PLAYER_COUNT), () => new Player());
-const game = new Game(players).generateInitialDeck(
-  players.map((player) => player.points)
+const players = Array.from(new Array(PLAYER_COUNT), () =>
+  (new Player()).generatePoints().generateSecrets()
 );
+const game = new Game(players).generateInitialDeck();
 
 test.serial('cascaded shuffling', (t) => {
   for (const player of players) {

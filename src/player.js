@@ -1,3 +1,4 @@
+const Config = require('./config');
 const Utils = require('./utils');
 
 /**
@@ -34,17 +35,14 @@ class Player {
    * @memberof Player
    */
 
-  constructor({ points, secrets, secretHashes = [], cardsInHand = [] } = {}) {
-    if (points || secrets) {
-      // None of the properties shall be auto-generated
-      this.points = points || [];
-      this.secrets = secrets || [];
-    } else {
-      // Properties should be auto-generated
-      this.points = Utils.getRandomPoints();
-      this.secrets = Utils.getRandomSecrets();
-    }
-
+  constructor({
+    points = [],
+    secrets = new Array(Config.cardsInDeck),
+    secretHashes = [],
+    cardsInHand = [],
+  } = {}) {
+    this.points = points;
+    this.secrets = secrets;
     this.secretHashes = secretHashes;
     this.cardsInHand = cardsInHand;
   }
@@ -55,6 +53,24 @@ class Player {
    */
   getSecretHashes() {
     return Utils.getSecretHashes(this.secrets);
+  }
+
+  /**
+   * Generates random points for the player.
+   * @returns {Player}
+   */
+  generatePoints() {
+    this.points = Utils.getRandomPoints();
+    return this;
+  }
+
+  /**
+   * Generates random secrets for the player.
+   * @returns {Player}
+   */
+  generateSecrets() {
+    this.secrets = Utils.getRandomSecrets();
+    return this;
   }
 
   /**

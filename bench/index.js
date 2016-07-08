@@ -5,8 +5,8 @@ import { Game, Player } from './..';
 
 const PLAYER_COUNT = 4;
 
-let players;
-let game;
+const players = Array.from(new Array(PLAYER_COUNT), () => new Player());
+const game = new Game(players);
 
 const suite = new Benchmark.Suite();
 
@@ -15,20 +15,23 @@ suite.on('cycle', (event) => {
   console.log(event.target.toString());
 });
 
-suite.add('points generation', () => {
-  players = Array.from(new Array(PLAYER_COUNT), () => new Player());
-  game = new Game(players);
+suite.add('distributed points generation', () => {
+  players.map((player) => player.generatePoints());
   game.generateInitialDeck();
 });
 
+suite.add('secrets generation', () => {
+  players.map((player) => player.generateSecrets());
+});
+
 suite.add('cascaded shuffling', () => {
-  for (const player of players) {
+  for (const player of game.players) {
     game.shuffleDeck(player);
   }
 });
 
 suite.add('locking the deck', () => {
-  for (const player of players) {
+  for (const player of game.players) {
     game.lockDeck(player);
   }
 });

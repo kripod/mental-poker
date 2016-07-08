@@ -1,7 +1,7 @@
 import test from 'ava';
 import { Deck, Player } from './../src';
 
-const player = new Player();
+const player = new Player().generatePoints().generateSecrets();
 const deckOriginal = new Deck(player.points);
 
 test('shuffle', (t) => {
