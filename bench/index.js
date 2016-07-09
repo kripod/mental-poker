@@ -6,7 +6,7 @@ import { Game, Player } from './..';
 const PLAYER_COUNT = 4;
 
 const players = Array.from(new Array(PLAYER_COUNT), () => new Player());
-const game = new Game(players);
+const game = new Game({ players });
 
 const suite = new Benchmark.Suite();
 

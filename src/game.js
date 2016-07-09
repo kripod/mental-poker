@@ -51,17 +51,11 @@ class Game {
    * @memberof Game
    */
 
-  /**
-   * @param {Player[]} players Ordered list of players of the game.
-   * @param {Player} [playerSelf] The player object of self, which should also
-   * be contained in `players`. Auto-detected if omitted.
-   */
-  constructor(players, playerSelf) {
-    this.players = players;
-    if (playerSelf) {
-      this.playerSelf = playerSelf;
-    } else {
-      for (const player of players) {
+  constructor(params) {
+    Object.assign(this, params);
+
+    if (!this.playerSelf) {
+      for (const player of this.players) {
         // The player whose secrets are known should be self
         let isSelf = true;
         for (const secret of player.secrets) {

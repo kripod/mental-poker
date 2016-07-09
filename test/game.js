@@ -6,7 +6,7 @@ const PLAYER_COUNT = 4;
 const players = Array.from(new Array(PLAYER_COUNT), () =>
   (new Player()).generatePoints().generateSecrets()
 );
-const game = new Game(players);
+const game = new Game({ players });
 
 test.serial('distributed points generation', (t) => {
   game.generateInitialDeck();

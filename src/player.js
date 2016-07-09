@@ -35,21 +35,18 @@ class Player {
    * @memberof Player
    */
 
-  constructor({
-    points = [],
-    secrets = new Array(Config.cardsInDeck + 1),
-    secretHashes = [],
-    cardsInHand = [],
-  } = {}) {
-    this.points = points;
-    this.secrets = secrets;
-    this.secretHashes = secretHashes;
-    this.cardsInHand = cardsInHand;
+  constructor(params) {
+    Object.assign(this, params);
+
+    this.points = this.points || [];
+    this.secrets = this.secrets || new Array(Config.cardsInDeck + 1);
+    this.secretHashes = this.secretHashes || [];
+    this.cardsInHand = this.cardsInHand || [];
 
     // Force setting `secretHashes` if all the secrets are known
-    if (secretHashes.length === 0) {
+    if (this.secretHashes.length === 0) {
       let isAllKnown = true;
-      for (const secret of secrets) {
+      for (const secret of this.secrets) {
         if (!secret) {
           isAllKnown = false;
           break;

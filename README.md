@@ -30,7 +30,7 @@ const players = [
   new Player(),
   new Player(),
 ];
-const game = new Game(players);
+const game = new Game({ players });
 
 // Broadcast `game.playerSelf.points` and receive the points of other players
 // After that, the initial deck generation process should occur
