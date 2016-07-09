@@ -63,7 +63,15 @@ class Game {
     } else {
       for (const player of players) {
         // The player whose secrets are known should be self
-        if (player.secrets[0]) {
+        let isSelf = true;
+        for (const secret of player.secrets) {
+          if (!secret) {
+            isSelf = false;
+            break;
+          }
+        }
+
+        if (isSelf) {
           this.playerSelf = player;
           break;
         }

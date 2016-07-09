@@ -45,6 +45,21 @@ class Player {
     this.secrets = secrets;
     this.secretHashes = secretHashes;
     this.cardsInHand = cardsInHand;
+
+    // Force setting `secretHashes` if all the secrets are known
+    if (secretHashes.length === 0) {
+      let isAllKnown = true;
+      for (const secret of secrets) {
+        if (!secret) {
+          isAllKnown = false;
+          break;
+        }
+      }
+
+      if (isAllKnown) {
+        this.secretHashes = Utils.getSecretHashes(this.secrets);
+      }
+    }
   }
 
   /**
