@@ -81,6 +81,14 @@ class Game {
   }
 
   /**
+   * Returns the currently acting player in the turn.
+   * @returns {Player}
+   */
+  get actingPlayer() {
+    return this.players[this.actingPlayerIndex];
+  }
+
+  /**
    * Returns all card indexes which are not yet owned or opened by anyone.
    * @returns {number[]}
    */
@@ -296,6 +304,14 @@ class Game {
    */
   verify() {
     // TODO
+  }
+
+  toJSON() {
+    return {
+      players: this.players.map((player) => player.toJSON()),
+      actingPlayerIndex: this.actingPlayerIndex,
+      state: this.state,
+    };
   }
 }
 
