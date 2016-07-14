@@ -318,7 +318,7 @@ class Game {
           x: point.x.toString(16, 2),
           y: point.y.toString(16, 2),
         })),
-      } : {},
+      } : {}
     );
   }
 }
