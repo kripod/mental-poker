@@ -313,7 +313,12 @@ class Game {
         actingPlayerIndex: this.actingPlayerIndex,
         state: this.state,
       },
-      this.deckSequence[0] ? { points: this.deckSequence[0].points } : {},
+      this.deckSequence[0] ? {
+        points: this.deckSequence[0].points.map((point) => ({
+          x: point.x.toString(16, 2),
+          y: point.y.toString(16, 2),
+        })),
+      } : {},
     );
   }
 }
