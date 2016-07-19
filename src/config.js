@@ -15,6 +15,11 @@ class Config {
 
 Config.ecAlgorithm = 'secp256k1';
 Config.hashAlgorithm = 'sha256';
-Config.cardsInDeck = 52;
+
+Config.cardRanks = [
+  '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A',
+];
+Config.cardSuits = ['c', 'd', 'h', 's'];
+Config.cardsInDeck = Config.cardRanks.length * Config.cardSuits.length;
 
 module.exports = Config;

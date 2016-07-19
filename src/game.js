@@ -1,3 +1,4 @@
+const Card = require('./card');
 const Config = require('./config');
 const Deck = require('./deck');
 const GameState = require('./enums/game-state');
@@ -46,8 +47,8 @@ class Game {
    */
 
   /**
-   * Keeps an ordered list of community card IDs.
-   * @type {number[]}
+   * Keeps an ordered list of community cards.
+   * @type {Card[]}
    * @member cardsOnTable
    * @memberof Game
    */
@@ -255,9 +256,9 @@ class Game {
    * @param {number} index Index of the card to be picked.
    * @param {boolean} [isMadeUnpickable=true] Determines whether the picked card
    * should be made unpickable on success.
-   * @returns {number} On success, the ID of the picked card. Otherwise (if any
-   * of the necessary secrets are unknown or the card at the given index has
-   * already been drawn), -1.
+   * @returns {?Card} On success, an instance of the picked card. Otherwise (if
+   * any of the necessary secrets are unknown or the card at the given index has
+   * already been drawn), null.
    */
   pickCard(index, isMadeUnpickable = true) {
     if (this.unpickableCardIndexes.indexOf(index) < 0) {
@@ -275,46 +276,46 @@ class Game {
             this.unpickableCardIndexes.push(index);
           }
 
-          return i;
+          return new Card(i);
         }
       }
     }
 
-    return -1;
+    return null;
   }
 
   /**
    * Picks an unowned card at the given index, and then draws it to the hand of
    * self.
    * @param {number} index Index of the card to be drawn.
-   * @returns {number} On success, the ID of the drawn card. Otherwise (if any
-   * of the necessary secrets are unknown or the card at the given index has
-   * already been drawn), -1.
+   * @returns {?Card} On success, an instance of the drawn card. Otherwise (if
+   * any of the necessary secrets are unknown or the card at the given index has
+   * already been drawn), null.
    */
   drawCard(index) {
-    const cardId = this.pickCard(index);
-    if (cardId >= 0) {
-      this.playerSelf.cardsInHand.push(cardId);
+    const card = this.pickCard(index);
+    if (card) {
+      this.playerSelf.cardsInHand.push(card);
     }
 
-    return cardId;
+    return card;
   }
 
   /**
    * Picks an unowned card at the given index, and then opens it as a community
    * card on the table.
    * @param {number} index Index of the card to be opened.
-   * @returns {number} On success, the ID of the opened card. Otherwise (if any
-   * of the necessary secrets are unknown or the card at the given index has
-   * already been drawn), -1.
+   * @returns {?Card} On success, an instance of the opened card. Otherwise (if
+   * any of the necessary secrets are unknown or the card at the given index has
+   * already been drawn), null.
    */
   openCard(index) {
-    const cardId = this.pickCard(index);
-    if (cardId >= 0) {
-      this.cardsOnTable.push(cardId);
+    const card = this.pickCard(index);
+    if (card) {
+      this.cardsOnTable.push(card);
     }
 
-    return cardId;
+    return card;
   }
 
   /**

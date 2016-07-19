@@ -45,16 +45,16 @@ test.serial('card picking/drawing/opening', (t) => {
     if (i < 7) {
       if (i < 2) {
         // Draw 2 cards for self
-        cardId = game.drawCard(cardIndex);
+        cardId = game.drawCard(cardIndex).id;
         shouldCardBeInHandOfSelf = true;
       } else {
         // Open 5 cards
-        cardId = game.openCard(cardIndex);
+        cardId = game.openCard(cardIndex).id;
         shouldCardBeOnTable = true;
       }
     } else {
       // Only pick the remaining cards, but don't assign them anywhere
-      cardId = game.pickCard(cardIndex);
+      cardId = game.pickCard(cardIndex).id;
     }
 
     cardIds[i] = cardId;
@@ -62,15 +62,15 @@ test.serial('card picking/drawing/opening', (t) => {
     // Check the assignment of cards
     t.false(
       shouldCardBeInHandOfSelf &&
-      game.playerSelf.cardsInHand.indexOf(cardId) < 0
+      !game.playerSelf.cardsInHand.find((card) => card.id === cardId)
     );
     t.false(
       shouldCardBeOnTable &&
-      game.cardsOnTable.indexOf(cardId) < 0
+      !game.cardsOnTable.find((card) => card.id === cardId)
     );
 
     // Cards shall not be allowed to be dealt more than once
-    t.is(game.pickCard(cardIndex), -1);
+    t.is(game.pickCard(cardIndex), null);
   }
 
   // Check whether every card has been drawn exactly once

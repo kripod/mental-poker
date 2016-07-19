@@ -44,8 +44,8 @@ class Player {
    */
 
   /**
-   * List of card IDs which are in the hand of the player.
-   * @type {number[]}
+   * List of cards which are in the hand of the player.
+   * @type {Card[]}
    * @member cardsInHand
    * @memberof Player
    */
