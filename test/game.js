@@ -21,8 +21,6 @@ test.serial('cascaded shuffling', (t) => {
     t.is(deck.points.length, Config.cardsInDeck);
     t.is(deck, game.deckSequence[game.deckSequence.length - 1]);
   }
-
-  t.pass();
 });
 
 test.serial('locking', (t) => {
@@ -32,8 +30,6 @@ test.serial('locking', (t) => {
     t.is(deck.points.length, Config.cardsInDeck);
     t.is(deck, game.deckSequence[game.deckSequence.length - 1]);
   }
-
-  t.pass();
 });
 
 test.serial('card picking/drawing/opening', (t) => {

@@ -127,7 +127,7 @@ class Player {
         points: this.points.map((point) => ({
           x: point.x.toString(16, 2),
           y: point.y.toString(16, 2),
-        }))
+        })),
       } : {},
       this.secretHashes.length > 0 ? { secretHashes: this.secretHashes } : {}
     );

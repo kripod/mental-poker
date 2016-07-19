@@ -25,7 +25,7 @@ class Bet {
     return {
       type: this.type,
       amount: this.amount,
-    }
+    };
   }
 }
 

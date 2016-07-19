@@ -24,10 +24,7 @@ test('encryption and decryption', (t) => {
   t.not(deckDecrypted, deckEncrypted);
 
   // Check whether encryption and decryption are symmetric operations
-  t.deepEqual(
-    deckDecrypted.points.map((point) => point.x.toString(16)),
-    deckOriginal.points.map((point) => point.x.toString(16))
-  );
+  t.deepEqual(deckDecrypted.toJSON(), deckOriginal.toJSON());
 });
 
 test('locking and unlocking', (t) => {
@@ -40,8 +37,5 @@ test('locking and unlocking', (t) => {
   t.not(deckLocked, deckOriginal);
 
   // Check whether encryption and decryption are symmetric operations
-  t.deepEqual(
-    deckUnlocked.points.map((point) => point.x.toString(16)),
-    deckOriginal.points.map((point) => point.x.toString(16))
-  );
+  t.deepEqual(deckUnlocked.toJSON(), deckOriginal.toJSON());
 });

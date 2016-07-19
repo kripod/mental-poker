@@ -243,7 +243,7 @@ class Game {
       do {
         this.actingPlayerIndex =
           (this.actingPlayerIndex + 1) % this.players.length;
-      } while (!this.actingPlayer.hasFolded);
+      } while (this.actingPlayer.hasFolded);
     }
 
     return this.actingPlayerIndex;
