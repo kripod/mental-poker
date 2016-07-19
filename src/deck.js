@@ -63,6 +63,15 @@ class Deck {
 
     return point;
   }
+
+  toJSON() {
+    return {
+      points: this.points.map((point) => ({
+        x: point.x.toString(16, 2),
+        y: point.y.toString(16, 2),
+      })),
+    };
+  }
 }
 
 module.exports = Deck;

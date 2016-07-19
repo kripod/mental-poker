@@ -1,4 +1,5 @@
 const Config = require('./config');
+const BetType = require('./enums/bet-type');
 const Utils = require('./utils');
 
 /**
@@ -36,6 +37,13 @@ class Player {
    */
 
   /**
+   * Bets made by the player.
+   * @type {Bet[]}
+   * @member bets
+   * @memberof Player
+   */
+
+  /**
    * List of card IDs which are in the hand of the player.
    * @type {number[]}
    * @member cardsInHand
@@ -48,6 +56,7 @@ class Player {
     this.points = this.points || [];
     this.secrets = this.secrets || new Array(Config.cardsInDeck + 1);
     this.secretHashes = this.secretHashes || [];
+    this.bets = this.bets || [];
     this.cardsInHand = this.cardsInHand || [];
 
     // Force setting `secretHashes` if all the secrets are known
@@ -64,6 +73,16 @@ class Player {
         this.secretHashes = Utils.getSecretHashes(this.secrets);
       }
     }
+  }
+
+  /**
+   * Returns true whether the player has folded.
+   * @returns {boolean}
+   */
+  get hasFolded() {
+    if (this.bets.length === 0) return false;
+
+    return this.bets[this.bets.length - 1].type === BetType.FOLD;
   }
 
   /**
@@ -104,7 +123,12 @@ class Player {
   toJSON() {
     return Object.assign(
       this.publicKey ? { publicKey: this.publicKey } : {},
-      this.points.length > 0 ? { points: this.points } : {},
+      this.points.length > 0 ? {
+        points: this.points.map((point) => ({
+          x: point.x.toString(16, 2),
+          y: point.y.toString(16, 2),
+        }))
+      } : {},
       this.secretHashes.length > 0 ? { secretHashes: this.secretHashes } : {}
     );
   }

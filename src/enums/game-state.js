@@ -3,7 +3,8 @@
  * @enum {number}
  */
 const GameState = {
-  GENERATING_DECK_POINTS: 10,
+  UNSTARTED: 0,
+  GENERATING_INITIAL_DECK: 10,
   SHUFFLING_DECK: 20,
   LOCKING_DECK: 30,
   PLAYING: 40,

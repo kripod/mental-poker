@@ -16,7 +16,8 @@ class Game {
    */
 
   /**
-   * Index of the currently acting player in the turn.
+   * Index of the currently acting player in the turn. `-1` if the game has
+   * ended.
    * @type {number}
    * @member actingPlayerIndex
    * @memberof Game
@@ -72,7 +73,7 @@ class Game {
       }
     }
 
-    this.state = GameState.GENERATING_DECK_POINTS;
+    this.state = GameState.GENERATING_INITIAL_DECK;
     this.actingPlayerIndex = 0;
 
     this.deckSequence = [];
@@ -224,10 +225,27 @@ class Game {
   /**
    * Takes turn on behalf of the currently acting player, updating
    * `actingPlayerIndex` with the next value in its cycle.
+   * @param {Bet} [bet] Bet made by the currently acting player.
    * @returns {number} Index of the next player in turn.
    */
-  takeTurn() {
-    this.actingPlayerIndex = (this.actingPlayerIndex + 1) % this.players.length;
+  takeTurn(bet) {
+    if (bet) {
+      this.actingPlayer.bets.push(bet);
+    }
+
+    // Check whether only 1 player is left in the game
+    if (this.players.filter((player) => !player.hasFolded).length === 1) {
+      // End the game immediately
+      this.actingPlayerIndex = -1;
+      this.state = GameState.ENDED;
+    } else {
+      // Advance to the next player who hasn't folded
+      do {
+        this.actingPlayerIndex =
+          (this.actingPlayerIndex + 1) % this.players.length;
+      } while (!this.actingPlayer.hasFolded);
+    }
+
     return this.actingPlayerIndex;
   }
 
@@ -301,9 +319,17 @@ class Game {
 
   /**
    * Verifies the entire game, looking for players who were not playing fairly.
+   * @returns {Player[]} List of unfair players.
    */
   verify() {
-    // TODO
+    const result = [];
+    for (const player of this.players) {
+      if (!player.verifySecretsByHashes) {
+        result.push(player);
+      }
+    }
+
+    return result;
   }
 
   toJSON() {
@@ -313,12 +339,7 @@ class Game {
         actingPlayerIndex: this.actingPlayerIndex,
         state: this.state,
       },
-      this.deckSequence[0] ? {
-        points: this.deckSequence[0].points.map((point) => ({
-          x: point.x.toString(16, 2),
-          y: point.y.toString(16, 2),
-        })),
-      } : {}
+      this.deckSequence[0] ? this.deckSequence[0].toJSON() : {}
     );
   }
 }
