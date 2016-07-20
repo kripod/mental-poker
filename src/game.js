@@ -1,3 +1,4 @@
+const { Game: PokerSolverGame, Hand } = require('pokersolver');
 const Card = require('./card');
 const Config = require('./config');
 const Deck = require('./deck');
@@ -331,6 +332,31 @@ class Game {
     }
 
     return result;
+  }
+
+  /**
+   * Evaluates the hands of players, looking for the winner(s) of the game.
+   * @param {string} [gameType=Config.gameType] Type of the game to evaluate
+   * hands for.
+   * @returns {Player[]} List of players who won the game.
+   */
+  evaluateHands(gameType = Config.gameType) {
+    const pokerSolverGame = new PokerSolverGame(gameType);
+    const commonCardStrings = this.cardsOnTable.map((card) => card.toString());
+
+    // Evaluate the hand of players who haven't folded
+    const playerHands = this.players.map((player) => (
+      player.hasFolded ? null : Hand.solve([
+        ...commonCardStrings,
+        ...player.cardsInHand.map((card) => card.toString()),
+      ], pokerSolverGame)
+    ));
+
+    // Look for winner hands
+    const winnerHands = [...Hand.winners(playerHands.filter((hand) => hand))];
+    return winnerHands.map((hand) =>
+      this.players[playerHands.indexOf(hand)]
+    );
   }
 
   toJSON() {

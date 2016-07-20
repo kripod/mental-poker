@@ -16,6 +16,8 @@ class Config {
 Config.ecAlgorithm = 'secp256k1';
 Config.hashAlgorithm = 'sha256';
 
+Config.gameType = 'standard';
+
 Config.cardRanks = [
   '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A',
 ];
