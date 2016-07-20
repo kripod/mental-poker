@@ -17,9 +17,7 @@ class Card {
    */
   get rank() {
     if (!this.cachedRank) {
-      this.cachedRank = Config.cardRanks.indexOf(
-        this.id % Config.cardRanks.length
-      );
+      this.cachedRank = Config.cardRanks[this.id % Config.cardRanks.length];
     }
 
     return this.cachedRank;
@@ -33,9 +31,9 @@ class Card {
    */
   get suit() {
     if (!this.cachedSuit) {
-      this.cachedSuit = Config.cardSuits.indexOf(
+      this.cachedSuit = Config.cardSuits[
         Math.floor(this.id / Config.cardRanks.length)
-      );
+      ];
     }
 
     return this.cachedSuit;
@@ -54,7 +52,7 @@ class Card {
         // TODO: Throw exception
         return;
       }
-      this.rank = rank;
+      this.cachedRank = rank;
 
       const suit = value[value.length - 1];
       const suitIndex = Config.cardSuits.indexOf(suit);
@@ -62,7 +60,7 @@ class Card {
         // TODO: Throw exception
         return;
       }
-      this.suit = suit;
+      this.cachedSuit = suit;
 
       this.id = rankIndex + (suitIndex * Config.cardRanks.length);
     } else if (Number.isInteger(value)) {
