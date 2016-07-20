@@ -345,18 +345,22 @@ class Game {
     const commonCardStrings = this.cardsOnTable.map((card) => card.toString());
 
     // Evaluate the hand of players who haven't folded
-    const playerHands = this.players.map((player) => (
-      player.hasFolded ? null : Hand.solve([
-        ...commonCardStrings,
-        ...player.cardsInHand.map((card) => card.toString()),
-      ], pokerSolverGame)
-    ));
+    const handsOfPlayers = new Map();
+    for (const player of this.players) {
+      if (player.hasFolded) continue;
 
-    // Look for winner hands
-    const winnerHands = [...Hand.winners(playerHands.filter((hand) => hand))];
-    return winnerHands.map((hand) =>
-      this.players[playerHands.indexOf(hand)]
-    );
+      handsOfPlayers.set(
+        Hand.solve([
+          ...commonCardStrings,
+          ...player.cardsInHand.map((card) => card.toString()),
+        ], pokerSolverGame),
+        player
+      );
+    }
+
+    // Look for winner hands and map them to their owners
+    return Hand.winners([...handsOfPlayers.keys])
+      .map((hand) => handsOfPlayers.get(hand));
   }
 
   toJSON() {

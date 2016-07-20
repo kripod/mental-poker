@@ -14,9 +14,16 @@ class Card {
   /**
    * Rank of the card, represented by its shorthand.
    * @returns {string}
-   * @member rank
-   * @memberof Card
    */
+  get rank() {
+    if (!this.cachedRank) {
+      this.cachedRank = Config.cardRanks.indexOf(
+        this.id % Config.cardRanks.length
+      );
+    }
+
+    return this.cachedRank;
+  }
 
   /**
    * Suit of the card, represented by its shorthand.
@@ -24,6 +31,15 @@ class Card {
    * @member suit
    * @memberof Card
    */
+  get suit() {
+    if (!this.cachedSuit) {
+      this.cachedSuit = Config.cardSuits.indexOf(
+        Math.floor(this.id / Config.cardRanks.length)
+      );
+    }
+
+    return this.cachedSuit;
+  }
 
   constructor(value) {
     if (typeof value === 'string') {
@@ -32,19 +48,21 @@ class Card {
         return;
       }
 
-      this.rank = value.substring(0, value.length - 1);
-      const rankIndex = Config.cardRanks.indexOf(this.rank);
+      const rank = value.substring(0, value.length - 1);
+      const rankIndex = Config.cardRanks.indexOf(rank);
       if (rankIndex < 0) {
         // TODO: Throw exception
         return;
       }
+      this.rank = rank;
 
-      this.suit = value[value.length - 1];
-      const suitIndex = Config.cardSuits.indexOf(this.suit);
+      const suit = value[value.length - 1];
+      const suitIndex = Config.cardSuits.indexOf(suit);
       if (suitIndex < 0) {
         // TODO: Throw exception
         return;
       }
+      this.suit = suit;
 
       this.id = rankIndex + (suitIndex * Config.cardRanks.length);
     } else if (Number.isInteger(value)) {
@@ -54,10 +72,6 @@ class Card {
       }
 
       this.id = value;
-      this.rank = Config.cardRanks.indexOf(this.id % Config.cardRanks.length);
-      this.suit = Config.cardSuits.indexOf(
-        Math.floor(this.id / Config.cardRanks.length)
-      );
     }
   }
 
