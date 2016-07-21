@@ -238,8 +238,7 @@ class Game {
     // Check whether only 1 player is left in the game
     if (this.players.filter((player) => !player.hasFolded).length === 1) {
       // End the game immediately
-      this.actingPlayerIndex = -1;
-      this.state = GameState.ENDED;
+      this.end();
     } else {
       // Advance to the next player who hasn't folded
       do {
@@ -320,13 +319,21 @@ class Game {
   }
 
   /**
+   * Ends the game immediately, making no more player action possible.
+   */
+  end() {
+    this.actingPlayerIndex = -1;
+    this.state = GameState.ENDED;
+  }
+
+  /**
    * Verifies the entire game, looking for players who were not playing fairly.
    * @returns {Player[]} List of unfair players.
    */
   verify() {
     const result = [];
     for (const player of this.players) {
-      if (!player.verifySecretsByHashes) {
+      if (!player.verifySecretsByHashes()) {
         result.push(player);
       }
     }
@@ -359,7 +366,7 @@ class Game {
     }
 
     // Look for winner hands and map them to their owners
-    return Hand.winners([...handsOfPlayers.keys])
+    return Hand.winners([...handsOfPlayers.keys()])
       .map((hand) => handsOfPlayers.get(hand));
   }
 
