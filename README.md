@@ -25,7 +25,7 @@ with each other in order to finish setting up a new game.
 import { Game, Player } from 'mental-poker-js';
 
 const players = [
-  (new Player()).generatePoints().generateSecrets(), // Self
+  new Player().generatePoints().generateSecrets(), // Self
   new Player(),
   new Player(),
   new Player(),

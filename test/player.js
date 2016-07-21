@@ -1,8 +1,14 @@
 import test from 'ava';
-import { Config, Player } from './../src';
+import { Config, Player, Utils } from './../src';
+
+test('construct by secrets', (t) => {
+  const player = new Player({ secrets: Utils.getRandomSecrets() });
+
+  t.is(player.secretHashes.length, player.secrets.length);
+});
 
 test('points generation', (t) => {
-  const player = (new Player()).generatePoints();
+  const player = new Player().generatePoints();
 
   t.is(player.points.length, Config.cardsInDeck);
 });
@@ -14,7 +20,7 @@ test('secrets accessibility', (t) => {
 });
 
 test('secrets generation', (t) => {
-  const player = (new Player()).generateSecrets();
+  const player = new Player().generateSecrets();
 
   t.is(player.secretHashes.length, Config.cardsInDeck + 1);
 
@@ -25,7 +31,7 @@ test('secrets generation', (t) => {
 });
 
 test('secrets verification', (t) => {
-  const player = (new Player()).generateSecrets();
+  const player = new Player().generateSecrets();
   t.true(player.verifySecretsByHashes());
 
   // Make a hash incorrect

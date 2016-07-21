@@ -4,7 +4,7 @@ import { Bet, BetType, Config, Game, GameState, Player } from './../src';
 const PLAYER_COUNT = 4;
 
 const sharedPlayers = Array.from(new Array(PLAYER_COUNT), () =>
-  (new Player()).generatePoints().generateSecrets()
+  new Player().generatePoints().generateSecrets()
 );
 const sharedGame = new Game({ players: sharedPlayers });
 
