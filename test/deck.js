@@ -39,3 +39,7 @@ test('locking and unlocking', (t) => {
   // Check whether encryption and decryption are symmetric operations
   t.deepEqual(deckUnlocked.toJSON(), deckOriginal.toJSON());
 });
+
+test('serialization', (t) => {
+  t.deepEqual(Object.keys(deckOriginal.toJSON()), ['points']);
+});

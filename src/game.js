@@ -371,14 +371,12 @@ class Game {
   }
 
   toJSON() {
-    return Object.assign(
-      {
-        players: this.players.map((player) => player.toJSON()),
-        actingPlayerIndex: this.actingPlayerIndex,
-        state: this.state,
-      },
-      this.deckSequence[0] ? this.deckSequence[0].toJSON() : {}
-    );
+    return {
+      state: this.state,
+      players: this.players.map((player) => player.toJSON()),
+      actingPlayerIndex: this.actingPlayerIndex,
+      ...(this.deckSequence[0] && this.deckSequence[0].toJSON()),
+    };
   }
 }
 

@@ -134,3 +134,17 @@ test('random gameplay', (t) => {
   t.is(game.verify().length, 0);
   t.true(game.evaluateHands().length > 0);
 });
+
+test('serialization', (t) => {
+  const game = new Game({ players: [new Player()] });
+  t.deepEqual(
+    Object.keys(game.toJSON()),
+    ['state', 'players', 'actingPlayerIndex']
+  );
+
+  game.generateInitialDeck();
+  t.deepEqual(
+    Object.keys(game.toJSON()),
+    ['state', 'players', 'actingPlayerIndex', 'points']
+  );
+});

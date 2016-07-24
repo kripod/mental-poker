@@ -121,6 +121,18 @@ class Player {
   }
 
   toJSON() {
+    return {
+      ...(this.publicKey && { publicKey: this.publicKey }),
+      ...(this.points.length > 0 && {
+        points: this.points.map((point) => ({
+          x: point.x.toString(16, 2),
+          y: point.y.toString(16, 2),
+        })),
+      }),
+      ...(this.secretHashes.length > 0 && { secretHashes: this.secretHashes }),
+    };
+
+    /*
     return Object.assign(
       this.publicKey ? { publicKey: this.publicKey } : {},
       this.points.length > 0 ? {
@@ -131,6 +143,7 @@ class Player {
       } : {},
       this.secretHashes.length > 0 ? { secretHashes: this.secretHashes } : {}
     );
+    */
   }
 }
 
