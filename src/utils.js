@@ -64,13 +64,13 @@ export function getRandomBigInt(min: BigInt, max: BigInt): BigInt {
 export function getRandomSecrets(
   amount: number = Config.cardsInDeck + 1
 ): BigInt[] {
-  return Array.from(new Array(amount), () =>
+  return Array.from(new Array(amount), (): BigInt =>
     getRandomBigInt(Config.ec.curve.one, Config.ecRedN)
   );
 }
 
 export function getRandomPoints(amount: number = Config.cardsInDeck): Object[] {
-  return getRandomSecrets(amount).map((secret) =>
+  return getRandomSecrets(amount).map((secret: BigInt): Object =>
     Config.ec.g.mul(secret.fromRed())
   );
 }
@@ -79,7 +79,7 @@ export function getSecretHashes(
   secrets: BigInt[],
   algorithm: string = Config.hashAlgorithm
 ): string[] {
-  return secrets.map((secret) =>
+  return secrets.map((secret: BigInt): string =>
     crypto.createHash(algorithm)
       .update(secret.toString(16, 2))
       .digest('hex')

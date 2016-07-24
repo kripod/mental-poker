@@ -13,7 +13,7 @@ export default class Bet {
    */
   amount: number;
 
-  constructor({ type, amount = 0 }) {
+  constructor({ type, amount = 0 }: Object) {
     this.type = type;
     this.amount = amount;
   }

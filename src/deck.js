@@ -19,7 +19,7 @@ export default class Deck {
    */
   encrypt(secret: BigInt): Deck {
     const bi = secret.fromRed();
-    return new Deck(this.points.map((point) => point.mul(bi)));
+    return new Deck(this.points.map((point: Object): Object => point.mul(bi)));
   }
 
   /**
@@ -29,7 +29,7 @@ export default class Deck {
    */
   decrypt(secret: BigInt): Deck {
     const bi = secret.invm(Config.ec.n);
-    return new Deck(this.points.map((point) => point.mul(bi)));
+    return new Deck(this.points.map((point: Object): Object => point.mul(bi)));
   }
 
   /**
@@ -47,7 +47,9 @@ export default class Deck {
    */
   lock(secrets: BigInt[]): Deck {
     return new Deck(
-      this.points.map((point, i) => point.mul(secrets[i].fromRed()))
+      this.points.map(
+        (point: Object, i: number): Object => point.mul(secrets[i].fromRed())
+      )
     );
   }
 
@@ -69,7 +71,7 @@ export default class Deck {
 
   toJSON(): Object {
     return {
-      points: this.points.map((point) => ({
+      points: this.points.map((point: Object): Object => ({
         x: point.x.toString(16, 2),
         y: point.y.toString(16, 2),
       })),

@@ -19,7 +19,7 @@ export default class Config {
     return this.cachedEcAlgorithm;
   }
 
-  static set ecAlgorithm(value): void {
+  static set ecAlgorithm(value: string) {
     this.cachedEcAlgorithm = value;
 
     this.ec = new EllipticCurve(value);

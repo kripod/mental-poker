@@ -1,3 +1,4 @@
+import BigInt from 'bn.js';
 import { Game as PokerSolverGame, Hand } from 'pokersolver';
 import Bet from './bet';
 import Card from './card';
@@ -85,8 +86,13 @@ export default class Game {
    * @returns {number[]}
    */
   getPickableCardIndexes(): number[] {
-    return Array.from(new Array(Config.cardsInDeck), (v, i) => i)
-      .filter((v) => this.unpickableCardIndexes.indexOf(v) < 0);
+    return Array.from(
+      new Array(Config.cardsInDeck),
+      (v: null, i: number): number => i
+    )
+      .filter(
+        (v: number): boolean => this.unpickableCardIndexes.indexOf(v) < 0
+      );
   }
 
   /**
@@ -194,7 +200,7 @@ export default class Game {
    * Adds a shuffled or locked deck to the game's deck sequence. Automatically
    * takes turn on behalf of the currently acting player, and updates game state
    * if necessary.
-   * @param {Deck} deck
+   * @param {Deck} deck Deck to be added to the game's deck sequence.
    * @returns {boolean} True if the action was successful.
    */
   addDeckToSequence(deck: Deck): boolean {
@@ -225,7 +231,9 @@ export default class Game {
     }
 
     // Check whether only 1 player is left in the game
-    if (this.players.filter((player) => !player.hasFolded).length === 1) {
+    if (this.players.filter(
+      (player: Player): boolean => !player.hasFolded
+    ).length === 1) {
       // End the game immediately
       this.end();
     } else {
@@ -252,7 +260,9 @@ export default class Game {
   pickCard(index: number, isMadeUnpickable: boolean = true): ?Card {
     if (this.unpickableCardIndexes.indexOf(index) < 0) {
       // Gather each player's secret at the given index
-      const secrets = this.players.map((player) => player.secrets[index]);
+      const secrets = this.players.map(
+        (player: Player): BigInt => player.secrets[index]
+      );
 
       const currentDeck = this.deckSequence[this.deckSequence.length - 1];
       const pointUnlocked = currentDeck.unlockSingle(index, secrets);
@@ -310,7 +320,7 @@ export default class Game {
   /**
    * Ends the game immediately, making no more player action possible.
    */
-  end(): void {
+  end() {
     this.actingPlayerIndex = -1;
     this.state = GameState.ENDED;
   }
@@ -338,7 +348,9 @@ export default class Game {
    */
   evaluateHands(gameType: string = Config.gameType): Player[] {
     const pokerSolverGame = new PokerSolverGame(gameType);
-    const commonCardStrings = this.cardsOnTable.map((card) => card.toString());
+    const commonCardStrings = this.cardsOnTable.map(
+      (card: Card): string => card.toString()
+    );
 
     // Evaluate the hand of players who haven't folded
     const handsOfPlayers = new Map();
@@ -348,7 +360,7 @@ export default class Game {
       handsOfPlayers.set(
         Hand.solve([
           ...commonCardStrings,
-          ...player.cardsInHand.map((card) => card.toString()),
+          ...player.cardsInHand.map((card: Card): string => card.toString()),
         ], pokerSolverGame),
         player
       );
@@ -356,13 +368,13 @@ export default class Game {
 
     // Look for winner hands and map them to their owners
     return Hand.winners([...handsOfPlayers.keys()])
-      .map((hand) => handsOfPlayers.get(hand));
+      .map((hand: Object): Player => handsOfPlayers.get(hand));
   }
 
   toJSON(): Object {
     return {
       state: this.state,
-      players: this.players.map((player) => player.toJSON()),
+      players: this.players.map((player: Player): Object => player.toJSON()),
       actingPlayerIndex: this.actingPlayerIndex,
       ...(this.deckSequence[0] && this.deckSequence[0].toJSON()),
     };

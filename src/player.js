@@ -103,7 +103,7 @@ export default class Player {
     return {
       ...(this.publicKey && { publicKey: this.publicKey }),
       ...(this.points.length > 0 && {
-        points: this.points.map((point) => ({
+        points: this.points.map((point: Object): Object => ({
           x: point.x.toString(16, 2),
           y: point.y.toString(16, 2),
         })),
