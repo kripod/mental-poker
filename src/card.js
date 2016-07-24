@@ -7,9 +7,8 @@ class Card {
   /**
    * Numeric ID of the card.
    * @type {number}
-   * @member id
-   * @memberof Card
    */
+  id;
 
   /**
    * Rank of the card, represented by its shorthand.

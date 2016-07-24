@@ -5,16 +5,14 @@ class Bet {
   /**
    * Type of the bet.
    * @type {BetType}
-   * @member type
-   * @memberof Bet
    */
+  type;
 
   /**
    * Amount of the bet.
    * @type {number}
-   * @member amount
-   * @memberof Bet
    */
+  amount;
 
   constructor({ type, amount = 0 }) {
     this.type = type;

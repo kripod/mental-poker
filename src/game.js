@@ -11,48 +11,48 @@ const Utils = require('./utils');
  */
 class Game {
   /**
+   * Represents the current state of the game.
+   * @type {GameState}
+   */
+  state = GameState.GENERATING_INITIAL_DECK;
+
+  /**
    * Ordered list of players of the game.
    * @type {Player[]}
-   * @member players
-   * @memberof Game
    */
+  players;
+
+  /**
+   * Player object of self.
+   * @type {Player}
+   */
+  playerSelf;
 
   /**
    * Index of the currently acting player in the turn. `-1` if the game has
    * ended.
    * @type {number}
-   * @member actingPlayerIndex
-   * @memberof Game
    */
-
-  /**
-   * Represents the current state of the game.
-   * @type {GameState}
-   * @member state
-   * @memberof Game
-   */
+  actingPlayerIndex = 0;
 
   /**
    * Keeps an ordered list of decks used throughout the game, allowing easy
    * verification at the end of the game.
    * @type {Deck[]}
-   * @member deckSequence
-   * @memberof Game
    */
+  deckSequence = [];
 
   /**
    * Keeps an ordered list of unpickable (owned or opened) card indexes.
    * @type {number[]}
-   * @member unpickableCardIndexes
-   * @memberof Game
    */
+  unpickableCardIndexes = [];
 
   /**
    * Keeps an ordered list of community cards.
    * @type {Card[]}
-   * @member cardsOnTable
-   * @memberof Game
    */
+  cardsOnTable = [];
 
   constructor(params) {
     Object.assign(this, params);
@@ -74,13 +74,6 @@ class Game {
         }
       }
     }
-
-    this.state = GameState.GENERATING_INITIAL_DECK;
-    this.actingPlayerIndex = 0;
-
-    this.deckSequence = [];
-    this.unpickableCardIndexes = [];
-    this.cardsOnTable = [];
   }
 
   /**

@@ -5,6 +5,8 @@ const Utils = require('./utils');
  * An immutable object which represents a deck of cards.
  */
 class Deck {
+  points;
+
   constructor(points) {
     this.points = points;
   }

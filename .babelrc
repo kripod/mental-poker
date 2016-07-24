@@ -1,7 +1,6 @@
 {
   "presets": ["es2015", "es2016", "stage-2"],
-  "plugins": ["transform-runtime"],
-  "compact": true,
+  "plugins": ["transform-class-properties", "transform-runtime"],
   "env": {
     "development": {
       "sourceMaps": "inline"
