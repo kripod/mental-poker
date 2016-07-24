@@ -9,8 +9,7 @@
     "mental",
     "poker"
   ],
-  "main": "./index.js",
-  "browser": "./lib/index.js",
+  "main": "./lib/index.js",
   "files": [
     "lib",
     "src"
