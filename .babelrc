@@ -1,6 +1,22 @@
 {
-  "presets": ["es2015", "es2016", "stage-2"],
-  "plugins": ["transform-class-properties", "transform-runtime"],
+  "presets": [
+    "es2015",
+    "es2016",
+    "stage-2"
+  ],
+  "plugins": [
+    "transform-runtime",
+    "transform-class-properties",
+    [
+      "typecheck", {
+        "disable": {
+          "production": true
+        }
+      }
+    ],
+    "syntax-flow",
+    "transform-flow-strip-types"
+  ],
   "env": {
     "development": {
       "sourceMaps": "inline"

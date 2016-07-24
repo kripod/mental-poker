@@ -6,20 +6,19 @@ export default class Bet {
    * Type of the bet.
    * @type {BetType}
    */
-  type;
+  type: number;
 
   /**
    * Amount of the bet.
-   * @type {number}
    */
-  amount;
+  amount: number;
 
   constructor({ type, amount = 0 }) {
     this.type = type;
     this.amount = amount;
   }
 
-  toJSON() {
+  toJSON(): Object {
     return {
       type: this.type,
       amount: this.amount,

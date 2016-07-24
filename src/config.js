@@ -1,24 +1,25 @@
 import { ec as EllipticCurve } from 'elliptic';
 
 export default class Config {
-  static cachedEcAlgorithm;
-  static ec;
-  static ecRedN;
+  static cachedEcAlgorithm: string;
+  static ec: EllipticCurve;
+  static ecRedN: Object;
 
-  static hashAlgorithm = 'sha256';
-  static gameType = 'standard';
+  static hashAlgorithm: string = 'sha256';
+  static gameType: string = 'standard';
 
-  static cardRanks = [
+  static cardRanks: string[] = [
     '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A',
   ];
-  static cardSuits = ['c', 'd', 'h', 's'];
-  static cardsInDeck = Config.cardRanks.length * Config.cardSuits.length;
+  static cardSuits: string[] = ['c', 'd', 'h', 's'];
+  static cardsInDeck: number =
+    Config.cardRanks.length * Config.cardSuits.length;
 
-  static get ecAlgorithm() {
+  static get ecAlgorithm(): string {
     return this.cachedEcAlgorithm;
   }
 
-  static set ecAlgorithm(value) {
+  static set ecAlgorithm(value): void {
     this.cachedEcAlgorithm = value;
 
     this.ec = new EllipticCurve(value);

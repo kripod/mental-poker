@@ -6,15 +6,13 @@ import Config from './config';
 export default class Card {
   /**
    * Numeric ID of the card.
-   * @type {number}
    */
-  id;
+  id: number;
 
   /**
    * Rank of the card, represented by its shorthand.
-   * @returns {string}
    */
-  get rank() {
+  get rank(): string {
     if (!this.cachedRank) {
       this.cachedRank = Config.cardRanks[this.id % Config.cardRanks.length];
     }
@@ -24,11 +22,8 @@ export default class Card {
 
   /**
    * Suit of the card, represented by its shorthand.
-   * @returns {string}
-   * @member suit
-   * @memberof Card
    */
-  get suit() {
+  get suit(): string {
     if (!this.cachedSuit) {
       this.cachedSuit = Config.cardSuits[
         Math.floor(this.id / Config.cardRanks.length)
@@ -38,7 +33,7 @@ export default class Card {
     return this.cachedSuit;
   }
 
-  constructor(value) {
+  constructor(value: string | number) {
     if (typeof value === 'string') {
       if (value.length < 2) {
         // TODO: Throw exception
@@ -72,7 +67,7 @@ export default class Card {
     }
   }
 
-  toString() {
+  toString(): string {
     return this.rank + this.suit;
   }
 }

@@ -1,3 +1,4 @@
+import BigInt from 'bn.js';
 import Config from './config';
 import * as Utils from './utils';
 
@@ -5,9 +6,9 @@ import * as Utils from './utils';
  * An immutable object which represents a deck of cards.
  */
 export default class Deck {
-  points;
+  points: Object[];
 
-  constructor(points) {
+  constructor(points: Object[]) {
     this.points = points;
   }
 
@@ -16,7 +17,7 @@ export default class Deck {
    * @param {BigInt} secret Secret to encrypt with.
    * @returns {Deck}
    */
-  encrypt(secret) {
+  encrypt(secret: BigInt): Deck {
     const bi = secret.fromRed();
     return new Deck(this.points.map((point) => point.mul(bi)));
   }
@@ -26,7 +27,7 @@ export default class Deck {
    * @param {BigInt} secret Secret to be used for decryption.
    * @returns {Deck}
    */
-  decrypt(secret) {
+  decrypt(secret: BigInt): Deck {
     const bi = secret.invm(Config.ec.n);
     return new Deck(this.points.map((point) => point.mul(bi)));
   }
@@ -35,7 +36,7 @@ export default class Deck {
    * Shuffles all of the deck's points.
    * @returns {Deck}
    */
-  shuffle() {
+  shuffle(): Deck {
     return new Deck(Utils.shuffleArray(this.points));
   }
 
@@ -44,7 +45,7 @@ export default class Deck {
    * @param {BigInt[]} secrets Secrets to lock with.
    * @returns {Deck}
    */
-  lock(secrets) {
+  lock(secrets: BigInt[]): Deck {
     return new Deck(
       this.points.map((point, i) => point.mul(secrets[i].fromRed()))
     );
@@ -56,7 +57,7 @@ export default class Deck {
    * @param {BigInt[]} secrets Secrets to be used for unlocking.
    * @returns {Point}
    */
-  unlockSingle(index, secrets) {
+  unlockSingle(index: number, secrets: BigInt[]): Object {
     let point = this.points[index];
 
     for (const secret of secrets) {
@@ -66,7 +67,7 @@ export default class Deck {
     return point;
   }
 
-  toJSON() {
+  toJSON(): Object {
     return {
       points: this.points.map((point) => ({
         x: point.x.toString(16, 2),

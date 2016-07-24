@@ -8,7 +8,7 @@ import Config from './config';
  * @param {number} max Maximum value (excluded).
  * @returns {number}
  */
-export function getRandomInt(min, max) {
+export function getRandomInt(min: number, max: number): number {
   const range = max - min;
   const bitLength = 32 - Math.clz32(range);
 
@@ -38,7 +38,7 @@ export function getRandomInt(min, max) {
  * @param {BigInt} max Maximum value (excluded).
  * @returns {BigInt}
  */
-export function getRandomBigInt(min, max) {
+export function getRandomBigInt(min: BigInt, max: BigInt): BigInt {
   const range = max.redSub(min);
 
   // Avoid number re-generation by adding an extra byte
@@ -61,19 +61,24 @@ export function getRandomBigInt(min, max) {
   return result.mod(range).toRed(Config.ec.curve.red).redIAdd(min);
 }
 
-export function getRandomSecrets(amount = Config.cardsInDeck + 1) {
+export function getRandomSecrets(
+  amount: number = Config.cardsInDeck + 1
+): BigInt[] {
   return Array.from(new Array(amount), () =>
     getRandomBigInt(Config.ec.curve.one, Config.ecRedN)
   );
 }
 
-export function getRandomPoints(amount = Config.cardsInDeck) {
+export function getRandomPoints(amount: number = Config.cardsInDeck): Object[] {
   return getRandomSecrets(amount).map((secret) =>
     Config.ec.g.mul(secret.fromRed())
   );
 }
 
-export function getSecretHashes(secrets, algorithm = Config.hashAlgorithm) {
+export function getSecretHashes(
+  secrets: BigInt[],
+  algorithm: string = Config.hashAlgorithm
+): string[] {
   return secrets.map((secret) =>
     crypto.createHash(algorithm)
       .update(secret.toString(16, 2))
@@ -83,10 +88,10 @@ export function getSecretHashes(secrets, algorithm = Config.hashAlgorithm) {
 
 /**
  * Shuffles the elements of an array.
- * @param {Object[]} array Array to be shuffled.
- * @returns {Object[]}
+ * @param {T[]} array Array to be shuffled.
+ * @returns {T[]}
  */
-export function shuffleArray(array) {
+export function shuffleArray<T>(array: T[]): T[] {
   const result = [...array];
 
   // Perform Durstenfeld shuffle

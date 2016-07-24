@@ -1,8 +1,10 @@
 import { Game as PokerSolverGame, Hand } from 'pokersolver';
+import Bet from './bet';
 import Card from './card';
 import Config from './config';
 import Deck from './deck';
 import GameState from './enums/game-state';
+import Player from './player';
 import * as Utils from './utils';
 
 /**
@@ -14,47 +16,41 @@ export default class Game {
    * Represents the current state of the game.
    * @type {GameState}
    */
-  state = GameState.GENERATING_INITIAL_DECK;
+  state: number = GameState.GENERATING_INITIAL_DECK;
 
   /**
    * Ordered list of players of the game.
-   * @type {Player[]}
    */
-  players;
+  players: Player[];
 
   /**
    * Player object of self.
-   * @type {Player}
    */
-  playerSelf;
+  playerSelf: Player;
 
   /**
    * Index of the currently acting player in the turn. `-1` if the game has
    * ended.
-   * @type {number}
    */
-  actingPlayerIndex = 0;
+  actingPlayerIndex: number = 0;
 
   /**
    * Keeps an ordered list of decks used throughout the game, allowing easy
    * verification at the end of the game.
-   * @type {Deck[]}
    */
-  deckSequence = [];
+  deckSequence: Deck[] = [];
 
   /**
    * Keeps an ordered list of unpickable (owned or opened) card indexes.
-   * @type {number[]}
    */
-  unpickableCardIndexes = [];
+  unpickableCardIndexes: number[] = [];
 
   /**
    * Keeps an ordered list of community cards.
-   * @type {Card[]}
    */
-  cardsOnTable = [];
+  cardsOnTable: Card[] = [];
 
-  constructor(params) {
+  constructor(params: ?Object) {
     Object.assign(this, params);
 
     if (!this.playerSelf) {
@@ -80,7 +76,7 @@ export default class Game {
    * Returns the currently acting player in the turn.
    * @returns {Player}
    */
-  get actingPlayer() {
+  get actingPlayer(): Player {
     return this.players[this.actingPlayerIndex];
   }
 
@@ -88,7 +84,7 @@ export default class Game {
    * Returns all card indexes which are not yet owned or opened by anyone.
    * @returns {number[]}
    */
-  getPickableCardIndexes() {
+  getPickableCardIndexes(): number[] {
     return Array.from(new Array(Config.cardsInDeck), (v, i) => i)
       .filter((v) => this.unpickableCardIndexes.indexOf(v) < 0);
   }
@@ -97,7 +93,7 @@ export default class Game {
    * Returns a random pickable card index.
    * @returns {number}
    */
-  getRandomPickableCardIndex() {
+  getRandomPickableCardIndex(): number {
     const pickableCardIndexes = this.getPickableCardIndexes();
 
     // Return the index of a pickable card
@@ -112,7 +108,7 @@ export default class Game {
    * point is missing, then deck points will be generated at random.
    * @returns {Game}
    */
-  generateInitialDeck() {
+  generateInitialDeck(): Game {
     // Try generating points by combining the points of players
     // TODO: Avoid duplicate deck points
     let deckPoints = new Array(Config.cardsInDeck);
@@ -149,10 +145,10 @@ export default class Game {
    * @returns {?Deck} Null if an invalid parameter was specified.
    */
   shuffleDeck(
-    player = this.playerSelf,
-    isAddableToSequence = true,
-    deck = this.deckSequence[this.deckSequence.length - 1]
-  ) {
+    player: Player = this.playerSelf,
+    isAddableToSequence: boolean = true,
+    deck: Deck = this.deckSequence[this.deckSequence.length - 1]
+  ): ?Deck {
     if (!deck) return null;
 
     // Improve the accessibility of secrets later by using the last one now
@@ -178,10 +174,10 @@ export default class Game {
    * @returns {?Deck} Null if an invalid parameter was specified.
    */
   lockDeck(
-    player = this.playerSelf,
-    isAddableToSequence = true,
-    deck = this.deckSequence[this.deckSequence.length - 1]
-  ) {
+    player: Player = this.playerSelf,
+    isAddableToSequence: boolean = true,
+    deck: Deck = this.deckSequence[this.deckSequence.length - 1]
+  ): ?Deck {
     if (!deck) return null;
 
     const lastSecret = player.secrets[player.secrets.length - 1];
@@ -201,7 +197,7 @@ export default class Game {
    * @param {Deck} deck
    * @returns {boolean} True if the action was successful.
    */
-  addDeckToSequence(deck) {
+  addDeckToSequence(deck: Deck): boolean {
     // Disallow modifying deck sequence if the game has already started
     if (this.state >= GameState.PLAYING) return false;
 
@@ -220,10 +216,10 @@ export default class Game {
   /**
    * Takes turn on behalf of the currently acting player, updating
    * `actingPlayerIndex` with the next value in its cycle.
-   * @param {Bet} [bet] Bet made by the currently acting player.
+   * @param {?Bet} [bet] Bet made by the currently acting player.
    * @returns {number} Index of the next player in turn.
    */
-  takeTurn(bet) {
+  takeTurn(bet: ?Bet): number {
     if (bet) {
       this.actingPlayer.bets.push(bet);
     }
@@ -253,7 +249,7 @@ export default class Game {
    * any of the necessary secrets are unknown or the card at the given index has
    * already been drawn), null.
    */
-  pickCard(index, isMadeUnpickable = true) {
+  pickCard(index: number, isMadeUnpickable: boolean = true): ?Card {
     if (this.unpickableCardIndexes.indexOf(index) < 0) {
       // Gather each player's secret at the given index
       const secrets = this.players.map((player) => player.secrets[index]);
@@ -285,7 +281,7 @@ export default class Game {
    * any of the necessary secrets are unknown or the card at the given index has
    * already been drawn), null.
    */
-  drawCard(index) {
+  drawCard(index: number): ?Card {
     const card = this.pickCard(index);
     if (card) {
       this.playerSelf.cardsInHand.push(card);
@@ -302,7 +298,7 @@ export default class Game {
    * any of the necessary secrets are unknown or the card at the given index has
    * already been drawn), null.
    */
-  openCard(index) {
+  openCard(index: number): ?Card {
     const card = this.pickCard(index);
     if (card) {
       this.cardsOnTable.push(card);
@@ -314,7 +310,7 @@ export default class Game {
   /**
    * Ends the game immediately, making no more player action possible.
    */
-  end() {
+  end(): void {
     this.actingPlayerIndex = -1;
     this.state = GameState.ENDED;
   }
@@ -323,7 +319,7 @@ export default class Game {
    * Verifies the entire game, looking for players who were not playing fairly.
    * @returns {Player[]} List of unfair players.
    */
-  verify() {
+  verify(): Player[] {
     const result = [];
     for (const player of this.players) {
       if (!player.verifySecretsByHashes()) {
@@ -340,7 +336,7 @@ export default class Game {
    * hands for.
    * @returns {Player[]} List of players who won the game.
    */
-  evaluateHands(gameType = Config.gameType) {
+  evaluateHands(gameType: string = Config.gameType): Player[] {
     const pokerSolverGame = new PokerSolverGame(gameType);
     const commonCardStrings = this.cardsOnTable.map((card) => card.toString());
 
@@ -363,7 +359,7 @@ export default class Game {
       .map((hand) => handsOfPlayers.get(hand));
   }
 
-  toJSON() {
+  toJSON(): Object {
     return {
       state: this.state,
       players: this.players.map((player) => player.toJSON()),
