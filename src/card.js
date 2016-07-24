@@ -1,9 +1,9 @@
-const Config = require('./config');
+import Config from './config';
 
 /**
  * An immutable object which represents a card of a French deck.
  */
-class Card {
+export default class Card {
   /**
    * Numeric ID of the card.
    * @type {number}
@@ -76,5 +76,3 @@ class Card {
     return this.rank + this.suit;
   }
 }
-
-module.exports = Card;

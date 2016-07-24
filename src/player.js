@@ -1,11 +1,11 @@
-const Config = require('./config');
-const BetType = require('./enums/bet-type');
-const Utils = require('./utils');
+import Config from './config';
+import BetType from './enums/bet-type';
+import * as Utils from './utils';
 
 /**
  * A mutable object which represents a player of a game.
  */
-class Player {
+export default class Player {
   /**
    * Public key of the player.
    * @type {string}
@@ -115,5 +115,3 @@ class Player {
     };
   }
 }
-
-module.exports = Player;

@@ -1,10 +1,10 @@
-const Config = require('./config');
-const Utils = require('./utils');
+import Config from './config';
+import * as Utils from './utils';
 
 /**
  * An immutable object which represents a deck of cards.
  */
-class Deck {
+export default class Deck {
   points;
 
   constructor(points) {
@@ -75,5 +75,3 @@ class Deck {
     };
   }
 }
-
-module.exports = Deck;

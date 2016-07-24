@@ -25,4 +25,4 @@ const BetType = {
   FOLD: 4,
 };
 
-module.exports = BetType;
+export default BetType;

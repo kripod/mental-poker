@@ -1,6 +1,6 @@
-const BigInt = require('bn.js');
-const crypto = require('crypto');
-const Config = require('./config');
+import BigInt from 'bn.js';
+import crypto from 'crypto';
+import Config from './config';
 
 /**
  * Returns a random 32-bit integer (signed or unsigned) in the given range.
@@ -8,7 +8,7 @@ const Config = require('./config');
  * @param {number} max Maximum value (excluded).
  * @returns {number}
  */
-function getRandomInt(min, max) {
+export function getRandomInt(min, max) {
   const range = max - min;
   const bitLength = 32 - Math.clz32(range);
 
@@ -38,7 +38,7 @@ function getRandomInt(min, max) {
  * @param {BigInt} max Maximum value (excluded).
  * @returns {BigInt}
  */
-function getRandomBigInt(min, max) {
+export function getRandomBigInt(min, max) {
   const range = max.redSub(min);
 
   // Avoid number re-generation by adding an extra byte
@@ -61,19 +61,19 @@ function getRandomBigInt(min, max) {
   return result.mod(range).toRed(Config.ec.curve.red).redIAdd(min);
 }
 
-function getRandomSecrets(amount = Config.cardsInDeck + 1) {
+export function getRandomSecrets(amount = Config.cardsInDeck + 1) {
   return Array.from(new Array(amount), () =>
     getRandomBigInt(Config.ec.curve.one, Config.ecRedN)
   );
 }
 
-function getRandomPoints(amount = Config.cardsInDeck) {
+export function getRandomPoints(amount = Config.cardsInDeck) {
   return getRandomSecrets(amount).map((secret) =>
     Config.ec.g.mul(secret.fromRed())
   );
 }
 
-function getSecretHashes(secrets, algorithm = Config.hashAlgorithm) {
+export function getSecretHashes(secrets, algorithm = Config.hashAlgorithm) {
   return secrets.map((secret) =>
     crypto.createHash(algorithm)
       .update(secret.toString(16, 2))
@@ -86,7 +86,7 @@ function getSecretHashes(secrets, algorithm = Config.hashAlgorithm) {
  * @param {Object[]} array Array to be shuffled.
  * @returns {Object[]}
  */
-function shuffleArray(array) {
+export function shuffleArray(array) {
   const result = [...array];
 
   // Perform Durstenfeld shuffle
@@ -100,12 +100,3 @@ function shuffleArray(array) {
 
   return result;
 }
-
-module.exports = {
-  getRandomInt,
-  getRandomBigInt,
-  getRandomSecrets,
-  getRandomPoints,
-  getSecretHashes,
-  shuffleArray,
-};

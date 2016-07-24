@@ -11,4 +11,4 @@ const GameState = {
   ENDED: 50,
 };
 
-module.exports = GameState;
+export default GameState;

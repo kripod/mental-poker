@@ -1,15 +1,15 @@
-const { Game: PokerSolverGame, Hand } = require('pokersolver');
-const Card = require('./card');
-const Config = require('./config');
-const Deck = require('./deck');
-const GameState = require('./enums/game-state');
-const Utils = require('./utils');
+import { Game as PokerSolverGame, Hand } from 'pokersolver';
+import Card from './card';
+import Config from './config';
+import Deck from './deck';
+import GameState from './enums/game-state';
+import * as Utils from './utils';
 
 /**
  * A mutable object which serves as an entry point for creating mental poker
  * games.
  */
-class Game {
+export default class Game {
   /**
    * Represents the current state of the game.
    * @type {GameState}
@@ -372,5 +372,3 @@ class Game {
     };
   }
 }
-
-module.exports = Game;

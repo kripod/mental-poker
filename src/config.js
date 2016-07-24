@@ -1,6 +1,6 @@
-const { ec: EllipticCurve } = require('elliptic');
+import { ec as EllipticCurve } from 'elliptic';
 
-class Config {
+export default class Config {
   static cachedEcAlgorithm;
   static ec;
   static ecRedN;
@@ -27,5 +27,3 @@ class Config {
 }
 
 Config.ecAlgorithm = 'secp256k1';
-
-module.exports = Config;
