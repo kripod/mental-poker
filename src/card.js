@@ -9,6 +9,9 @@ export default class Card {
    */
   id: number;
 
+  cachedRank: string;
+  cachedSuit: string;
+
   /**
    * Rank of the card, represented by its shorthand.
    */

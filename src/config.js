@@ -6,8 +6,8 @@ export default class Config {
   static ecRedN: Object;
 
   static hashAlgorithm: string = 'sha256';
-  static gameType: string = 'standard';
 
+  static gameType: string = 'standard';
   static cardRanks: string[] = [
     '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A',
   ];
