@@ -1,8 +1,15 @@
+import type { BetTypeValue } from './../interfaces';
+
 /**
  * Represents a bet type.
  * @enum {number}
  */
 const BetType = {
+  /**
+   * Refuse to match a bet or a raise.
+   */
+  FOLD: 0,
+
   /**
    * Refuse to make a bet.
    */
@@ -19,10 +26,31 @@ const BetType = {
    */
   RAISE: 3,
 
-  /**
-   * Refuse to match a bet or a raise.
-   */
-  FOLD: 4,
+  toString(value: BetTypeValue): string {
+    switch (value) {
+      case BetType.CHECK:
+        return 'check';
+      case BetType.CALL:
+        return 'call';
+      case BetType.RAISE:
+        return 'raise';
+      default:
+        return 'fold';
+    }
+  },
+
+  fromString(value: string): BetTypeValue {
+    switch (value) {
+      case 'check':
+        return BetType.CHECK;
+      case 'call':
+        return BetType.CALL;
+      case 'raise':
+        return BetType.RAISE;
+      default:
+        return BetType.FOLD;
+    }
+  },
 };
 
 export default BetType;

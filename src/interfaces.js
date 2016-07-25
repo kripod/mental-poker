@@ -1,7 +1,7 @@
 import BigInt from 'bn.js';
 
-export type BetTypeValue = 1 | 2 | 3 | 4;
-export type GameStateValue = 0 | 10 | 20 | 30 | 40 | 50;
+export type BetTypeValue = 0 | 1 | 2 | 3;
+export type GameStateValue = 0 | 1 | 2 | 3 | 4 | 5;
 
 export type Hand = {
   cards: [],
@@ -18,7 +18,7 @@ export type PointJSON = {
 };
 
 export type BetJSON = {
-  type: number,
+  type: string,
   amount?: number,
 };
 
@@ -33,7 +33,7 @@ export type PlayerJSON = {
 }
 
 export type GameJSON = {
-  state: number,
+  state: string,
   players: PlayerJSON[],
   actingPlayerIndex: number,
   points?: PointJSON[],

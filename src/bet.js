@@ -1,3 +1,4 @@
+import BetType from './enums/bet-type';
 import type { BetJSON, BetTypeValue } from './interfaces';
 
 /**
@@ -21,7 +22,7 @@ export default class Bet {
 
   toJSON(): BetJSON {
     return {
-      type: this.type,
+      type: BetType.toString(this.type),
       amount: this.amount,
     };
   }

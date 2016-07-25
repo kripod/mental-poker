@@ -373,7 +373,7 @@ export default class Game {
 
   toJSON(): GameJSON {
     return {
-      state: this.state,
+      state: GameState.toString(this.state),
       players: this.players.map((player: Player): PlayerJSON =>
         player.toJSON()
       ),
