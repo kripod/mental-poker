@@ -1,6 +1,7 @@
 import BigInt from 'bn.js';
 import crypto from 'crypto';
 import Config from './config';
+import type { Point, PointJSON } from './interfaces';
 
 /**
  * Returns a random 32-bit integer (signed or unsigned) in the given range.
@@ -69,8 +70,8 @@ export function getRandomSecrets(
   );
 }
 
-export function getRandomPoints(amount: number = Config.cardsInDeck): Object[] {
-  return getRandomSecrets(amount).map((secret: BigInt): Object =>
+export function getRandomPoints(amount: number = Config.cardsInDeck): Point[] {
+  return getRandomSecrets(amount).map((secret: BigInt): Point =>
     Config.ec.g.mul(secret.fromRed())
   );
 }
@@ -104,4 +105,16 @@ export function shuffleArray<T>(array: T[]): T[] {
   }
 
   return result;
+}
+
+/**
+ * Converts a point into a JSON-serializable object.
+ * @param {Point} point Point to be converted.
+ * @returns {PointJSON}
+ */
+export function pointToJSON(point: Point): PointJSON {
+  return {
+    x: point.x.toString(16, 2),
+    y: point.y.toString(16, 2),
+  };
 }

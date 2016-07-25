@@ -1,9 +1,10 @@
+import BigInt from 'bn.js';
 import { ec as EllipticCurve } from 'elliptic';
 
 export default class Config {
   static cachedEcAlgorithm: string;
   static ec: EllipticCurve;
-  static ecRedN: Object;
+  static ecRedN: BigInt;
 
   static hashAlgorithm: string = 'sha256';
 

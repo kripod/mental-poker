@@ -1,5 +1,5 @@
 import BigInt from 'bn.js';
-import { Game as PokerSolverGame, Hand } from 'pokersolver';
+import { Game as PokerSolverGame, Hand as PokerSolverHand } from 'pokersolver';
 import Bet from './bet';
 import Card from './card';
 import Config from './config';
@@ -7,6 +7,7 @@ import Deck from './deck';
 import GameState from './enums/game-state';
 import Player from './player';
 import * as Utils from './utils';
+import type { GameJSON, GameStateValue, Hand, PlayerJSON } from './interfaces';
 
 /**
  * A mutable object which serves as an entry point for creating mental poker
@@ -15,9 +16,8 @@ import * as Utils from './utils';
 export default class Game {
   /**
    * Represents the current state of the game.
-   * @type {GameState}
    */
-  state: number = GameState.GENERATING_INITIAL_DECK;
+  state: GameStateValue = GameState.GENERATING_INITIAL_DECK;
 
   /**
    * Ordered list of players of the game.
@@ -358,7 +358,7 @@ export default class Game {
       if (player.hasFolded) continue;
 
       handsOfPlayers.set(
-        Hand.solve([
+        PokerSolverHand.solve([
           ...commonCardStrings,
           ...player.cardsInHand.map((card: Card): string => card.toString()),
         ], pokerSolverGame),
@@ -367,14 +367,16 @@ export default class Game {
     }
 
     // Look for winner hands and map them to their owners
-    return Hand.winners([...handsOfPlayers.keys()])
-      .map((hand: Object): Player => handsOfPlayers.get(hand));
+    return PokerSolverHand.winners([...handsOfPlayers.keys()])
+      .map((hand: Hand): Player => handsOfPlayers.get(hand));
   }
 
-  toJSON(): Object {
+  toJSON(): GameJSON {
     return {
       state: this.state,
-      players: this.players.map((player: Player): Object => player.toJSON()),
+      players: this.players.map((player: Player): PlayerJSON =>
+        player.toJSON()
+      ),
       actingPlayerIndex: this.actingPlayerIndex,
       ...(this.deckSequence[0] && this.deckSequence[0].toJSON()),
     };

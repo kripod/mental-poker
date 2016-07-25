@@ -1,14 +1,15 @@
 import BigInt from 'bn.js';
 import Config from './config';
 import * as Utils from './utils';
+import type { DeckJSON, Point, PointJSON } from './interfaces';
 
 /**
  * An immutable object which represents a deck of cards.
  */
 export default class Deck {
-  points: Object[];
+  points: Point[];
 
-  constructor(points: Object[]) {
+  constructor(points: Point[]) {
     this.points = points;
   }
 
@@ -19,7 +20,7 @@ export default class Deck {
    */
   encrypt(secret: BigInt): Deck {
     const bi = secret.fromRed();
-    return new Deck(this.points.map((point: Object): Object => point.mul(bi)));
+    return new Deck(this.points.map((point: Point): Point => point.mul(bi)));
   }
 
   /**
@@ -29,7 +30,7 @@ export default class Deck {
    */
   decrypt(secret: BigInt): Deck {
     const bi = secret.invm(Config.ec.n);
-    return new Deck(this.points.map((point: Object): Object => point.mul(bi)));
+    return new Deck(this.points.map((point: Point): Point => point.mul(bi)));
   }
 
   /**
@@ -48,7 +49,7 @@ export default class Deck {
   lock(secrets: BigInt[]): Deck {
     return new Deck(
       this.points.map(
-        (point: Object, i: number): Object => point.mul(secrets[i].fromRed())
+        (point: Point, i: number): Point => point.mul(secrets[i].fromRed())
       )
     );
   }
@@ -59,7 +60,7 @@ export default class Deck {
    * @param {BigInt[]} secrets Secrets to be used for unlocking.
    * @returns {Point}
    */
-  unlockSingle(index: number, secrets: BigInt[]): Object {
+  unlockSingle(index: number, secrets: BigInt[]): Point {
     let point = this.points[index];
 
     for (const secret of secrets) {
@@ -69,12 +70,11 @@ export default class Deck {
     return point;
   }
 
-  toJSON(): Object {
+  toJSON(): DeckJSON {
     return {
-      points: this.points.map((point: Object): Object => ({
-        x: point.x.toString(16, 2),
-        y: point.y.toString(16, 2),
-      })),
+      points: this.points.map((point: Point): PointJSON =>
+        Utils.pointToJSON(point)
+      ),
     };
   }
 }
