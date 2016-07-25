@@ -22,7 +22,7 @@
     "build": "cross-env NODE_ENV=production babel ./src -d ./lib -s",
     "watch": "npm run build -- -w",
     "prepublish": "npm run build",
-    "test": "nyc ava --require babel-core/register --verbose && eslint ./src",
+    "test": "nyc ava --require babel-core/register --verbose && eslint ./src ./test ./bench",
     "coverage": "nyc report --reporter=text-lcov > ./coverage.lcov",
     "doc": "documentation build ./src/index.js -o ./docs -f html -g"
   },
