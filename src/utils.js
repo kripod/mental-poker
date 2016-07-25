@@ -118,3 +118,15 @@ export function pointToJSON(point: Point): PointJSON {
     y: point.y.toString(16, 2),
   };
 }
+
+/**
+ * Sorts the given points in ascending order.
+ * @param {Point[]} points Points to be sorted.
+ * @returns {Point[]}
+ */
+export function sortPoints(points: Point[]): Point[] {
+  return points.sort((p1: Point, p2: Point): number => {
+    const xCmp = p1.x.cmp(p2.x);
+    return xCmp === 0 ? p1.y.cmp(p2.y) : xCmp;
+  });
+}

@@ -7,7 +7,13 @@ import Deck from './deck';
 import GameState from './enums/game-state';
 import Player from './player';
 import * as Utils from './utils';
-import type { GameJSON, GameStateValue, Hand, PlayerJSON } from './interfaces';
+import type {
+  GameJSON,
+  GameStateValue,
+  Hand,
+  PlayerJSON,
+  Point,
+} from './interfaces';
 
 /**
  * A mutable object which serves as an entry point for creating mental poker
@@ -331,9 +337,42 @@ export default class Game {
    */
   verify(): Player[] {
     const result = [];
-    for (const player of this.players) {
+    for (let i = this.players.length - 1; i >= 0; --i) {
+      const player = this.players[i];
+
+      // Verify the player's secrets by their corresponding hashes
       if (!player.verifySecretsByHashes()) {
         result.push(player);
+        continue;
+      }
+
+      let expectedPoints;
+      let realPoints;
+
+      // Check for deck shuffling mistakes
+      expectedPoints = Utils.sortPoints([...this.deckSequence[i + 1].points]);
+      realPoints = Utils.sortPoints(
+        [...this.shuffleDeck(player, false, this.deckSequence[i]).points]
+      );
+      if (!realPoints.every((point: Point, j: number): boolean =>
+        point.eq(expectedPoints[j])
+      )) {
+        result.push(player);
+        continue;
+      }
+
+      // Check for deck locking mistakes
+      expectedPoints = this.deckSequence[this.players.length + i + 1].points;
+      realPoints = this.lockDeck(
+        player,
+        false,
+        this.deckSequence[this.players.length + i]
+      ).points;
+      if (!realPoints.every((point: Point, j: number): boolean =>
+        point.eq(expectedPoints[j])
+      )) {
+        result.push(player);
+        continue;
       }
     }
 
