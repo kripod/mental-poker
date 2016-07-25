@@ -18,8 +18,8 @@
     "transform-flow-strip-types"
   ],
   "env": {
-    "development": {
-      "sourceMaps": "inline"
+    "test": {
+      "plugins": ["istanbul"]
     }
   }
 }

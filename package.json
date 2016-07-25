@@ -22,8 +22,8 @@
     "build": "cross-env NODE_ENV=production babel ./src -d ./lib -s",
     "watch": "npm run build -- -w",
     "prepublish": "npm run build",
-    "test": "nyc ava --require babel-core/register --verbose && eslint ./src ./test ./bench",
-    "coverage": "nyc report --reporter=text-lcov > ./coverage.lcov",
+    "test": "cross-env NODE_ENV=test nyc ava --verbose && eslint ./src ./test ./bench",
+    "coverage": "nyc report -r text-lcov -r html > ./coverage.lcov",
     "doc": "documentation build ./src/index.js -o ./docs -f html -g"
   },
   "dependencies": {
@@ -36,6 +36,7 @@
     "ava": "^0.15.2",
     "babel-cli": "^6.10.1",
     "babel-eslint": "^6.1.1",
+    "babel-plugin-istanbul": "^1.0.3",
     "babel-plugin-syntax-flow": "^6.8.0",
     "babel-plugin-transform-class-properties": "^6.11.5",
     "babel-plugin-transform-flow-strip-types": "^6.8.0",
@@ -51,7 +52,17 @@
     "eslint-config-airbnb-base": "^4.0.0",
     "eslint-plugin-flowtype": "^2.3.1",
     "eslint-plugin-import": "^1.10.2",
-    "nyc": "^7.0.0"
+    "nyc": "^7.1.0-candidate3"
+  },
+  "ava": {
+    "babel": "inherit"
+  },
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": false
   },
   "repository": {
     "type": "git",

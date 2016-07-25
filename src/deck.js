@@ -48,8 +48,8 @@ export default class Deck {
    */
   lock(secrets: BigInt[]): Deck {
     return new Deck(
-      this.points.map(
-        (point: Point, i: number): Point => point.mul(secrets[i].fromRed())
+      this.points.map((point: Point, i: number): Point =>
+        point.mul(secrets[i].fromRed())
       )
     );
   }

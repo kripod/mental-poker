@@ -90,8 +90,8 @@ export default class Game {
       new Array(Config.cardsInDeck),
       (v: null, i: number): number => i
     )
-      .filter(
-        (v: number): boolean => this.unpickableCardIndexes.indexOf(v) < 0
+      .filter((v: number): boolean =>
+        this.unpickableCardIndexes.indexOf(v) < 0
       );
   }
 
@@ -231,8 +231,8 @@ export default class Game {
     }
 
     // Check whether only 1 player is left in the game
-    if (this.players.filter(
-      (player: Player): boolean => !player.hasFolded
+    if (this.players.filter((player: Player): boolean =>
+      !player.hasFolded
     ).length === 1) {
       // End the game immediately
       this.end();
@@ -260,8 +260,8 @@ export default class Game {
   pickCard(index: number, isMadeUnpickable: boolean = true): ?Card {
     if (this.unpickableCardIndexes.indexOf(index) < 0) {
       // Gather each player's secret at the given index
-      const secrets = this.players.map(
-        (player: Player): BigInt => player.secrets[index]
+      const secrets = this.players.map((player: Player): BigInt =>
+        player.secrets[index]
       );
 
       const currentDeck = this.deckSequence[this.deckSequence.length - 1];
@@ -348,8 +348,8 @@ export default class Game {
    */
   evaluateHands(gameType: string = Config.gameType): Player[] {
     const pokerSolverGame = new PokerSolverGame(gameType);
-    const commonCardStrings = this.cardsOnTable.map(
-      (card: Card): string => card.toString()
+    const commonCardStrings = this.cardsOnTable.map((card: Card): string =>
+      card.toString()
     );
 
     // Evaluate the hand of players who haven't folded
