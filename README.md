@@ -88,7 +88,7 @@ const card = game.pickCard(cardIndex);
 // Draw the card for self without revealing it
 game.drawCard(cardIndex);
 
-// Or open it as a community card on the table
+// Or open it as a community card
 game.openCard(cardIndex);
 ```
 

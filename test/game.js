@@ -40,7 +40,7 @@ test.serial('card picking/drawing/opening', (t) => {
     let cardId;
 
     let shouldCardBeInHandOfSelf = false;
-    let shouldCardBeOnTable = false;
+    let shouldCardBeOfCommunity = false;
 
     if (i < 7) {
       if (i < 2) {
@@ -50,7 +50,7 @@ test.serial('card picking/drawing/opening', (t) => {
       } else {
         // Open 5 cards
         cardId = sharedGame.openCard(cardIndex).id;
-        shouldCardBeOnTable = true;
+        shouldCardBeOfCommunity = true;
       }
     } else {
       // Only pick the remaining cards, but don't assign them anywhere
@@ -65,8 +65,8 @@ test.serial('card picking/drawing/opening', (t) => {
       !sharedGame.playerSelf.cardsInHand.find((card) => card.id === cardId)
     );
     t.false(
-      shouldCardBeOnTable &&
-      !sharedGame.cardsOnTable.find((card) => card.id === cardId)
+      shouldCardBeOfCommunity &&
+      !sharedGame.cardsOfCommunity.find((card) => card.id === cardId)
     );
 
     // Cards shall not be allowed to be dealt more than once
@@ -102,7 +102,7 @@ test.serial('disqualify unfair players', (t) => {
 
 test('random gameplay', (t) => {
   const HAND_CARD_COUNT = 2;
-  const TABLE_CARDS_DEALT_BY_ROUND = [0, 3, 1, 1];
+  const COMMUNITY_CARDS_DEALT_BY_ROUND = [0, 3, 1, 1];
 
   const players = Array.from(
     new Array(PLAYER_COUNT),
@@ -133,11 +133,11 @@ test('random gameplay', (t) => {
   }
 
   let turnCount = 0;
-  for (const tableCardsDealt of TABLE_CARDS_DEALT_BY_ROUND) {
+  for (const communityCardsDealt of COMMUNITY_CARDS_DEALT_BY_ROUND) {
     turnCount += 1;
 
-    // Deal a given amount of cards on the table
-    for (let i = tableCardsDealt; i > 0; --i) {
+    // Open a given amount of cards
+    for (let i = communityCardsDealt; i > 0; --i) {
       const cardIndex = game.getRandomPickableCardIndex();
       game.openCard(cardIndex);
     }

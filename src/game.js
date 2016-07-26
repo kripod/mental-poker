@@ -55,7 +55,7 @@ export default class Game {
   /**
    * Keeps an ordered list of community cards.
    */
-  cardsOnTable: Card[] = [];
+  cardsOfCommunity: Card[] = [];
 
   constructor(params: ?Object) {
     Object.assign(this, params);
@@ -308,7 +308,7 @@ export default class Game {
 
   /**
    * Picks an unowned card at the given index, and then opens it as a community
-   * card on the table.
+   * card.
    * @param {number} index Index of the card to be opened.
    * @returns {?Card} On success, an instance of the opened card. Otherwise (if
    * any of the necessary secrets are unknown or the card at the given index has
@@ -317,7 +317,7 @@ export default class Game {
   openCard(index: number): ?Card {
     const card = this.pickCard(index);
     if (card) {
-      this.cardsOnTable.push(card);
+      this.cardsOfCommunity.push(card);
     }
 
     return card;
@@ -381,7 +381,7 @@ export default class Game {
    */
   evaluateHands(gameType: string = Config.gameType): Player[] {
     const pokerSolverGame = new PokerSolverGame(gameType);
-    const commonCardStrings = this.cardsOnTable.map((card: Card): string =>
+    const commonCardStrings = this.cardsOfCommunity.map((card: Card): string =>
       card.toString()
     );
 
