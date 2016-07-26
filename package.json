@@ -28,14 +28,15 @@
   },
   "dependencies": {
     "babel-runtime": "^6.9.2",
-    "bn.js": "^4.11.4",
+    "bn.js": "^4.11.5",
     "elliptic": "^6.3.1",
+    "lodash.isequal": "^4.3.0",
     "pokersolver": "^2.1.2"
   },
   "devDependencies": {
     "ava": "^0.15.2",
-    "babel-cli": "^6.10.1",
-    "babel-eslint": "^6.1.1",
+    "babel-cli": "^6.11.4",
+    "babel-eslint": "^6.1.2",
     "babel-plugin-istanbul": "^1.0.3",
     "babel-plugin-syntax-flow": "^6.8.0",
     "babel-plugin-transform-class-properties": "^6.11.5",
@@ -46,14 +47,14 @@
     "babel-preset-es2016": "^6.11.3",
     "babel-preset-stage-2": "^6.11.0",
     "babel-register": "^6.11.5",
-    "benchmark": "^2.1.0",
+    "benchmark": "^2.1.1",
     "cross-env": "^2.0.0",
-    "documentation": "^4.0.0-beta8",
-    "eslint": "^3.0.1",
-    "eslint-config-airbnb-base": "^4.0.0",
+    "documentation": "^4.0.0-beta9",
+    "eslint": "^3.1.1",
+    "eslint-config-airbnb-base": "^5.0.0",
     "eslint-plugin-flowtype": "^2.3.1",
-    "eslint-plugin-import": "^1.10.2",
-    "nyc": "^7.1.0-candidate3"
+    "eslint-plugin-import": "^1.12.0",
+    "nyc": "^7.1.0"
   },
   "ava": {
     "babel": "inherit"

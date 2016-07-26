@@ -1,4 +1,5 @@
 import BigInt from 'bn.js';
+import isEqual from 'lodash.isequal';
 import { Game as PokerSolverGame, Hand as PokerSolverHand } from 'pokersolver';
 import Bet from './bet';
 import Card from './card';
@@ -7,13 +8,7 @@ import Deck from './deck';
 import GameState from './enums/game-state';
 import Player from './player';
 import * as Utils from './utils';
-import type {
-  GameJSON,
-  GameStateValue,
-  Hand,
-  PlayerJSON,
-  Point,
-} from './interfaces';
+import type { GameJSON, GameStateValue, Hand, PlayerJSON } from './interfaces';
 
 /**
  * A mutable object which serves as an entry point for creating mental poker
@@ -340,33 +335,26 @@ export default class Game {
     for (let i = this.players.length - 1; i >= 0; --i) {
       const player = this.players[i];
 
-      let expectedPoints;
-      let realPoints;
+      if (
+        // Check for deck shuffling mistakes
+        !isEqual(
+          Utils.sortPoints(
+            [...this.shuffleDeck(player, false, this.deckSequence[i]).points]
+          ),
+          Utils.sortPoints([...this.deckSequence[i + 1].points])
+        ) ||
 
-      // Check for deck shuffling mistakes
-      expectedPoints = Utils.sortPoints([...this.deckSequence[i + 1].points]);
-      realPoints = Utils.sortPoints(
-        [...this.shuffleDeck(player, false, this.deckSequence[i]).points]
-      );
-      if (!realPoints.every((point: Point, j: number): boolean =>
-        point.eq(expectedPoints[j])
-      )) {
+        // Check for deck locking mistakes
+        !isEqual(
+          this.lockDeck(
+            player,
+            false,
+            this.deckSequence[this.players.length + i]
+          ).points,
+          this.deckSequence[this.players.length + i + 1].points
+        )
+      ) {
         result.push(player);
-        continue;
-      }
-
-      // Check for deck locking mistakes
-      expectedPoints = this.deckSequence[this.players.length + i + 1].points;
-      realPoints = this.lockDeck(
-        player,
-        false,
-        this.deckSequence[this.players.length + i]
-      ).points;
-      if (!realPoints.every((point: Point, j: number): boolean =>
-        point.eq(expectedPoints[j])
-      )) {
-        result.push(player);
-        continue;
       }
     }
 
@@ -388,15 +376,15 @@ export default class Game {
     // Evaluate the hand of players who haven't folded
     const handsOfPlayers = new Map();
     for (const player of this.players) {
-      if (player.hasFolded) continue;
-
-      handsOfPlayers.set(
-        PokerSolverHand.solve([
-          ...commonCardStrings,
-          ...player.cardsInHand.map((card: Card): string => card.toString()),
-        ], pokerSolverGame),
-        player
-      );
+      if (!player.hasFolded) {
+        handsOfPlayers.set(
+          PokerSolverHand.solve([
+            ...commonCardStrings,
+            ...player.cardsInHand.map((card: Card): string => card.toString()),
+          ], pokerSolverGame),
+          player
+        );
+      }
     }
 
     // Look for winner hands and map them to their owners
