@@ -1,5 +1,5 @@
 import test from 'ava';
-import { Bet, BetType, Config, Game, GameState, Player, Utils } from './../src';
+import { Bet, BetType, Config, Game, GameState, Player } from './../src';
 
 const PLAYER_COUNT = 4;
 
@@ -85,24 +85,17 @@ test.serial('disqualify unfair players', (t) => {
   const fairPlayer = sharedPlayers[unfairPlayerIndex];
   let unfairPlayer;
 
-  // Simulate using a fake hash
-  unfairPlayer = new Player(fairPlayer);
-  unfairPlayer.secretHashes[0] = 'fakeHash';
-  sharedGame.players[unfairPlayerIndex] = unfairPlayer;
-  t.deepEqual(sharedGame.verify(), [unfairPlayer]);
-
   // Simulate messing up deck shuffling
   unfairPlayer = new Player(fairPlayer).generateSecrets();
   sharedGame.players[unfairPlayerIndex] = unfairPlayer;
   t.deepEqual(sharedGame.verify(), [unfairPlayer]);
 
   // Simulate messing up deck locking
-  unfairPlayer = new Player(fairPlayer);
-  unfairPlayer.secrets = [
-    ...Utils.getRandomSecrets(unfairPlayer.secrets.length - 1),
-    unfairPlayer.secrets[unfairPlayer.secrets.length - 1],
-  ];
-  unfairPlayer.secretHashes = Utils.getSecretHashes(unfairPlayer.secrets);
+  unfairPlayer = new Player(fairPlayer).generateSecrets();
+  unfairPlayer.secrets[fairPlayer.secrets.length - 1] =
+    fairPlayer.secrets[fairPlayer.secrets.length - 1];
+  unfairPlayer.secretHashes[fairPlayer.secrets.length - 1] =
+    fairPlayer.secretHashes[fairPlayer.secrets.length - 1];
   sharedGame.players[unfairPlayerIndex] = unfairPlayer;
   t.deepEqual(sharedGame.verify(), [unfairPlayer]);
 });

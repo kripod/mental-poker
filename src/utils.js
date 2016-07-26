@@ -76,15 +76,13 @@ export function getRandomPoints(amount: number = Config.cardsInDeck): Point[] {
   );
 }
 
-export function getSecretHashes(
-  secrets: BigInt[],
+export function getSecretHash(
+  secret: BigInt,
   algorithm: string = Config.hashAlgorithm
-): string[] {
-  return secrets.map((secret: BigInt): string =>
-    crypto.createHash(algorithm)
-      .update(secret.toString(16, 2))
-      .digest('hex')
-  );
+): string {
+  return crypto.createHash(algorithm)
+    .update(secret.toString(16, 2))
+    .digest('hex');
 }
 
 /**

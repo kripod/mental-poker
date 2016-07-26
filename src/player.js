@@ -22,7 +22,7 @@ export default class Player {
 
   /**
    * Secrets of the player. Must be kept hidden from others until the end of the
-   * game.
+   * game and shall not be modified directly.
    */
   secrets: BigInt[] = new Array(Config.cardsInDeck + 1);
 
@@ -51,7 +51,9 @@ export default class Player {
         if (!secret) return;
       }
 
-      this.secretHashes = Utils.getSecretHashes(this.secrets);
+      this.secretHashes = this.secrets.map((secret: BigInt): string =>
+        Utils.getSecretHash(secret)
+      );
     }
   }
 
@@ -63,6 +65,25 @@ export default class Player {
     if (this.bets.length === 0) return false;
 
     return this.bets[this.bets.length - 1].type === BetType.FOLD;
+  }
+
+  /**
+   * Adds and verifies a secret at the given index.
+   * @param {number} index Index of the secret to be added.
+   * @param {BigInt} secret Secret to be added.
+   * @returns {boolean} False whether verification has failed, otherwise, true.
+   */
+  addSecret(index: number, secret: BigInt): boolean {
+    // Avoid re-addition of secrets
+    if (this.secrets[index]) return true;
+
+    // Check whether the given secret satisfies its corresponding hash
+    if (Utils.getSecretHash(secret) !== this.secretHashes[index]) {
+      return false;
+    }
+
+    this.secrets[index] = secret;
+    return true;
   }
 
   /**
@@ -80,24 +101,10 @@ export default class Player {
    */
   generateSecrets(): Player {
     this.secrets = Utils.getRandomSecrets();
-    this.secretHashes = Utils.getSecretHashes(this.secrets);
+    this.secretHashes = this.secrets.map((secret: BigInt): string =>
+      Utils.getSecretHash(secret)
+    );
     return this;
-  }
-
-  /**
-   * Verifies the player's secrets against `secretHashes`.
-   * @returns {boolean} True whether verification was successful.
-   */
-  verifySecretsByHashes(): boolean {
-    const realSecretHashes = Utils.getSecretHashes(this.secrets);
-
-    for (let i = realSecretHashes.length - 1; i >= 0; --i) {
-      if (this.secretHashes[i] !== realSecretHashes[i]) {
-        return false;
-      }
-    }
-
-    return true;
   }
 
   toJSON(): PlayerJSON {

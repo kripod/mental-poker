@@ -31,12 +31,16 @@ test('secrets generation', (t) => {
 });
 
 test('secrets verification', (t) => {
+  // Verify secrets by their corresponding hashes
   const player = new Player().generateSecrets();
-  t.true(player.verifySecretsByHashes());
+  const secrets = player.secrets;
+  player.secrets = new Array(Config.cardsInDeck + 1);
+  secrets.forEach((secret, i) => { t.true(player.addSecret(i, secret)); });
 
-  // Make a hash incorrect
+  // Simulate using an invalid hash
+  player.secrets[0] = null;
   player.secretHashes[0] = null;
-  t.false(player.verifySecretsByHashes());
+  t.false(player.addSecret(0, secrets[0]));
 });
 
 test('serialization', (t) => {

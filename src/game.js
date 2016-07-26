@@ -340,12 +340,6 @@ export default class Game {
     for (let i = this.players.length - 1; i >= 0; --i) {
       const player = this.players[i];
 
-      // Verify the player's secrets by their corresponding hashes
-      if (!player.verifySecretsByHashes()) {
-        result.push(player);
-        continue;
-      }
-
       let expectedPoints;
       let realPoints;
 
