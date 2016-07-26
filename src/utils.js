@@ -4,6 +4,23 @@ import Config from './config';
 import type { Point, PointJSON } from './interfaces';
 
 /**
+ * Determines whether the given arrays are identical.
+ * @param {T[]} array1 The first array to compare.
+ * @param {T[]} array2 The second array to compare.
+ * @param {Function} compareFunction Specifies a function that defines the
+ * method of individual value comparison.
+ * @returns {boolean}
+ */
+export function isArrayEqualWith<T>(
+  array1: T[],
+  array2: T[],
+  compareFunction: (a: T, b: T) => boolean = (a: T, b: T): boolean => a === b
+): boolean {
+  return array1.length === array2.length &&
+    array1.every((v: T, i: number): boolean => compareFunction(v, array2[i]));
+}
+
+/**
  * Returns a random 32-bit integer (signed or unsigned) in the given range.
  * @param {number} min Minimum value (included).
  * @param {number} max Maximum value (excluded).

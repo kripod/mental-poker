@@ -2,6 +2,22 @@ import test from 'ava';
 import BigInt from 'bn.js';
 import { Config, Utils } from './../src';
 
+test('isArrayEqualWith', (t) => {
+  t.true(Utils.isArrayEqualWith([], []));
+  t.true(Utils.isArrayEqualWith([1], [1]));
+  t.true(Utils.isArrayEqualWith(['a', 'b', 'c'], ['a', 'b', 'c']));
+  t.true(Utils.isArrayEqualWith(
+    ['a', 'b', 'c'],
+    ['A', 'B', 'C'],
+    (a, b) => a.toLowerCase() === b.toLowerCase()
+  ));
+
+  t.false(Utils.isArrayEqualWith([], [2]));
+  t.false(Utils.isArrayEqualWith([1], [2]));
+  t.false(Utils.isArrayEqualWith(['a', 'b', 'c'], ['x', 'y', 'z']));
+  t.false(Utils.isArrayEqualWith(['a', 'b', 'c'], ['A', 'B', 'C']));
+});
+
 test('getRandomInt', (t) => {
   t.is(Utils.getRandomInt(0x7fffffff, 0x80000000), 0x7fffffff);
   t.is(Utils.getRandomInt(0xffffffff, 0x100000000), 0xffffffff);

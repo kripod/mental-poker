@@ -1,5 +1,4 @@
 import BigInt from 'bn.js';
-import isEqual from 'lodash.isequal';
 import { Game as PokerSolverGame, Hand as PokerSolverHand } from 'pokersolver';
 import Bet from './bet';
 import Card from './card';
@@ -8,7 +7,13 @@ import Deck from './deck';
 import GameState from './enums/game-state';
 import Player from './player';
 import * as Utils from './utils';
-import type { GameJSON, GameStateValue, Hand, PlayerJSON } from './interfaces';
+import type {
+  GameJSON,
+  GameStateValue,
+  Hand,
+  PlayerJSON,
+  Point,
+} from './interfaces';
 
 /**
  * A mutable object which serves as an entry point for creating mental poker
@@ -337,21 +342,23 @@ export default class Game {
 
       if (
         // Check for deck shuffling mistakes
-        !isEqual(
+        !Utils.isArrayEqualWith(
           Utils.sortPoints(
             [...this.shuffleDeck(player, false, this.deckSequence[i]).points]
           ),
-          Utils.sortPoints([...this.deckSequence[i + 1].points])
+          Utils.sortPoints([...this.deckSequence[i + 1].points]),
+          (p1: Point, p2: Point): boolean => p1.eq(p2)
         ) ||
 
         // Check for deck locking mistakes
-        !isEqual(
+        !Utils.isArrayEqualWith(
           this.lockDeck(
             player,
             false,
             this.deckSequence[this.players.length + i]
           ).points,
-          this.deckSequence[this.players.length + i + 1].points
+          this.deckSequence[this.players.length + i + 1].points,
+          (p1: Point, p2: Point): boolean => p1.eq(p2)
         )
       ) {
         result.push(player);
