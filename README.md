@@ -1,4 +1,4 @@
-# mental-poker-js
+# mental-poker-api-js
 
 Mental Poker API implemented in JavaScript, based on the
 [thesis of Choongmin Lee](http://www.clee.kr/thesis.pdf).
@@ -22,7 +22,7 @@ deck of cards, on the client side. Players must share their generated points
 with each other in order to finish setting up a new game.
 
 ```js
-import { Game, Player } from 'mental-poker-js';
+import { Game, Player } from 'mental-poker-api';
 
 const players = [
   new Player().generatePoints().generateSecrets(), // Self
