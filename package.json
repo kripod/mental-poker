@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "mental-poker-api",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Mental Poker API based on the thesis of Choongmin Lee.",
   "author": "Kristóf Poduszló <kripod@protonmail.com>",
   "license": "MIT",
