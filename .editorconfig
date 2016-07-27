@@ -8,5 +8,6 @@ insert_final_newline = true
 
 # Set the default indentation for file types
 [*.{js,json,yml}]
+end_of_line = lf
 indent_style = space
 indent_size = 2

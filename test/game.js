@@ -155,6 +155,36 @@ test('random gameplay', (t) => {
   t.true(game.evaluateHands().length > 0);
 });
 
+test('folding', (t) => {
+  const players = Array.from(
+    new Array(PLAYER_COUNT),
+    () => new Player().generateSecrets()
+  );
+  const game = new Game({ players }).generateInitialDeck();
+
+  for (const player of players) {
+    game.shuffleDeck(player);
+  }
+
+  for (const player of players) {
+    game.lockDeck(player);
+  }
+
+  for (let i = players.length - 1; i >= 0; --i) {
+    // Each player (except one) should fold
+    const actingPlayerIndex = game.takeTurn(new Bet({ type: BetType.FOLD }));
+
+    if (i === 1) {
+      t.is(actingPlayerIndex, -1);
+      break;
+    } else {
+      t.not(actingPlayerIndex, -1);
+    }
+  }
+
+  t.is(game.state, GameState.ENDED);
+});
+
 test('serialization', (t) => {
   const game = new Game({ players: [new Player()] });
   t.deepEqual(

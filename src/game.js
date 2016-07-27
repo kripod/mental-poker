@@ -122,7 +122,6 @@ export default class Game {
    */
   generateInitialDeck(): Game {
     // Try generating points by combining the points of players
-    // TODO: Avoid duplicate deck points
     let deckPoints = new Array(Config.cardsInDeck);
     for (const { points: playerPoints } of this.players) {
       // On failure, generate deck points at random

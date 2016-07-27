@@ -1,4 +1,5 @@
 import Config from './config';
+import { InvalidCardValueError } from './errors';
 
 /**
  * An immutable object which represents a card of a French deck.
@@ -39,34 +40,32 @@ export default class Card {
   constructor(value: string | number) {
     if (typeof value === 'string') {
       if (value.length < 2) {
-        // TODO: Throw exception
-        return;
+        throw new InvalidCardValueError(value);
       }
 
       const rank = value.substring(0, value.length - 1);
       const rankIndex = Config.cardRanks.indexOf(rank);
       if (rankIndex < 0) {
-        // TODO: Throw exception
-        return;
+        throw new InvalidCardValueError(value);
       }
       this.cachedRank = rank;
 
       const suit = value[value.length - 1];
       const suitIndex = Config.cardSuits.indexOf(suit);
       if (suitIndex < 0) {
-        // TODO: Throw exception
-        return;
+        throw new InvalidCardValueError(value);
       }
       this.cachedSuit = suit;
 
       this.id = rankIndex + (suitIndex * Config.cardRanks.length);
     } else if (Number.isInteger(value)) {
       if (value < 0 || value >= Config.cardsInDeck) {
-        // TODO: Throw exception
-        return;
+        throw new InvalidCardValueError(value);
       }
 
       this.id = value;
+    } else {
+      throw new InvalidCardValueError(value);
     }
   }
 

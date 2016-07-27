@@ -1,5 +1,5 @@
 import test from 'ava';
-import { Card, Config } from './../src';
+import { Card, Config, Errors } from './../src';
 
 const cardStringsInOrder = [
   '2c', '3c', '4c', '5c', '6c', '7c', '8c', '9c', 'Tc', 'Jc', 'Qc', 'Kc', 'Ac',
@@ -8,16 +8,27 @@ const cardStringsInOrder = [
   '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s', 'Ts', 'Js', 'Qs', 'Ks', 'As',
 ];
 
-test('construct by id', (t) => {
+test('constructor (by id)', (t) => {
   t.deepEqual(
     Array.from(new Array(Config.cardsInDeck), (v, i) => new Card(i).toString()),
     cardStringsInOrder
   );
+
+  t.throws(() => new Card(-1), Errors.InvalidCardValueError);
+  t.throws(() => new Card(Config.cardsInDeck), Errors.InvalidCardValueError);
 });
 
-test('construct by shorthand', (t) => {
+test('constructor (by shorthand)', (t) => {
   t.deepEqual(
     cardStringsInOrder.map((cardString) => new Card(cardString).id),
     Array.from(new Array(Config.cardsInDeck), (v, i) => i)
   );
+
+  t.throws(() => new Card(''), Errors.InvalidCardValueError);
+  t.throws(() => new Card('0c'), Errors.InvalidCardValueError);
+  t.throws(() => new Card('2x'), Errors.InvalidCardValueError);
+});
+
+test('constructor (invalid)', (t) => {
+  t.throws(() => new Card(0.1), Errors.InvalidCardValueError);
 });
