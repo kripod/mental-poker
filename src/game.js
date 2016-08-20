@@ -18,6 +18,7 @@ import type {
 /**
  * A mutable object which serves as an entry point for creating mental poker
  * games.
+ * @class Game
  */
 export default class Game {
   /**

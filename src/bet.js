@@ -3,6 +3,7 @@ import type { BetJSON, BetTypeValue } from './interfaces';
 
 /**
  * An immutable object which represents a bet made by a player during a game.
+ * @class Bet
  */
 export default class Bet {
   /**

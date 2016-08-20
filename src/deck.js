@@ -5,6 +5,7 @@ import type { DeckJSON, Point, PointJSON } from './interfaces';
 
 /**
  * An immutable object which represents a deck of cards.
+ * @class Deck
  */
 export default class Deck {
   points: Point[];

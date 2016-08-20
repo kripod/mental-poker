@@ -8,6 +8,7 @@ import type { PlayerJSON, Point, PointJSON } from './interfaces';
 
 /**
  * A mutable object which represents a player of a game.
+ * @class Player
  */
 export default class Player {
   /**

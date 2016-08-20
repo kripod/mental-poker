@@ -3,6 +3,7 @@ import { InvalidCardValueError } from './errors';
 
 /**
  * An immutable object which represents a card of a French deck.
+ * @class Card
  */
 export default class Card {
   /**

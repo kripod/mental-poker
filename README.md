@@ -3,6 +3,12 @@
 Mental Poker API implemented in JavaScript, based on the
 [thesis of Choongmin Lee](http://www.clee.kr/thesis.pdf).
 
+[![Version (npm)](https://img.shields.io/npm/v/mental-poker-api.svg)](https://npmjs.com/package/mental-poker-api)
+[![Build Status](https://img.shields.io/travis/mental-poker/mental-poker-api-js/master.svg)](https://travis-ci.org/mental-poker/mental-poker-api-js)
+[![Code Coverage](https://img.shields.io/codecov/c/github/mental-poker/mental-poker-api-js/master.svg)](https://codecov.io/gh/mental-poker/mental-poker-api-js)
+[![Dependencies](https://img.shields.io/david/mental-poker/mental-poker-api-js.svg)](https://david-dm.org/mental-poker/mental-poker-api-js)
+[![Gitter](https://img.shields.io/gitter/room/mental-poker/mental-poker-api-js.svg)](https://gitter.im/mental-poker/mental-poker-api-js)
+
 ## Introduction
 
 Mental Poker makes it possible to play a fair game of poker over a physical
