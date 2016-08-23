@@ -58,6 +58,9 @@ export default class Game {
    */
   cardsOfCommunity: Card[] = [];
 
+  /**
+   * @param {?Object} params Parameters to be assigned to the new instance.
+   */
   constructor(params: ?Object) {
     Object.assign(this, params);
 
@@ -136,7 +139,7 @@ export default class Game {
         const deckPoint = deckPoints[i];
 
         // Add the player's current point to the corresponding deck point
-        deckPoints[i] = deckPoint ? playerPoint.add(deckPoint) : playerPoint;
+        deckPoints[i] = deckPoint ? deckPoint.add(playerPoint) : playerPoint;
       }
     }
 

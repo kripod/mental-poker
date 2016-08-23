@@ -8,8 +8,14 @@ import type { DeckJSON, Point, PointJSON } from './interfaces';
  * @class Deck
  */
 export default class Deck {
+  /**
+   * Points of the deck.
+   */
   points: Point[];
 
+  /**
+   * @param {Point[]} points Points of the deck.
+   */
   constructor(points: Point[]) {
     this.points = points;
   }

@@ -38,6 +38,9 @@ export default class Card {
     return this.cachedSuit;
   }
 
+  /**
+   * @param {string|number} value Shorthand or numeric ID of the card.
+   */
   constructor(value: string | number) {
     if (typeof value === 'string') {
       if (value.length < 2) {

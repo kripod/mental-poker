@@ -3,6 +3,8 @@
 Mental Poker API implemented in JavaScript, based on the
 [thesis of Choongmin Lee](http://www.clee.kr/thesis.pdf).
 
+Sponsored by Easygo.
+
 [![Version (npm)](https://img.shields.io/npm/v/mental-poker-api.svg)](https://npmjs.com/package/mental-poker-api)
 [![Build Status](https://img.shields.io/travis/mental-poker/mental-poker-api-js/master.svg)](https://travis-ci.org/mental-poker/mental-poker-api-js)
 [![Code Coverage](https://img.shields.io/codecov/c/github/mental-poker/mental-poker-api-js/master.svg)](https://codecov.io/gh/mental-poker/mental-poker-api-js)

@@ -24,8 +24,9 @@
     "build": "cross-env NODE_ENV=production babel ./src -d ./lib -s",
     "watch": "npm run build -- -w",
     "prepublish": "npm run build",
-    "test": "cross-env NODE_ENV=test nyc -r lcov -r text ava -v && eslint ./src ./test ./bench",
-    "doc": "documentation build ./src/index.js -o ./docs -f html -g"
+    "lint": "eslint ./src ./test ./bench && documentation lint ./src",
+    "test": "cross-env NODE_ENV=test nyc -r lcov -r text ava -v && npm run lint",
+    "doc": "documentation build ./src -o ./docs -c ./documentation.yml -f html -g"
   },
   "dependencies": {
     "babel-runtime": "^6.9.2",

@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Upcoming
+- Added a reference to the project's sponsor in the readme
+- Improved documentation
+
 ## [0.1.1] - 2016-08-20
 - First public release
 - Added badges to the readme

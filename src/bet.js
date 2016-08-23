@@ -16,6 +16,10 @@ export default class Bet {
    */
   amount: number;
 
+  /**
+   * @param {BetTypeValue} $0.type Type of the bet.
+   * @param {number} [$0.amount] Amount of the bet.
+   */
   constructor({ type, amount = 0 }: { type: BetTypeValue, amount?: number }) {
     this.type = type;
     this.amount = amount;

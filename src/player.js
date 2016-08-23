@@ -43,6 +43,9 @@ export default class Player {
    */
   cardsInHand: Card[] = [];
 
+  /**
+   * @param {?Object} params Parameters to be assigned to the new instance.
+   */
   constructor(params: ?Object) {
     Object.assign(this, params);
 

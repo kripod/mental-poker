@@ -4,24 +4,35 @@ import Config from './config';
 import type { Point, PointJSON } from './interfaces';
 
 /**
+ * Utility functions.
+ * @namespace Utils
+ */
+
+/**
  * Determines whether the given arrays are identical.
+ * @memberof Utils
  * @param {T[]} array1 The first array to compare.
  * @param {T[]} array2 The second array to compare.
- * @param {Function} compareFunction Specifies a function that defines the
+ * @param {Function} [compareFunction] Specifies a function that defines the
  * method of individual value comparison.
  * @returns {boolean}
  */
 export function isArrayEqualWith<T>(
   array1: T[],
   array2: T[],
-  compareFunction: (a: T, b: T) => boolean = (a: T, b: T): boolean => a === b
+  compareFunction: ?((a: T, b: T) => boolean)
 ): boolean {
+  /* eslint-disable no-param-reassign */
+  compareFunction = compareFunction || ((a: T, b: T): boolean => a === b);
+  /* eslint-enable no-param-reassign */
+
   return array1.length === array2.length &&
     array1.every((v: T, i: number): boolean => compareFunction(v, array2[i]));
 }
 
 /**
  * Returns a random 32-bit integer (signed or unsigned) in the given range.
+ * @memberof Utils
  * @param {number} min Minimum value (included).
  * @param {number} max Maximum value (excluded).
  * @returns {number}
@@ -52,6 +63,7 @@ export function getRandomInt(min: number, max: number): number {
 
 /**
  * Returns a random BigInt in the given range.
+ * @memberof Utils
  * @param {BigInt} min Minimum value (included).
  * @param {BigInt} max Maximum value (excluded).
  * @returns {BigInt}
@@ -79,6 +91,12 @@ export function getRandomBigInt(min: BigInt, max: BigInt): BigInt {
   return result.mod(range).toRed(Config.ec.curve.red).redIAdd(min);
 }
 
+/**
+ * Returns an array of random secrets.
+ * @memberof Utils
+ * @param {number} [amount] Amount of secrets to be generated.
+ * @returns {BigInt[]}
+ */
 export function getRandomSecrets(
   amount: number = Config.cardsInDeck + 1
 ): BigInt[] {
@@ -87,12 +105,25 @@ export function getRandomSecrets(
   );
 }
 
+/**
+ * Returns an array of random points.
+ * @memberof Utils
+ * @param {number} amount Amount of points to be generated.
+ * @returns {Point[]}
+ */
 export function getRandomPoints(amount: number = Config.cardsInDeck): Point[] {
   return getRandomSecrets(amount).map((secret: BigInt): Point =>
     Config.ec.g.mul(secret.fromRed())
   );
 }
 
+/**
+ * Returns the hash of a given secret.
+ * @memberof Utils
+ * @param {BigInt} secret Secret to calculate the hash of.
+ * @param {string} [algorithm] Hashing algorithm to be used.
+ * @returns {string}
+ */
 export function getSecretHash(
   secret: BigInt,
   algorithm: string = Config.hashAlgorithm
@@ -104,6 +135,7 @@ export function getSecretHash(
 
 /**
  * Shuffles the elements of an array.
+ * @memberof Utils
  * @param {T[]} array Array to be shuffled.
  * @returns {T[]}
  */
@@ -124,6 +156,7 @@ export function shuffleArray<T>(array: T[]): T[] {
 
 /**
  * Converts a point into a JSON-serializable object.
+ * @memberof Utils
  * @param {Point} point Point to be converted.
  * @returns {PointJSON}
  */
@@ -136,6 +169,7 @@ export function pointToJSON(point: Point): PointJSON {
 
 /**
  * Sorts the given points in ascending order.
+ * @memberof Utils
  * @param {Point[]} points Points to be sorted.
  * @returns {Point[]}
  */
