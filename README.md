@@ -23,6 +23,10 @@ in the coalition can share their own hands.
 
 ## Getting started
 
+Please refer to the
+[API reference](https://mental-poker.github.io/mental-poker-api-js) to learn
+more about leveraging the possibilities within the library.
+
 ### Establishing a game
 
 Firstly, every player should generate points of an elliptic curve, serving as a
