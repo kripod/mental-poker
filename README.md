@@ -91,7 +91,7 @@ card.
 
 ```js
 // Select a random unowned index of the deck
-const cardIndex = game.getRandomUnownedCardIndex();
+const cardIndex = game.getRandomPickableCardIndex();
 
 // Obtain the secret of each opponent at the given card index
 // After that, the card can be unlocked
