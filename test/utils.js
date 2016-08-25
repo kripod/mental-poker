@@ -1,6 +1,6 @@
 import test from 'ava';
 import BigInt from 'bn.js';
-import { Config, Utils } from './../src';
+import { Config, Utils } from '../src';
 
 test('isArrayEqualWith', (t) => {
   t.true(Utils.isArrayEqualWith([], []));

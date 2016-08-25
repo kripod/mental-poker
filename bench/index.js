@@ -1,5 +1,5 @@
 import Benchmark from 'benchmark';
-import { Game, Player } from './../lib';
+import { Game, Player } from '../lib';
 
 /* eslint-disable no-console */
 

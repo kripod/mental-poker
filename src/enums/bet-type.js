@@ -1,4 +1,4 @@
-import type { BetTypeValue } from './../interfaces';
+import type { BetTypeValue } from '../interfaces';
 
 /**
  * Represents a bet type.

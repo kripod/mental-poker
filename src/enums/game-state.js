@@ -1,4 +1,4 @@
-import type { GameStateValue } from './../interfaces';
+import type { GameStateValue } from '../interfaces';
 
 /**
  * Represents the state of a game.

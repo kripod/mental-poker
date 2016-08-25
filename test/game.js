@@ -1,5 +1,5 @@
 import test from 'ava';
-import { Bet, BetType, Config, Game, GameState, Player } from './../src';
+import { Bet, BetType, Config, Game, GameState, Player } from '../src';
 
 const PLAYER_COUNT = 4;
 
