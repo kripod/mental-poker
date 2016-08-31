@@ -13,7 +13,7 @@
           "production": true
         }
       }
-    ],
+    ]
   ],
   "env": {
     "test": {

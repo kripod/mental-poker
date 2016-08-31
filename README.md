@@ -5,7 +5,7 @@ CypherPoker API implemented in JavaScript, based on the
 
 Sponsored by Easygo.
 
-[![Version (npm)](https://img.shields.io/npm/v/mcypherpoker.svg)](https://npmjs.com/package/cypherpoker)
+[![Version (npm)](https://img.shields.io/npm/v/cypherpoker.svg)](https://npmjs.com/package/cypherpoker)
 [![Build status](https://img.shields.io/travis/cypherpoker/cypherpoker-js/master.svg)](https://travis-ci.org/cypherpoker/cypherpoker-js)
 [![Code coverage](https://img.shields.io/codecov/c/github/cypherpoker/cypherpoker-js/master.svg)](https://codecov.io/gh/cypherpoker/cypherpoker-js)
 [![Dependencies](https://img.shields.io/david/cypherpoker/cypherpoker-js.svg)](https://david-dm.org/cypherpoker/cypherpoker-js)
