@@ -1,6 +1,6 @@
 {
   "name": "cypherpoker",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "CypherPoker API based on the thesis of Choongmin Lee.",
   "author": "Kristóf Poduszló <kripod@protonmail.com>",
   "license": "MIT",
