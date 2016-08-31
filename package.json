@@ -1,5 +1,5 @@
 {
-  "name": "mental-poker-api",
+  "name": "cypherpoker",
   "version": "0.1.2",
   "description": "Mental Poker API based on the thesis of Choongmin Lee.",
   "author": "Kristóf Poduszló <kripod@protonmail.com>",
@@ -70,9 +70,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mental-poker/mental-poker-api-js.git"
+    "url": "https://github.com/cypherpoker/cypherpoker-js.git"
   },
   "bugs": {
-    "url": "https://github.com/mental-poker/mental-poker-api-js/issues"
+    "url": "https://github.com/cypherpoker/cypherpoker-js/issues"
   }
 }
