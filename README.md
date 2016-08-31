@@ -1,19 +1,19 @@
 # cypherpoker-js
 
-Mental Poker API implemented in JavaScript, based on the
+CypherPoker API implemented in JavaScript, based on the
 [thesis of Choongmin Lee](http://www.clee.kr/thesis.pdf).
 
 Sponsored by Easygo.
 
 [![Version (npm)](https://img.shields.io/npm/v/mcypherpoker.svg)](https://npmjs.com/package/cypherpoker)
-[![Build Status](https://img.shields.io/travis/cypherpoker/cypherpoker-js/master.svg)](https://travis-ci.org/cypherpoker/cypherpoker-js)
-[![Code Coverage](https://img.shields.io/codecov/c/github/cypherpoker/cypherpoker-js/master.svg)](https://codecov.io/gh/cypherpoker/cypherpoker-js)
+[![Build status](https://img.shields.io/travis/cypherpoker/cypherpoker-js/master.svg)](https://travis-ci.org/cypherpoker/cypherpoker-js)
+[![Code coverage](https://img.shields.io/codecov/c/github/cypherpoker/cypherpoker-js/master.svg)](https://codecov.io/gh/cypherpoker/cypherpoker-js)
 [![Dependencies](https://img.shields.io/david/cypherpoker/cypherpoker-js.svg)](https://david-dm.org/cypherpoker/cypherpoker-js)
-[![Gitter](https://img.shields.io/gitter/room/cypherpoker/cypherpoker-js.svg)](https://gitter.im/cypherpoker/cypherpoker-js)
+[![Chat](https://img.shields.io/badge/chat-on%20slack-brightgreen.svg)](https://cypherpoker.slack.com)
 
 ## Introduction
 
-Mental Poker makes it possible to play a fair game of poker over a physical
+Mental poker makes it possible to play a fair game of poker over a physical
 distance without the need for a trusted third party, using cryptographic
 methods to shuffle and then deal from a deck of cards.
 
