@@ -1,3 +1,5 @@
+// @flow
+
 import type { BetTypeValue } from '../interfaces';
 
 /**

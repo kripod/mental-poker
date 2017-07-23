@@ -31,7 +31,7 @@ test('encryption and decryption', (t) => {
 test('locking and unlocking', (t) => {
   const deckLocked = deckOriginal.lock(player.secrets);
   const deckUnlocked = new Deck(player.secrets.slice(0, -1).map((secret, i) =>
-    deckLocked.unlockSingle(i, [secret])
+    deckLocked.unlockSingle(i, [secret]),
   ));
 
   // Check immutability

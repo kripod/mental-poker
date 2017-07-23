@@ -26,10 +26,10 @@ test('secrets generation', (t) => {
 
   t.is(player.secretHashes.length, Config.cardsInDeck + 1);
 
-  for (const secret of player.secrets) {
+  player.secrets.forEach((secret) => {
     t.true(secret.gten(1));
     t.true(secret.lt(Config.ec.n));
-  }
+  });
 });
 
 test('secrets verification', (t) => {

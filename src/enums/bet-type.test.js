@@ -9,13 +9,9 @@ const expectedResults = new Map([
 ]);
 
 test('toString', (t) => {
-  for (const [key, value] of expectedResults) {
-    t.is(BetType.toString(key), value);
-  }
+  expectedResults.forEach((value, key) => t.is(BetType.toString(key), value));
 });
 
 test('fromString', (t) => {
-  for (const [key, value] of expectedResults) {
-    t.is(BetType.fromString(value), key);
-  }
+  expectedResults.forEach((value, key) => t.is(BetType.fromString(value), key));
 });

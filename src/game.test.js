@@ -9,7 +9,7 @@ import Player from './player';
 const PLAYER_COUNT = 4;
 
 const sharedPlayers = Array.from(new Array(PLAYER_COUNT), () =>
-  new Player().generatePoints().generateSecrets()
+  new Player().generatePoints().generateSecrets(),
 );
 const sharedGame = new Game({ players: sharedPlayers });
 
@@ -20,27 +20,27 @@ test.serial('distributed points generation', (t) => {
 });
 
 test.serial('cascaded shuffling', (t) => {
-  for (const player of sharedPlayers) {
+  sharedPlayers.forEach((player) => {
     const deck = sharedGame.shuffleDeck(player);
 
     t.is(deck.points.length, Config.cardsInDeck);
     t.is(deck, sharedGame.deckSequence[sharedGame.deckSequence.length - 1]);
-  }
+  });
 });
 
 test.serial('locking', (t) => {
-  for (const player of sharedPlayers) {
+  sharedPlayers.forEach((player) => {
     const deck = sharedGame.lockDeck(player);
 
     t.is(deck.points.length, Config.cardsInDeck);
     t.is(deck, sharedGame.deckSequence[sharedGame.deckSequence.length - 1]);
-  }
+  });
 });
 
 test.serial('card picking/drawing/opening', (t) => {
   // Draw every card
   const cardIds = new Array(Config.cardsInDeck);
-  for (let i = Config.cardsInDeck - 1; i >= 0; --i) {
+  for (let i = Config.cardsInDeck - 1; i >= 0; i -= 1) {
     const cardIndex = sharedGame.getRandomPickableCardIndex();
     let cardId;
 
@@ -67,11 +67,11 @@ test.serial('card picking/drawing/opening', (t) => {
     // Check the assignment of cards
     t.false(
       shouldCardBeInHandOfSelf &&
-      !sharedGame.playerSelf.cardsInHand.find((card) => card.id === cardId)
+      !sharedGame.playerSelf.cardsInHand.find(card => card.id === cardId),
     );
     t.false(
       shouldCardBeOfCommunity &&
-      !sharedGame.cardsOfCommunity.find((card) => card.id === cardId)
+      !sharedGame.cardsOfCommunity.find(card => card.id === cardId),
     );
 
     // Cards shall not be allowed to be dealt more than once
@@ -81,7 +81,7 @@ test.serial('card picking/drawing/opening', (t) => {
   // Check whether every card has been drawn exactly once
   t.deepEqual(
     cardIds.sort((a, b) => a - b),
-    Array.from(new Array(Config.cardsInDeck), (v, i) => i)
+    Array.from(new Array(Config.cardsInDeck), (v, i) => i),
   );
 });
 
@@ -109,50 +109,43 @@ test('random gameplay', (t) => {
   const HAND_CARD_COUNT = 2;
   const COMMUNITY_CARDS_DEALT_BY_ROUND = [0, 3, 1, 1];
 
-  const players = Array.from(
-    new Array(PLAYER_COUNT),
-    () => new Player().generateSecrets()
-  );
+  const players = Array.from(new Array(PLAYER_COUNT), () => new Player().generateSecrets());
   const game = new Game({ players }).generateInitialDeck();
 
   t.is(game.state, GameState.SHUFFLING_DECK);
-  for (const player of players) {
-    game.shuffleDeck(player);
-  }
+  players.forEach(player => game.shuffleDeck(player));
 
   t.is(game.state, GameState.LOCKING_DECK);
-  for (const player of players) {
-    game.lockDeck(player);
-  }
+  players.forEach(player => game.lockDeck(player));
 
   // Draw cards for each player
   t.is(game.state, GameState.PLAYING);
-  for (const player of players) {
-    for (let i = HAND_CARD_COUNT; i > 0; --i) {
+  players.forEach((player) => {
+    for (let i = HAND_CARD_COUNT; i > 0; i -= 1) {
       const cardIndex = game.getRandomPickableCardIndex();
       player.cardsInHand.push(game.pickCard(cardIndex));
     }
 
     t.is(player.cardsInHand.length, HAND_CARD_COUNT);
     game.takeTurn();
-  }
+  });
 
   let turnCount = 0;
-  for (const communityCardsDealt of COMMUNITY_CARDS_DEALT_BY_ROUND) {
+  COMMUNITY_CARDS_DEALT_BY_ROUND.forEach((communityCardsDealt) => {
     turnCount += 1;
 
     // Open a given amount of cards
-    for (let i = communityCardsDealt; i > 0; --i) {
+    for (let i = communityCardsDealt; i > 0; i -= 1) {
       const cardIndex = game.getRandomPickableCardIndex();
       game.openCard(cardIndex);
     }
 
     // Let each player bet in the turn
-    for (const player of players) {
+    players.forEach((player) => {
       game.takeTurn(new Bet({ type: BetType.CHECK }));
       t.is(player.bets.length, turnCount);
-    }
-  }
+    });
+  });
 
   game.end();
   t.is(game.state, GameState.ENDED);
@@ -163,19 +156,14 @@ test('random gameplay', (t) => {
 test('folding', (t) => {
   const players = Array.from(
     new Array(PLAYER_COUNT),
-    () => new Player().generateSecrets()
+    () => new Player().generateSecrets(),
   );
   const game = new Game({ players }).generateInitialDeck();
 
-  for (const player of players) {
-    game.shuffleDeck(player);
-  }
+  players.forEach(player => game.shuffleDeck(player));
+  players.forEach(player => game.lockDeck(player));
 
-  for (const player of players) {
-    game.lockDeck(player);
-  }
-
-  for (let i = players.length - 1; i >= 0; --i) {
+  for (let i = players.length - 1; i >= 0; i -= 1) {
     // Each player (except one) should fold
     const actingPlayerIndex = game.takeTurn(new Bet({ type: BetType.FOLD }));
 
@@ -194,12 +182,12 @@ test('serialization', (t) => {
   const game = new Game({ players: [new Player()] });
   t.deepEqual(
     Object.keys(game.toJSON()),
-    ['state', 'players', 'actingPlayerIndex']
+    ['state', 'players', 'actingPlayerIndex'],
   );
 
   game.generateInitialDeck();
   t.deepEqual(
     Object.keys(game.toJSON()),
-    ['state', 'players', 'actingPlayerIndex', 'points']
+    ['state', 'players', 'actingPlayerIndex', 'points'],
   );
 });

@@ -1,3 +1,5 @@
+// @flow
+
 import BigInt from 'bn.js';
 
 export type BetTypeValue = 0 | 1 | 2 | 3;

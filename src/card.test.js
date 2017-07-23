@@ -13,7 +13,7 @@ const cardStringsInOrder = [
 test('constructor (by id)', (t) => {
   t.deepEqual(
     Array.from(new Array(Config.cardsInDeck), (v, i) => new Card(i).toString()),
-    cardStringsInOrder
+    cardStringsInOrder,
   );
 
   t.throws(() => new Card(-1), Errors.InvalidCardValueError);
@@ -22,8 +22,8 @@ test('constructor (by id)', (t) => {
 
 test('constructor (by shorthand)', (t) => {
   t.deepEqual(
-    cardStringsInOrder.map((cardString) => new Card(cardString).id),
-    Array.from(new Array(Config.cardsInDeck), (v, i) => i)
+    cardStringsInOrder.map(cardString => new Card(cardString).id),
+    Array.from(new Array(Config.cardsInDeck), (v, i) => i),
   );
 
   t.throws(() => new Card(''), Errors.InvalidCardValueError);

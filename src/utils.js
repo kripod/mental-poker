@@ -1,3 +1,5 @@
+// @flow
+
 import BigInt from 'bn.js';
 import crypto from 'crypto';
 import Config from './config';
@@ -20,7 +22,7 @@ import type { Point, PointJSON } from './interfaces';
 export function isArrayEqualWith<T>(
   array1: T[],
   array2: T[],
-  compareFunction: ?((a: T, b: T) => boolean)
+  compareFunction: ?((a: T, b: T) => boolean),
 ): boolean {
   /* eslint-disable no-param-reassign */
   compareFunction = compareFunction || ((a: T, b: T): boolean => a === b);
@@ -43,7 +45,7 @@ export function getRandomInt(min: number, max: number): number {
 
   // Avoid number re-generation by adding an extra byte
   const byteLength = (bitLength >> 3) + 1;
-  const randomRange = Math.pow(256, byteLength);
+  const randomRange = 256 ** byteLength;
 
   // Get the lowest value which is not part of the equal distribution range
   const firstTooHighValue = randomRange - (randomRange % range);
@@ -97,11 +99,9 @@ export function getRandomBigInt(min: BigInt, max: BigInt): BigInt {
  * @param {number} [amount] Amount of secrets to be generated.
  * @returns {BigInt[]}
  */
-export function getRandomSecrets(
-  amount: number = Config.cardsInDeck + 1
-): BigInt[] {
+export function getRandomSecrets(amount: number = Config.cardsInDeck + 1): BigInt[] {
   return Array.from(new Array(amount), (): BigInt =>
-    getRandomBigInt(Config.ec.curve.one, Config.ecRedN)
+    getRandomBigInt(Config.ec.curve.one, Config.ecRedN),
   );
 }
 
@@ -113,7 +113,7 @@ export function getRandomSecrets(
  */
 export function getRandomPoints(amount: number = Config.cardsInDeck): Point[] {
   return getRandomSecrets(amount).map((secret: BigInt): Point =>
-    Config.ec.g.mul(secret.fromRed())
+    Config.ec.g.mul(secret.fromRed()),
   );
 }
 
@@ -126,7 +126,7 @@ export function getRandomPoints(amount: number = Config.cardsInDeck): Point[] {
  */
 export function getSecretHash(
   secret: BigInt,
-  algorithm: string = Config.hashAlgorithm
+  algorithm: string = Config.hashAlgorithm,
 ): string {
   return crypto.createHash(algorithm)
     .update(secret.toString(16, 2))
@@ -143,7 +143,7 @@ export function shuffleArray<T>(array: T[]): T[] {
   const result = [...array];
 
   // Perform Durstenfeld shuffle
-  for (let i = array.length - 1; i > 0; --i) {
+  for (let i = array.length - 1; i > 0; i -= 1) {
     // Generate a random integer in [0, i] deterministically
     const j = getRandomInt(0, i);
 

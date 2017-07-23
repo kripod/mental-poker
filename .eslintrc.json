@@ -16,7 +16,8 @@
         "argument": "param",
         "return": "returns"
       },
-      "requireReturn": false
+      "requireReturn": false,
+      "requireReturnDescription": false
     }]
   }
 }

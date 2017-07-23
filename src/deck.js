@@ -1,3 +1,5 @@
+// @flow
+
 import BigInt from 'bn.js';
 import Config from './config';
 import * as Utils from './utils';
@@ -55,9 +57,7 @@ export default class Deck {
    */
   lock(secrets: BigInt[]): Deck {
     return new Deck(
-      this.points.map((point: Point, i: number): Point =>
-        point.mul(secrets[i].fromRed())
-      )
+      this.points.map((point: Point, i: number): Point => point.mul(secrets[i].fromRed())),
     );
   }
 
@@ -70,18 +70,16 @@ export default class Deck {
   unlockSingle(index: number, secrets: BigInt[]): Point {
     let point = this.points[index];
 
-    for (const secret of secrets) {
+    secrets.forEach((secret) => {
       point = point.mul(secret.invm(Config.ec.n));
-    }
+    });
 
     return point;
   }
 
   toJSON(): DeckJSON {
     return {
-      points: this.points.map((point: Point): PointJSON =>
-        Utils.pointToJSON(point)
-      ),
+      points: this.points.map((point: Point): PointJSON => Utils.pointToJSON(point)),
     };
   }
 }

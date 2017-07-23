@@ -1,3 +1,5 @@
+// @flow
+
 import BigInt from 'bn.js';
 import Bet from './bet';
 import Card from './card';
@@ -51,13 +53,11 @@ export default class Player {
 
     // Force setting `secretHashes` if all the secrets are known
     if (this.secretHashes.length === 0) {
-      for (const secret of this.secrets) {
-        if (!secret) return;
+      if (this.secrets.findIndex(secret => !secret) >= 0) {
+        return;
       }
 
-      this.secretHashes = this.secrets.map((secret: BigInt): string =>
-        Utils.getSecretHash(secret)
-      );
+      this.secretHashes = this.secrets.map((secret: BigInt): string => Utils.getSecretHash(secret));
     }
   }
 
@@ -105,9 +105,7 @@ export default class Player {
    */
   generateSecrets(): Player {
     this.secrets = Utils.getRandomSecrets();
-    this.secretHashes = this.secrets.map((secret: BigInt): string =>
-      Utils.getSecretHash(secret)
-    );
+    this.secretHashes = this.secrets.map((secret: BigInt): string => Utils.getSecretHash(secret));
     return this;
   }
 

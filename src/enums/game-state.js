@@ -1,3 +1,5 @@
+// @flow
+
 import type { GameStateValue } from '../interfaces';
 
 /**

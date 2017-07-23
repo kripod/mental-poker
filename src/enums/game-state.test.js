@@ -11,13 +11,9 @@ const expectedResults = new Map([
 ]);
 
 test('toString', (t) => {
-  for (const [key, value] of expectedResults) {
-    t.is(GameState.toString(key), value);
-  }
+  expectedResults.forEach((value, key) => t.is(GameState.toString(key), value));
 });
 
 test('fromString', (t) => {
-  for (const [key, value] of expectedResults) {
-    t.is(GameState.fromString(value), key);
-  }
+  expectedResults.forEach((value, key) => t.is(GameState.fromString(value), key));
 });

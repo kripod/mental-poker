@@ -1,3 +1,5 @@
+// @flow
+
 import BigInt from 'bn.js';
 import { ec as EllipticCurve } from 'elliptic';
 

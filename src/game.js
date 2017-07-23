@@ -1,3 +1,5 @@
+// @flow
+
 import BigInt from 'bn.js';
 import { Game as PokerSolverGame, Hand as PokerSolverHand } from 'pokersolver';
 import Bet from './bet';
@@ -65,21 +67,10 @@ export default class Game {
     Object.assign(this, params);
 
     if (!this.playerSelf) {
-      for (const player of this.players) {
+      this.playerSelf = this.players.find(player =>
         // The player whose secrets are known should be self
-        let isSelf = true;
-        for (const secret of player.secrets) {
-          if (!secret) {
-            isSelf = false;
-            break;
-          }
-        }
-
-        if (isSelf) {
-          this.playerSelf = player;
-          break;
-        }
-      }
+        player.secrets.findIndex(secret => !secret) < 0,
+      );
     }
   }
 
@@ -98,10 +89,10 @@ export default class Game {
   getPickableCardIndexes(): number[] {
     return Array.from(
       new Array(Config.cardsInDeck),
-      (v: null, i: number): number => i
+      (v: null, i: number): number => i,
     )
       .filter((v: number): boolean =>
-        this.unpickableCardIndexes.indexOf(v) < 0
+        this.unpickableCardIndexes.indexOf(v) < 0,
       );
   }
 
@@ -127,21 +118,24 @@ export default class Game {
   generateInitialDeck(): Game {
     // Try generating points by combining the points of players
     let deckPoints = new Array(Config.cardsInDeck);
-    for (const { points: playerPoints } of this.players) {
+    let hasFailed = false;
+    this.players.forEach(({ points: playerPoints }) => {
       // On failure, generate deck points at random
       if (playerPoints.length !== Config.cardsInDeck) {
         deckPoints = Utils.getRandomPoints();
-        break;
+        hasFailed = true;
       }
 
-      for (let i = playerPoints.length - 1; i >= 0; --i) {
-        const playerPoint = playerPoints[i];
-        const deckPoint = deckPoints[i];
+      if (!hasFailed) {
+        for (let i = playerPoints.length - 1; i >= 0; i -= 1) {
+          const playerPoint = playerPoints[i];
+          const deckPoint = deckPoints[i];
 
-        // Add the player's current point to the corresponding deck point
-        deckPoints[i] = deckPoint ? deckPoint.add(playerPoint) : playerPoint;
+          // Add the player's current point to the corresponding deck point
+          deckPoints[i] = deckPoint ? deckPoint.add(playerPoint) : playerPoint;
+        }
       }
-    }
+    });
 
     this.deckSequence = [new Deck(deckPoints)];
     this.state = GameState.SHUFFLING_DECK;
@@ -162,7 +156,7 @@ export default class Game {
   shuffleDeck(
     player: Player = this.playerSelf,
     isAddableToSequence: boolean = true,
-    deck: Deck = this.deckSequence[this.deckSequence.length - 1]
+    deck: Deck = this.deckSequence[this.deckSequence.length - 1],
   ): ?Deck {
     if (!deck) return null;
 
@@ -191,7 +185,7 @@ export default class Game {
   lockDeck(
     player: Player = this.playerSelf,
     isAddableToSequence: boolean = true,
-    deck: Deck = this.deckSequence[this.deckSequence.length - 1]
+    deck: Deck = this.deckSequence[this.deckSequence.length - 1],
   ): ?Deck {
     if (!deck) return null;
 
@@ -240,9 +234,7 @@ export default class Game {
     }
 
     // Check whether only 1 player is left in the game
-    if (this.players.filter((player: Player): boolean =>
-      !player.hasFolded
-    ).length === 1) {
+    if (this.players.filter((player: Player): boolean => !player.hasFolded).length === 1) {
       // End the game immediately
       this.end();
     } else {
@@ -269,15 +261,13 @@ export default class Game {
   pickCard(index: number, isMadeUnpickable: boolean = true): ?Card {
     if (this.unpickableCardIndexes.indexOf(index) < 0) {
       // Gather each player's secret at the given index
-      const secrets = this.players.map((player: Player): BigInt =>
-        player.secrets[index]
-      );
+      const secrets = this.players.map((player: Player): BigInt => player.secrets[index]);
 
       const currentDeck = this.deckSequence[this.deckSequence.length - 1];
       const pointUnlocked = currentDeck.unlockSingle(index, secrets);
       const initialDeckPoints = this.deckSequence[0].points;
 
-      for (let i = initialDeckPoints.length - 1; i >= 0; --i) {
+      for (let i = initialDeckPoints.length - 1; i >= 0; i -= 1) {
         if (initialDeckPoints[i].eq(pointUnlocked)) {
           // Make the unlocked card unpickable if necessary
           if (isMadeUnpickable) {
@@ -340,17 +330,17 @@ export default class Game {
    */
   verify(): Player[] {
     const result = [];
-    for (let i = this.players.length - 1; i >= 0; --i) {
+    for (let i = this.players.length - 1; i >= 0; i -= 1) {
       const player = this.players[i];
 
       if (
         // Check for deck shuffling mistakes
         !Utils.isArrayEqualWith(
           Utils.sortPoints(
-            [...this.shuffleDeck(player, false, this.deckSequence[i]).points]
+            [...this.shuffleDeck(player, false, this.deckSequence[i]).points],
           ),
           Utils.sortPoints([...this.deckSequence[i + 1].points]),
-          (p1: Point, p2: Point): boolean => p1.eq(p2)
+          (p1: Point, p2: Point): boolean => p1.eq(p2),
         ) ||
 
         // Check for deck locking mistakes
@@ -358,10 +348,10 @@ export default class Game {
           this.lockDeck(
             player,
             false,
-            this.deckSequence[this.players.length + i]
+            this.deckSequence[this.players.length + i],
           ).points,
           this.deckSequence[this.players.length + i + 1].points,
-          (p1: Point, p2: Point): boolean => p1.eq(p2)
+          (p1: Point, p2: Point): boolean => p1.eq(p2),
         )
       ) {
         result.push(player);
@@ -379,23 +369,21 @@ export default class Game {
    */
   evaluateHands(gameType: string = Config.gameType): Player[] {
     const pokerSolverGame = new PokerSolverGame(gameType);
-    const commonCardStrings = this.cardsOfCommunity.map((card: Card): string =>
-      card.toString()
-    );
+    const commonCardStrings = this.cardsOfCommunity.map((card: Card): string => card.toString());
 
     // Evaluate the hand of players who haven't folded
     const handsOfPlayers = new Map();
-    for (const player of this.players) {
+    this.players.forEach((player) => {
       if (!player.hasFolded) {
         handsOfPlayers.set(
           PokerSolverHand.solve([
             ...commonCardStrings,
             ...player.cardsInHand.map((card: Card): string => card.toString()),
           ], pokerSolverGame),
-          player
+          player,
         );
       }
-    }
+    });
 
     // Look for winner hands and map them to their owners
     return PokerSolverHand.winners([...handsOfPlayers.keys()])
@@ -407,9 +395,7 @@ export default class Game {
       {},
       {
         state: GameState.toString(this.state),
-        players: this.players.map((player: Player): PlayerJSON =>
-          player.toJSON()
-        ),
+        players: this.players.map((player: Player): PlayerJSON => player.toJSON()),
         actingPlayerIndex: this.actingPlayerIndex,
       },
       this.deckSequence[0] && this.deckSequence[0].toJSON(),

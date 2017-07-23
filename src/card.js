@@ -1,3 +1,5 @@
+// @flow
+
 import Config from './config';
 import { InvalidCardValueError } from './errors';
 

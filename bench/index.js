@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
+
 import Benchmark from 'benchmark';
 import { Game, Player } from '../lib';
-
-/* eslint-disable no-console */
 
 const PLAYER_COUNT = 4;
 
@@ -16,24 +16,20 @@ suite.on('cycle', (event) => {
 });
 
 suite.add('distributed points generation', () => {
-  players.map((player) => player.generatePoints());
+  players.map(player => player.generatePoints());
   game.generateInitialDeck();
 });
 
 suite.add('secrets generation', () => {
-  players.map((player) => player.generateSecrets());
+  players.map(player => player.generateSecrets());
 });
 
 suite.add('cascaded shuffling', () => {
-  for (const player of game.players) {
-    game.shuffleDeck(player);
-  }
+  game.players.forEach(player => game.shuffleDeck(player));
 });
 
 suite.add('locking the deck', () => {
-  for (const player of game.players) {
-    game.lockDeck(player);
-  }
+  game.players.forEach(player => game.lockDeck(player));
 });
 
 suite.add('picking a card', () => {

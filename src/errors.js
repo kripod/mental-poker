@@ -1,3 +1,5 @@
+// @flow
+
 /* eslint-disable import/prefer-default-export */
 export class InvalidCardValueError extends Error {
   constructor(value: any) {

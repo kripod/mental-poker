@@ -1,3 +1,5 @@
+// @flow
+
 import BetType from './enums/bet-type';
 import type { BetJSON, BetTypeValue } from './interfaces';
 
