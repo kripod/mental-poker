@@ -1,16 +1,4 @@
 {
-  "eslint.enable": true,
-  "javascript.validate.enable": false,
-  "search.exclude": {
-    "**/*.lcov": true,
-    "**/.nyc_output": true,
-    "**/coverage": true,
-    "**/docs": true,
-    "**/lib": true,
-    "**/node_modules": true
-  },
-  "files.associations": {
-    ".babelrc": "json",
-    ".editorconfig": "ini"
-  }
+  "flow.useNPMPackagedFlow": true,
+  "javascript.validate.enable": false
 }

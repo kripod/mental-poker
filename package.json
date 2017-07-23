@@ -1,7 +1,7 @@
 {
-  "name": "cypherpoker",
+  "name": "mental-poker",
   "version": "0.2.0",
-  "description": "CypherPoker API based on the thesis of Choongmin Lee.",
+  "description": "Mental poker based on the thesis of Choongmin Lee.",
   "author": "Kristóf Poduszló <kripod@protonmail.com>",
   "license": "MIT",
   "keywords": [
@@ -25,52 +25,42 @@
     "watch": "npm run build -- -w",
     "prepublish": "npm run build",
     "lint": "eslint ./src ./test ./bench && documentation lint ./src",
-    "test": "cross-env NODE_ENV=test nyc -r lcov -r text ava -v && npm run lint",
+    "test": "cross-env NODE_ENV=test nyc -r lcov -r text ava && npm run lint",
     "doc": "documentation build ./src -o ./docs -c ./documentation.yml -f html -g"
   },
   "dependencies": {
     "babel-runtime": "^6.11.6",
     "bn.js": "^4.11.6",
     "elliptic": "^6.3.1",
-    "es6-error": "^3.0.1",
     "pokersolver": "^2.1.2"
   },
   "devDependencies": {
-    "ava": "^0.16.0",
+    "ava": "^0.21.0",
     "babel-cli": "^6.14.0",
-    "babel-eslint": "^6.1.2",
-    "babel-plugin-istanbul": "^2.0.0",
-    "babel-plugin-syntax-flow": "^6.13.0",
-    "babel-plugin-transform-flow-strip-types": "^6.14.0",
-    "babel-plugin-transform-runtime": "^6.12.0",
-    "babel-plugin-typecheck": "^3.9.0",
-    "babel-preset-latest": "^6.14.0",
-    "babel-preset-stage-2": "^6.13.0",
-    "babel-register": "^6.14.0",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-transform-builtin-extend": "^1.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-flow": "^6.23.0",
     "benchmark": "^2.1.1",
-    "cross-env": "^2.0.1",
+    "cross-env": "^5.0.1",
     "documentation": "^4.0.0-beta9",
-    "eslint": "^3.4.0",
-    "eslint-config-airbnb-base": "^5.0.3",
+    "eslint": "^4.3.0",
+    "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-flowtype": "^2.11.4",
-    "eslint-plugin-import": "^1.14.0",
-    "nyc": "^8.1.0"
+    "eslint-plugin-import": "^2.7.0",
+    "flow-bin": "^0.51.0",
+    "nyc": "^11.0.3"
   },
   "ava": {
+    "require": ["babel-register"],
     "babel": "inherit"
-  },
-  "nyc": {
-    "require": [
-      "babel-register"
-    ],
-    "sourceMap": false,
-    "instrument": false
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cypherpoker/cypherpoker-js.git"
+    "url": "https://github.com/kripod/mental-poker.js.git"
   },
   "bugs": {
-    "url": "https://github.com/cypherpoker/cypherpoker-js/issues"
+    "url": "https://github.com/kripod/mental-poker.js/issues"
   }
 }

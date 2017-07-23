@@ -1,15 +1,22 @@
 {
+  "root": true,
   "parser": "babel-eslint",
-  "extends": "airbnb-base",
+  "extends": [
+    "airbnb-base",
+    "plugin:flowtype/recommended"
+  ],
+  "plugins": [
+    "flowtype"
+  ],
   "rules": {
-    "import/no-extraneous-dependencies": 0,
-    "max-len": [2, 80],
-    "valid-jsdoc": [2, {
+    "no-bitwise": "off",
+    "valid-jsdoc": ["error", {
       "prefer": {
+        "arg": "param",
+        "argument": "param",
         "return": "returns"
       },
-      "requireReturn": false,
-      "requireReturnDescription": false
+      "requireReturn": false
     }]
   }
 }

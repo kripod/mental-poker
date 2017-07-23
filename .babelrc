@@ -1,23 +1,12 @@
 {
   "presets": [
-    "latest",
-    "stage-2"
+    "env",
+    "flow"
   ],
   "plugins": [
-    "syntax-flow",
-    "transform-flow-strip-types",
-    "transform-runtime",
-    [
-      "typecheck", {
-        "disable": {
-          "production": true
-        }
-      }
-    ]
-  ],
-  "env": {
-    "test": {
-      "plugins": ["istanbul"]
-    }
-  }
+    ["transform-builtin-extend", {
+      "globals": ["Error"]
+    }],
+    "transform-class-properties"
+  ]
 }

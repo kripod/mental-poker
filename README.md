@@ -1,15 +1,17 @@
-# cypherpoker-js
+# mental-poker.js
 
-CypherPoker API implemented in JavaScript, based on the
-[thesis of Choongmin Lee](http://www.clee.kr/thesis.pdf).
+Mental poker implemented in JavaScript, based on the
+[thesis of Choongmin Lee][].
 
-Sponsored by Easygo.
+Sponsored by [Easygo].
 
-[![Version (npm)](https://img.shields.io/npm/v/cypherpoker.svg)](https://npmjs.com/package/cypherpoker)
-[![Build status](https://img.shields.io/travis/cypherpoker/cypherpoker-js/master.svg)](https://travis-ci.org/cypherpoker/cypherpoker-js)
-[![Code coverage](https://img.shields.io/codecov/c/github/cypherpoker/cypherpoker-js/master.svg)](https://codecov.io/gh/cypherpoker/cypherpoker-js)
-[![Dependencies](https://img.shields.io/david/cypherpoker/cypherpoker-js.svg)](https://david-dm.org/cypherpoker/cypherpoker-js)
-[![Chat](https://img.shields.io/badge/chat-on%20slack-brightgreen.svg)](https://cypherpoker.slack.com)
+[Easygo]: https://easygo.io
+[Thesis of Choongmin Lee]: http://www.clee.kr/thesis.pdf
+
+[![Version (npm)](https://img.shields.io/npm/v/mental-poker.svg)](https://npmjs.com/package/mental-poker)
+[![Build status](https://img.shields.io/travis/kripod/mental-poker.js/master.svg)](https://travis-ci.org/kripod/mental-poker.js)
+[![Code coverage](https://img.shields.io/codecov/c/github/kripod/mental-poker.js/master.svg)](https://codecov.io/gh/kripod/mental-poker.js)
+[![Dependencies](https://img.shields.io/david/kripod/mental-poker.js.svg)](https://david-dm.org/kripod/mental-poker.js)
 
 ## Introduction
 
@@ -24,8 +26,10 @@ in the coalition can share their own hands.
 ## Getting started
 
 Please refer to the
-[API reference](https://cypherpoker.github.io/cypherpoker-js) to learn
+[API reference][] to learn
 more about leveraging the possibilities within the library.
+
+[API reference]: https://kripod.github.io/mental-poker.js
 
 ### Establishing a game
 
@@ -34,7 +38,7 @@ deck of cards, on the client side. Players must share their generated points
 with each other in order to finish setting up a new game.
 
 ```js
-import { Game, Player } from 'cypherpoker';
+import { Game, Player } from 'mental-poker';
 
 const players = [
   new Player().generatePoints().generateSecrets(), // Self
