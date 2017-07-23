@@ -23,7 +23,7 @@
     "start": "cd ./bench && babel ./ | node",
     "build": "cross-env NODE_ENV=production babel ./src -d ./lib -s",
     "watch": "npm run build -- -w",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "lint": "eslint ./src ./test ./bench",
     "test": "cross-env NODE_ENV=test nyc -r lcov -r text ava",
     "doc": "documentation build ./src -o ./docs -c ./documentation.yml -f html -g"

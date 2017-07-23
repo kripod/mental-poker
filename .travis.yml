@@ -18,6 +18,7 @@ after_success:
 - bash <(curl -s https://codecov.io/bash)
 
 deploy:
+  skip_cleanup: true
   provider: npm
   email: kripod@protonmail.com
   api_key:
