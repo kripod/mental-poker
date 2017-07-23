@@ -9,7 +9,7 @@
     "poker"
   ],
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "main": "./lib/index.js",
   "files": [
@@ -25,7 +25,7 @@
     "watch": "npm run build -- -w",
     "prepublish": "npm run build",
     "lint": "eslint ./src ./test ./bench && documentation lint ./src",
-    "test": "cross-env NODE_ENV=test nyc -r lcov -r text ava && npm run lint",
+    "test": "cross-env NODE_ENV=test nyc -r lcov -r text ava",
     "doc": "documentation build ./src -o ./docs -c ./documentation.yml -f html -g"
   },
   "dependencies": {
@@ -44,7 +44,7 @@
     "babel-preset-flow": "^6.23.0",
     "benchmark": "^2.1.1",
     "cross-env": "^5.0.1",
-    "documentation": "^4.0.0-beta9",
+    "documentation": "^4.0.0-rc.1",
     "eslint": "^4.3.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-flowtype": "^2.11.4",
