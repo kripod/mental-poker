@@ -1,5 +1,7 @@
 import test from 'ava';
-import { Config, Player, Utils } from '../src';
+import Config from './config';
+import Player from './player';
+import * as Utils from './utils';
 
 test('construct by secrets', (t) => {
   const player = new Player({ secrets: Utils.getRandomSecrets() });

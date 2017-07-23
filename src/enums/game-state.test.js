@@ -1,5 +1,5 @@
 import test from 'ava';
-import { GameState } from '../../src';
+import GameState from './game-state';
 
 const expectedResults = new Map([
   [GameState.UNSTARTED, 'unstarted'],

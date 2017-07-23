@@ -112,14 +112,15 @@ export default class Player {
   }
 
   toJSON(): PlayerJSON {
-    return {
-      ...(this.publicKey && { publicKey: this.publicKey }),
-      ...(this.points.length > 0 && {
+    return Object.assign(
+      {},
+      this.publicKey && { publicKey: this.publicKey },
+      this.points.length > 0 && {
         points: this.points.map((point: Point): PointJSON =>
-          Utils.pointToJSON(point)
+          Utils.pointToJSON(point),
         ),
-      }),
-      ...(this.secretHashes.length > 0 && { secretHashes: this.secretHashes }),
-    };
+      },
+      this.secretHashes.length > 0 && { secretHashes: this.secretHashes },
+    );
   }
 }

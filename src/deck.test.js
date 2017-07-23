@@ -1,5 +1,6 @@
 import test from 'ava';
-import { Deck, Player } from '../src';
+import Deck from './deck';
+import Player from './player';
 
 const player = new Player().generatePoints().generateSecrets();
 const deckOriginal = new Deck(player.points);

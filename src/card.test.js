@@ -1,5 +1,7 @@
 import test from 'ava';
-import { Card, Config, Errors } from '../src';
+import Card from './card';
+import Config from './config';
+import * as Errors from './errors';
 
 const cardStringsInOrder = [
   '2c', '3c', '4c', '5c', '6c', '7c', '8c', '9c', 'Tc', 'Jc', 'Qc', 'Kc', 'Ac',

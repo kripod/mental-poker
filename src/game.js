@@ -403,13 +403,16 @@ export default class Game {
   }
 
   toJSON(): GameJSON {
-    return {
-      state: GameState.toString(this.state),
-      players: this.players.map((player: Player): PlayerJSON =>
-        player.toJSON()
-      ),
-      actingPlayerIndex: this.actingPlayerIndex,
-      ...(this.deckSequence[0] && this.deckSequence[0].toJSON()),
-    };
+    return Object.assign(
+      {},
+      {
+        state: GameState.toString(this.state),
+        players: this.players.map((player: Player): PlayerJSON =>
+          player.toJSON()
+        ),
+        actingPlayerIndex: this.actingPlayerIndex,
+      },
+      this.deckSequence[0] && this.deckSequence[0].toJSON(),
+    );
   }
 }

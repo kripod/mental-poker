@@ -1,5 +1,5 @@
 import test from 'ava';
-import { BetType } from '../../src';
+import BetType from './bet-type';
 
 const expectedResults = new Map([
   [BetType.FOLD, 'fold'],

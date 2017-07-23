@@ -1,5 +1,10 @@
 import test from 'ava';
-import { Bet, BetType, Config, Game, GameState, Player } from '../src';
+import Bet from './bet';
+import Config from './config';
+import BetType from './enums/bet-type';
+import GameState from './enums/game-state';
+import Game from './game';
+import Player from './player';
 
 const PLAYER_COUNT = 4;
 
