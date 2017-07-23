@@ -1,27 +1,22 @@
 language: node_js
-
 node_js:
-  - node
-  - '--lts'
-
+- node
+- "--lts"
 cache:
   yarn: true
   directories:
-    - node_modules
-
+  - node_modules
 script:
-  - yarn build
-  - yarn lint
-  - yarn test
-
+- yarn build
+- yarn lint
+- yarn test
 after_success:
 - bash <(curl -s https://codecov.io/bash)
-
 deploy:
-  skip_cleanup: true
   provider: npm
   email: kripod@protonmail.com
   api_key:
-    secure: SXPj4hfhPOM7ZfkNVJDwV4eA7C7ketjvIVBlcShoQvWoOdCoNYNxbWTukqYeiekNao1q/FdP92R3Z/TvnEEphviDZPocdONzi8LMF5s7rFtDyQOooHcs83qmuTRAs1wkJYIvbl+KBoIXBsDAG+8x4gGH2kaAUGI5e/F2tT//I1amEbMwC7Koi9zAlcVgyxo3wGxYmey1jRYPHxw9KI9W6y46ioKs0nDM1wQUiPxZxLJudt4hy9eoUq0g2wMFJiYRE4nNGRaYmW/Ib5f6Ov2PjxnnyXtJDnwO7whGkQ4l0j2l5lsb9UGAea0F1C1nm2UNPP6B5eaDvIIPpiK+gv1HM9aiCowUxDjlAnkEauDdNx/WE9SRmxtvdDURmr01M6upBqjmMmW7UvDcpp0p3qyK96QuUvt+CnP7x+PyE8yE2VBGM4yqGJsCXGiZFYxnq7XUmPRUYKJGXKe1+cBcbVVEWhGMu1gC/PwBfeL6qQkR9Oq6nrW1IcGDuqEurNeDQNa1gBDKOizrKUwt3wB64+CFcXpU6Qh7/qqCrxWJk+ML/kK1TpeGo32OugEkZPMGOqgLcDvNsI5b5+ZtMIyRyroBX5ui0GxedlUBJxqtv3zbNEQ8z3GJ4wlwoFd8qmNyaYzRb6EGNzIeSx88Y0pLzG8iipsXaigvrYjwilJox4mW4Po=
+    secure: X1kOES09KX8Og45f1ApebJTp0wrormRyRfOCzYZ9dKQXVUDOpDP5DnUu6zvTMvp8o+JE9mqzIFovhTCppNimGabcD9Jd5s9jdyXjE4VFcEvWScaXKMwzLfcq3p3Wk7KH/qG+9mvSTQ0/pqwcDSLKAp0ZnBmuzxdEoZwh5DnC3WSeNwQui8pPQ5RALCqJJrpQAfVvuPsJhTFxfVlQE+x7+H0+eKy4u/D5UN2E+RxBGKPzsgMJam51h/A1eWuwnCJS/lGmj0o4ISV4gqLnHyrc+Bt+ikCR56PHSzsmIjPDfI+Angds2NaJCctV56VpxKx11HOwh3SE6IVdShVQf0r/eYzxx+2slAZsn+uJlgpODwyxaIBn7HE/Rj5f0JX0xOZcuZP88b2L3zH+pQmCtJWwwQCXXqFj8MAfeaa7P2Rv494q4KSPyprCQBQhy3U7q+fo5J4aP9nb7e3gAm/j3/6aAk6eX/+pWEYZfeS//4C9c/3/IWLIM4Fek0272l34uUEWZJ0Mx93ESmFUgfAHAFpNJvL5+Baxv5vuh5WjFERIzeDqEwAZWxbzmnKDFEVH9zIWMPH5UxIddhhUB74STrArxOprK8isQfXqvTirQG+5+vPenPwK3aRJ14tFWHi96lut+KrTTeT66cHbKuIqYaKn4mP+FRD/alRcrtnd3kDJZBA=
   on:
     tags: true
+    repo: kripod/mental-poker.js
