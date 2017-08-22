@@ -1,4 +1,4 @@
-# mental-poker.js
+# mental-poker
 
 Mental poker implemented in JavaScript, based on the
 [thesis of Choongmin Lee][].
@@ -9,9 +9,9 @@ Sponsored by [Easygo].
 [Thesis of Choongmin Lee]: http://www.clee.kr/thesis.pdf
 
 [![Version (npm)](https://img.shields.io/npm/v/mental-poker.svg)](https://npmjs.com/package/mental-poker)
-[![Build status](https://img.shields.io/travis/kripod/mental-poker.js/master.svg)](https://travis-ci.org/kripod/mental-poker.js)
-[![Code coverage](https://img.shields.io/codecov/c/github/kripod/mental-poker.js/master.svg)](https://codecov.io/gh/kripod/mental-poker.js)
-[![Dependencies](https://img.shields.io/david/kripod/mental-poker.js.svg)](https://david-dm.org/kripod/mental-poker.js)
+[![Build status](https://img.shields.io/travis/kripod/mental-poker/master.svg)](https://travis-ci.org/kripod/mental-poker)
+[![Code coverage](https://img.shields.io/codecov/c/github/kripod/mental-poker/master.svg)](https://codecov.io/gh/kripod/mental-poker)
+[![Dependencies](https://img.shields.io/david/kripod/mental-poker.svg)](https://david-dm.org/kripod/mental-poker)
 
 ## Introduction
 
@@ -29,7 +29,7 @@ Please refer to the
 [API reference][] to learn
 more about leveraging the possibilities within the library.
 
-[API reference]: https://kripod.github.io/mental-poker.js
+[API reference]: https://kripod.github.io/mental-poker
 
 ### Establishing a game
 
