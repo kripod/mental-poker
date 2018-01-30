@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "mental-poker",
   "version": "1.0.0",
   "main": "lib/index.js",
