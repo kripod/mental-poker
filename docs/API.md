@@ -22,6 +22,8 @@
 
 ### createConfig
 
+[src/config.js:6-14](https://github.com/kripod/mental-poker/blob/797a88dcb39886ec1cb1acd11bb38a5ccda55401/src/config.js#L6-L14 'Source code on GitHub')
+
 Creates a new configuration object.
 
 **Parameters**
@@ -34,11 +36,15 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### randomPrivateKey
 
+[src/key.js:8-16](https://github.com/kripod/mental-poker/blob/797a88dcb39886ec1cb1acd11bb38a5ccda55401/src/key.js#L8-L16 'Source code on GitHub')
+
 Generates a private key from cryptographically strong pseudo-random data.
 
 Returns **[Buffer](https://nodejs.org/api/buffer.html)** A random private key.
 
 ### createPublicKey
+
+[src/key.js:24-27](https://github.com/kripod/mental-poker/blob/797a88dcb39886ec1cb1acd11bb38a5ccda55401/src/key.js#L24-L27 'Source code on GitHub')
 
 Creates a new public key.
 
@@ -51,6 +57,8 @@ Returns **[Buffer](https://nodejs.org/api/buffer.html)** A public key derived fr
 
 ### createKeyPair
 
+[src/key.js:35-41](https://github.com/kripod/mental-poker/blob/797a88dcb39886ec1cb1acd11bb38a5ccda55401/src/key.js#L35-L41 'Source code on GitHub')
+
 Creates a new key pair, which consists of a public key and a private key.
 
 **Parameters**
@@ -61,6 +69,8 @@ Creates a new key pair, which consists of a public key and a private key.
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** A key pair object derived from the given private key.
 
 ### verifyKeyPair
+
+[src/key.js:50-51](https://github.com/kripod/mental-poker/blob/797a88dcb39886ec1cb1acd11bb38a5ccda55401/src/key.js#L50-L51 'Source code on GitHub')
 
 Verifies a key pair.
 
@@ -75,6 +85,8 @@ Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 ## Player
 
 ### createPlayer
+
+[src/player.js:12-20](https://github.com/kripod/mental-poker/blob/797a88dcb39886ec1cb1acd11bb38a5ccda55401/src/player.js#L12-L20 'Source code on GitHub')
 
 Creates a new player object.
 
@@ -92,6 +104,8 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### createDeck
 
+[src/deck.js:24-42](https://github.com/kripod/mental-poker/blob/797a88dcb39886ec1cb1acd11bb38a5ccda55401/src/deck.js#L24-L42 'Source code on GitHub')
+
 Creates a new deck of cards from the given codeword fragments.
 
 **Parameters**
@@ -106,6 +120,8 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 
 ### isDeckDuplicateFree
 
+[src/deck.js:49-51](https://github.com/kripod/mental-poker/blob/797a88dcb39886ec1cb1acd11bb38a5ccda55401/src/deck.js#L49-L51 'Source code on GitHub')
+
 Checks whether a deck is duplicate-free.
 
 **Parameters**
@@ -115,6 +131,8 @@ Checks whether a deck is duplicate-free.
 Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if the deck is duplicate-free, false otherwise.
 
 ### encryptDeck
+
+[src/deck.js:61-65](https://github.com/kripod/mental-poker/blob/797a88dcb39886ec1cb1acd11bb38a5ccda55401/src/deck.js#L61-L65 'Source code on GitHub')
 
 Encrypts every card of a deck using the given private key(s).
 
@@ -129,6 +147,8 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 
 ### decryptDeck
 
+[src/deck.js:75-85](https://github.com/kripod/mental-poker/blob/797a88dcb39886ec1cb1acd11bb38a5ccda55401/src/deck.js#L75-L85 'Source code on GitHub')
+
 Decrypts every card of a deck using the given private key(s).
 
 **Parameters**
@@ -141,6 +161,8 @@ Decrypts every card of a deck using the given private key(s).
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Buffer](https://nodejs.org/api/buffer.html)>** An array of public keys, each representing a card of the deck.
 
 ### decryptCard
+
+[src/deck.js:97-102](https://github.com/kripod/mental-poker/blob/797a88dcb39886ec1cb1acd11bb38a5ccda55401/src/deck.js#L97-L102 'Source code on GitHub')
 
 Decrypts a single card using the given private keys.
 
