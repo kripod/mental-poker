@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "node --require babel-register ."
+  },
+  "dependencies": {
+    "lodash.shuffle": "^4.2.0"
+  }
+}

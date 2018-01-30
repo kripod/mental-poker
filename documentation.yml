@@ -1,0 +1,20 @@
+toc:
+  - name: Config
+    children:
+      - createConfig
+  - name: Key
+    children:
+      - randomPrivateKey
+      - createPublicKey
+      - createKeyPair
+      - verifyKeyPair
+  - name: Player
+    children:
+      - createPlayer
+  - name: Deck
+    children:
+      - createDeck
+      - isDeckDuplicateFree
+      - encryptDeck
+      - decryptDeck
+      - decryptCard

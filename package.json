@@ -1,0 +1,36 @@
+{
+  "private": true,
+  "name": "mental-poker",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "repository": "https://github.com/kripod/mental-poker",
+  "author": "Kristóf Poduszló <kripod@protonmail.com>",
+  "license": "MIT",
+  "files": ["src", "lib"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "babel src --out-dir lib --source-maps",
+    "test": "ava",
+    "lint": "eslint src && documentation lint src",
+    "format": "prettier-eslint --write \"**/*.{js,json,md}\"",
+    "doc":
+      "documentation build src/index.js --config documentation.yml --document-exported --format md --output docs/API.md --github"
+  },
+  "dependencies": {
+    "secp256k1": "^3.4.0"
+  },
+  "devDependencies": {
+    "ava": "^0.24.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "documentation": "^5.3.5",
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "prettier-eslint-cli": "^4.7.0"
+  },
+  "ava": {
+    "require": ["babel-register"]
+  }
+}
