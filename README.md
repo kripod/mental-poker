@@ -43,7 +43,7 @@ Each player shall generate a codeword fragment for each card of the configured d
 Players should share codeword fragments with each other through a commitment scheme, to prevent malicious entities from manipulating the generated codewords in their own favor.
 
 ```js
-import { createPlayer } from 'mental-poker';
+import { createPlayer, createDeck } from 'mental-poker';
 
 const self = createPlayer(config);
 
@@ -62,6 +62,11 @@ const cardCodewords = createDeck(
 After that, the deck shall be shuffled and each of its cards must be encrypted one by one.
 
 ```js
+import { encryptDeck, decryptDeck } from 'mental-poker';
+
+// Any kind of array shuffling algorithm may be used
+import shuffle from 'lodash.shuffle';
+
 // The deck may also be received from the previous player in turn
 let deck = cardCodewords;
 
@@ -87,6 +92,8 @@ deck = encryptDeck(
 The value of a card may be known by anyone in possession of its corresponding private keys it has been encrypted with.
 
 ```js
+import { decryptCard } from 'mental-poker';
+
 // Drawing/opening (Thesis, 3.2-3.3)
 // Choose an encrypted card at random
 const cardEncrypted = deck[i];
